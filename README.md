@@ -92,14 +92,18 @@ Validation scope is recorded separately for each form; shared code does not mean
 
 ## Getting started
 
+**[Download APK 0.1.11 · ARM64 · 326 MiB](https://github.com/CloudGao/AIOS/releases/download/v0.1.11-apk/AIOS-0.1.11-arm64.apk)** · [Release notes, checksums and corresponding source](https://github.com/CloudGao/AIOS/releases/tag/v0.1.11-apk)
+
+Requires Android 15+. Developer preview; includes the Whisper speech model.
+
 ### Current status
 
-This is a **developer-preview source release**; APK and ROM binaries have not been published. Both routes currently use the Lineage/Soong build environment with no standalone Gradle build, and some dependencies are not yet publicly hosted.
+Source and the **APK developer preview** are publicly available; ROM binaries have not been published. Both routes currently use the Lineage/Soong build environment with no standalone Gradle build, and some dependencies are not yet publicly hosted.
 
 | Deliverable | Status |
 |---|---|
 | Source | Public; exported by allow-list without signing keys, credentials or build caches |
-| APK | 0.1.11 built locally; signature, alignment, same-signature upgrade and locked-screen speech samples passed. No public download yet |
+| APK | 0.1.11 built locally; signature, alignment, same-signature upgrade and locked-screen speech samples passed. [Download developer preview](https://github.com/CloudGao/AIOS/releases/tag/v0.1.11-apk) |
 | ROM | Full product built and passed offline checks; hardware install, boot and data-preserving upgrade not yet accepted. Pixel proprietary redistribution unconfirmed, so still a candidate |
 
 Details: [build acceptance](docs/BUILD_ACCEPTANCE.md), [validation scope](docs/VALIDATION.md) and [freeze and delivery record](docs/RELEASE_FREEZE.md).

@@ -92,14 +92,18 @@ flowchart LR
 
 ## 开始使用
 
+**[下载 APK 0.1.11 · ARM64 · 326 MiB](https://github.com/CloudGao/AIOS/releases/download/v0.1.11-apk/AIOS-0.1.11-arm64.apk)** · [发行说明、校验与对应源码](https://github.com/CloudGao/AIOS/releases/tag/v0.1.11-apk)
+
+需要 Android 15+。当前为开发者预览，安装包已内置 Whisper 语音模型。
+
 ### 当前状态
 
-当前为**开发者预览源码**，APK 与 ROM 二进制尚未公开发布。两条路线目前均使用 Lineage/Soong 构建环境，没有独立 Gradle 构建；部分依赖尚未公开托管。
+当前源码与 **APK 开发者预览版**已公开发布，ROM 二进制尚未公开发布。两条路线目前均使用 Lineage/Soong 构建环境，没有独立 Gradle 构建；部分依赖尚未公开托管。
 
 | 交付物 | 状态 |
 |---|---|
 | 源码 | 公开；按白名单导出，不含签名密钥、凭据与构建缓存 |
-| APK | 本地已构建 0.1.11；签名、对齐、同签名升级与锁屏语音样本通过。尚未公开下载 |
+| APK | 本地已构建 0.1.11；签名、对齐、同签名升级与锁屏语音样本通过。[下载开发者预览版](https://github.com/CloudGao/AIOS/releases/tag/v0.1.11-apk) |
 | ROM | 完整产品已构建并通过离线校验；实机安装、启动与保留数据升级尚未验收。Pixel 专有组件再分发授权未确认，仍为候选包 |
 
 详细范围见 [验收记录](docs/BUILD_ACCEPTANCE.md)、[验证范围](docs/VALIDATION.md) 与 [冻结与交付记录](docs/RELEASE_FREEZE.md)。
