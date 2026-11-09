@@ -34,12 +34,12 @@
       "bytes": 492
     },
     "README.md": {
-      "sha256": "b3923c2cd8ff1113589c55eaca9a1eda38613c3efd0d11d8e544998da64858e9",
-      "bytes": 4973
+      "sha256": "76c1fc5a3f86289b4d0c19f7a677054fa75c8c34939a4f81274e0529bb5acbff",
+      "bytes": 12219
     },
     "README.zh-CN.md": {
-      "sha256": "34e23fd97066c06e56d7bd02da62a3f9b4362675b99f0b489e4fc52251aa66bb",
-      "bytes": 4483
+      "sha256": "f65bf85b717de66ed3369f110f977212d9f6f86bd22016cfe320bfd13a709cbf",
+      "bytes": 11503
     },
     "SECURITY.md": {
       "sha256": "41237a321c7557b2a2327d9e648eb3f6770ade2fd954e337f686af9056b52f48",
@@ -26420,6 +26420,14 @@
     "tools/search/build_gpu_probe.py": {
       "sha256": "fef726daf2afdc2bb045144a685eca29238114cb0a640f2b8e03c58e21f87472",
       "bytes": 2433
+    },
+    "assets/media/qq-group.jpg": {
+      "sha256": "1368560cab7d11eb2db1349975bf4d945359cbd342df3431227cd87263feeb94",
+      "bytes": 139221
+    },
+    "assets/media/demo-cover.png": {
+      "sha256": "b0d4b0e2b34239dc148aebc597096f49baa713b6f0f40cbe49852e6d7ed344f5",
+      "bytes": 102557
     }
   }
 }
