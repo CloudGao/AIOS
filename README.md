@@ -30,9 +30,7 @@ AIOS ships in **two forms**: an APK installed on an existing Android system, or 
 
 **Give an instruction, watch the assistant work through app downloads and installation, and confirm when authorization is needed.**
 
-<a href="https://github.com/CloudGao/AIOS/releases/download/demo-media/4927fef21c38073e82d0d2fc613df45c.mp4"><img src="assets/media/demo-cover.png" width="216" alt="AIOS demo — click to watch / 点击观看演示"></a>
-
-[▶ Watch the demo (MP4, about 86 seconds, 3.8 MB)](https://github.com/CloudGao/AIOS/releases/download/demo-media/4927fef21c38073e82d0d2fc613df45c.mp4) · [Demo attachment page](https://github.com/CloudGao/AIOS/releases/tag/demo-media)
+https://github.com/user-attachments/assets/5dadf4e1-e295-4734-927d-55849c1b1db7
 
 An actual phone recording showing the task execution workflow.
 

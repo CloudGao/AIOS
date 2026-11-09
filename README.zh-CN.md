@@ -30,9 +30,7 @@ AIOS 是面向 Android 的开源 AI 助手运行环境，将手机操作、任�
 
 **一句话下达任务，助手调用工具推进应用下载与安装，在需要授权时交回确认。**
 
-<a href="https://github.com/CloudGao/AIOS/releases/download/demo-media/4927fef21c38073e82d0d2fc613df45c.mp4"><img src="assets/media/demo-cover.png" width="216" alt="AIOS demo — click to watch / 点击观看演示"></a>
-
-[▶ 查看操作视频（MP4，约 86 秒，3.8 MB）](https://github.com/CloudGao/AIOS/releases/download/demo-media/4927fef21c38073e82d0d2fc613df45c.mp4) · [演示附件页面](https://github.com/CloudGao/AIOS/releases/tag/demo-media)
+https://github.com/user-attachments/assets/5dadf4e1-e295-4734-927d-55849c1b1db7
 
 视频为实际手机操作录屏，展示任务执行流程。
 
