@@ -1,0 +1,5 @@
+<resources>
+    <!-- Swipe menu slot and button width for AIOS-managed rows: three actions must fit beside the row. -->
+    <dimen name="aios_notification_menu_slot">96dp</dimen>
+    <dimen name="aios_notification_menu_item_width">88dp</dimen>
+</resources>

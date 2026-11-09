@@ -1,0 +1,26 @@
+<resources>
+ <string name="extension_error_node_missing">手机 Node 运行环境不可用</string>
+ <string name="extension_error_delete_scope">不能删除 CLI 安装目录以外的文件</string>
+ <string name="extension_error_cancel_first">请先取消正在进行的安装</string>
+ <string name="extension_error_command_conflict">此命令名称已被其他扩展使用</string>
+ <string name="extension_error_command_missing">手机运行环境无法访问此命令路径</string>
+ <string name="extension_error_save_failed">无法保存 CLI 安装状态</string>
+ <string name="extension_error_budget">安装超过时间或日志大小限制</string>
+ <string name="extension_error_space">可用空间不足，无法安装 CLI</string>
+ <string name="extension_error_invalid_id">CLI 标识符无效</string>
+ <string name="extension_error_invalid_runtime">命令名称或运行环境无效</string>
+ <string name="extension_error_reserved">命令名称无效或属于保留名称</string>
+ <string name="extension_error_invalid_binary">软件包的命令入口无效</string>
+ <string name="extension_error_invalid_entry">运行环境文件路径无效</string>
+ <string name="extension_error_owner_removed">安装期间关联应用已被卸载</string>
+ <string name="extension_error_no_commands">此软件包未提供 CLI 命令</string>
+ <string name="extension_error_package_version">请使用软件包名称@版本指定安装目标</string>
+ <string name="extension_error_unknown_action">未知的 CLI 操作</string>
+ <string name="extension_error_provider_missing">无法读取已配置 MCP 服务的状态</string>
+ <string name="extension_error_invalid_command">命令无效</string>
+ <string name="extension_error_invalid_provider">MCP 服务标识符无效</string>
+ <string name="extension_error_https">MCP 地址必须使用 HTTPS，且不能内嵌凭证</string>
+ <string name="extension_error_config_size">MCP 配置超过大小限制</string>
+ <string name="extension_error_transport">请指定命令或远程地址中的一项</string>
+ <string name="extension_error_config_field">不支持此 MCP 配置字段</string>
+</resources>

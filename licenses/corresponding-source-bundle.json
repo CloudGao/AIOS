@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "scope": "Source attachments; selected package names with conservative version superset, not exact linked SBOM. Codex binary hash corresponds to existing build; not a fresh native rebuild.",
+  "codex_binary": {
+    "sha256": "fae801495ad3a126b7293da30c172d78f667940b0546e025ff67add641228973",
+    "bytes": 213509496
+  },
+  "registry_archives": 824,
+  "git_archives": 5,
+  "archives": {
+    "boringssl-source.tar.gz": {
+      "bytes": 57612159,
+      "sha256": "9baa7d1e8ba44093923a5be016d64f2992b9d46f83824c6f115535c6a7accbf5"
+    },
+    "mpl-source-verified.tar.gz": {
+      "bytes": 658286,
+      "sha256": "8de8eedfdb3233bb2d111083dc741b52e71f0220ffb9060219ab2eda0d028ed8"
+    },
+    "node-v22.23.4.tar.xz": {
+      "bytes": 51413508,
+      "sha256": "7b9adc82d612d0a2a863d96c46de2292552e250cee51956ebbe0146c42aacae9"
+    },
+    "codex-android-source.tar.gz": {
+      "bytes": 17674427,
+      "sha256": "26e6d56823089ec9b8c5dc3b9ae81a4d2f72641912114f36fc6da38506166486"
+    },
+    "codex-dependency-sources.tar.gz": {
+      "bytes": 139711275,
+      "sha256": "b0dc04e0995fd25f9f270a17db4f08d09d392dcbd4d794314f4f3c86dd756d73"
+    }
+  }
+}

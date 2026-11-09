@@ -1,0 +1,13 @@
+android_library {
+    name: "AIOSAutomation",
+    srcs: [
+        "src/os/aios/automation/AutomationService.java",
+        "src/os/aios/automation/AutomationPanel.java",
+        "src/os/aios/automation/AssistantRulePanel.java",
+        "src/os/aios/automation/AutomationReceiver.java",
+    ],
+    manifest: "AndroidManifest.xml",
+    sdk_version: "current",
+    min_sdk_version: "30",
+    static_libs: ["AIOSCoreRuntime"],
+}

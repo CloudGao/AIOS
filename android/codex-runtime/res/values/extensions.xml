@@ -1,0 +1,26 @@
+<resources>
+ <string name="extension_error_node_missing">Android Node runtime unavailable</string>
+ <string name="extension_error_delete_scope">CLI deletion outside package storage</string>
+ <string name="extension_error_cancel_first">Cancel the installation first</string>
+ <string name="extension_error_command_conflict">Command name already installed</string>
+ <string name="extension_error_command_missing">Command path unavailable to phone runtime</string>
+ <string name="extension_error_save_failed">Could not persist CLI state</string>
+ <string name="extension_error_budget">Install time or log budget exceeded</string>
+ <string name="extension_error_space">Insufficient free space for CLI installation</string>
+ <string name="extension_error_invalid_id">Invalid CLI id</string>
+ <string name="extension_error_invalid_runtime">Invalid command or runtime</string>
+ <string name="extension_error_reserved">Invalid or reserved command name</string>
+ <string name="extension_error_invalid_binary">Invalid package binary</string>
+ <string name="extension_error_invalid_entry">Invalid runtime entry</string>
+ <string name="extension_error_owner_removed">Owner app was removed during installation</string>
+ <string name="extension_error_no_commands">Package exposes no CLI commands</string>
+ <string name="extension_error_package_version">Provide registry package@version</string>
+ <string name="extension_error_unknown_action">Unknown CLI action</string>
+ <string name="extension_error_provider_missing">Configured provider status unavailable</string>
+ <string name="extension_error_invalid_command">Invalid command</string>
+ <string name="extension_error_invalid_provider">Invalid provider identifier</string>
+ <string name="extension_error_https">MCP URL must use HTTPS without embedded credentials</string>
+ <string name="extension_error_config_size">MCP config too large</string>
+ <string name="extension_error_transport">Provide exactly one command or URL</string>
+ <string name="extension_error_config_field">Unsupported MCP config field</string>
+</resources>

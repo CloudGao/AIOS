@@ -1,0 +1,8 @@
+<resources>
+<string name="mini_grid_hint">Long press an icon to manage or add it to your desktop.</string>
+<string name="mini_grid_empty">No mini apps yet</string>
+<string name="mini_grid_empty_hint">Ask the assistant to create a mini app. It will appear here after publication.</string>
+<string name="mini_grid_unavailable">Could not load mini apps. Reopen this page to try again.</string>
+<string name="mini_grid_manage">Manage mini app</string>
+<string name="mini_grid_title">My mini apps</string>
+</resources>

@@ -1,0 +1,36 @@
+--- a/packages/services/Telephony/src/com/android/phone/CarrierConfigLoader.java
++++ b/packages/services/Telephony/src/com/android/phone/CarrierConfigLoader.java
+@@ -1394,6 +1394,13 @@
+             if (config != null) {
+                 retConfig.putAll(config);
+             }
++            // Pixel's default carrier package omits mainland China VoLTE availability.
++            // Apply a device/SIM-scoped baseline before carrier and user overrides.
++            String simOperator = mContext.getSystemService(TelephonyManager.class)
++                    .createForSubscriptionId(subscriptionId).getSimOperator();
++            if (ChinaVoltePolicy.applies(Build.DEVICE, simOperator)) {
++                retConfig.putBoolean(CarrierConfigManager.KEY_CARRIER_VOLTE_AVAILABLE_BOOL, true);
++            }
+             config = mConfigFromCarrierApp[phoneId];
+             if (config != null) {
+                 retConfig.putAll(config);
+--- /dev/null
++++ b/packages/services/Telephony/src/com/android/phone/ChinaVoltePolicy.java
+@@ -0,0 +1,17 @@
++package com.android.phone;
++
++/** Device/SIM-scoped availability baseline; never claims registration or provisioning. */
++final class ChinaVoltePolicy {
++    private ChinaVoltePolicy() {}
++    static boolean applies(String device, String simOperator) {
++        if (!"frankel".equals(device) || simOperator == null) return false;
++        switch (simOperator) {
++            case "46000": case "46002": case "46004": case "46007":
++            case "46008": case "46013": // China Mobile
++            case "46001": case "46006": case "46009": // China Unicom
++            case "46003": case "46011": case "46012": // China Telecom
++                return true;
++            default: return false;
++        }
++    }
++}

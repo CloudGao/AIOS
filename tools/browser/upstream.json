@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/vercel-labs/agent-browser.git",
+  "tag": "v0.39.2",
+  "upstream_commit": "50c34e78c98dbe8add0b3ff36b4bcd7a47f1022b",
+  "license": "Apache-2.0",
+  "target": "aarch64-linux-android",
+  "status": "arm64-built; host-cdp-tests-passed; device-cdp-and-binder-tested",
+  "adaptation_commit": "b72d403",
+  "patch_sha256": "4d58c9ea9783df39308adbe4083ee682fd95b6ba034b8b2049f3e8fc621f2459"
+}

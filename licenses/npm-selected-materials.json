@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "items": [
+    {
+      "name": "@npmcli/agent",
+      "version": "3.0.0",
+      "gitHead": "94f346d882458ac9481d015c55057d15f5899bf1",
+      "repository": {
+        "url": "git+https://github.com/npm/agent.git",
+        "type": "git"
+      },
+      "author": {
+        "name": "GitHub Inc."
+      },
+      "license": "ISC",
+      "materials": "upstream_readme_author_metadata_and_full_declared_license",
+      "upstream_standalone_notice_missing": true
+    },
+    {
+      "name": "@sigstore/verify",
+      "version": "2.1.1",
+      "gitHead": "b5af5ac566fd569b3585fd5133acee2eb2083dba",
+      "repository": {
+        "url": "git+https://github.com/sigstore/sigstore-js.git",
+        "type": "git"
+      },
+      "author": {
+        "name": "bdehamer@github.com"
+      },
+      "license": "Apache-2.0",
+      "materials": "upstream_readme_author_metadata_and_full_declared_license",
+      "upstream_standalone_notice_missing": false
+    },
+    {
+      "name": "eastasianwidth",
+      "version": "0.2.0",
+      "gitHead": "b89f04d44dc786885615e94cd6e2ba1ef7866fa4",
+      "repository": {
+        "url": "git://github.com/komagata/eastasianwidth.git",
+        "type": "git"
+      },
+      "author": {
+        "name": "Masaki Komagata"
+      },
+      "license": "MIT",
+      "materials": "upstream_readme_author_metadata_and_full_declared_license",
+      "upstream_standalone_notice_missing": true
+    },
+    {
+      "name": "err-code",
+      "version": "2.0.3",
+      "gitHead": "92511d41a6a926c94c9d11493404867b1e92a77a",
+      "repository": {
+        "url": "git://github.com/IndigoUnited/js-err-code.git",
+        "type": "git"
+      },
+      "author": {
+        "url": "http://indigounited.com",
+        "name": "IndigoUnited",
+        "email": "hello@indigounited.com"
+      },
+      "license": "MIT",
+      "materials": "upstream_readme_author_metadata_and_full_declared_license",
+      "upstream_standalone_notice_missing": true
+    },
+    {
+      "name": "imurmurhash",
+      "version": "0.1.4",
+      "gitHead": null,
+      "repository": {
+        "url": "https://github.com/jensyt/imurmurhash-js",
+        "type": "git"
+      },
+      "author": {
+        "url": "https://github.com/homebrewing",
+        "name": "Jens Taylor",
+        "email": "jensyt@gmail.com"
+      },
+      "license": "MIT",
+      "materials": "upstream_readme_author_metadata_and_full_declared_license",
+      "upstream_standalone_notice_missing": false
+    },
+    {
+      "name": "spdx-exceptions",
+      "version": "2.5.0",
+      "gitHead": "3aa64bec339abc6a3eca00c3436aaa7e154b8799",
+      "repository": {
+        "url": "git+https://github.com/kemitchell/spdx-exceptions.json.git",
+        "type": "git"
+      },
+      "author": {
+        "name": "The Linux Foundation"
+      },
+      "license": "CC-BY-3.0",
+      "materials": "upstream_readme_author_metadata_and_full_declared_license",
+      "upstream_standalone_notice_missing": false
+    },
+    {
+      "name": "spdx-license-ids",
+      "version": "3.0.23",
+      "gitHead": "a2a975daf48bbc2afdc8e7c304405b44c656fd53",
+      "repository": {
+        "url": "git+https://github.com/jslicense/spdx-license-ids.git",
+        "type": "git"
+      },
+      "author": {
+        "url": "https://github.com/shinnn",
+        "name": "Shinnosuke Watanabe"
+      },
+      "license": "CC0-1.0",
+      "materials": "upstream_readme_author_metadata_and_full_declared_license",
+      "upstream_standalone_notice_missing": false
+    }
+  ]
+}

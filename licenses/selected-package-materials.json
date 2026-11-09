@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "items": [
+    {
+      "package": "allocative@0.3.6",
+      "crate_sha256": "d8cf9afc79c83d514444b55df3935d317da54b1ce3b17a133c646889cc260de8",
+      "license": "Apache-2.0",
+      "copyright_headers": [
+        " * Copyright (c) Meta Platforms, Inc. and affiliates."
+      ],
+      "authors": [
+        "Meta"
+      ],
+      "original_standalone_notice_found": false
+    },
+    {
+      "package": "allocative_derive@0.3.6",
+      "crate_sha256": "614043c56c1173b800acb007b81fd0cbc0a0d7d717b71ba705fc2230d0760a23",
+      "license": "Apache-2.0",
+      "copyright_headers": [
+        " * Copyright (c) Meta Platforms, Inc. and affiliates."
+      ],
+      "authors": [
+        "Meta"
+      ],
+      "original_standalone_notice_found": false
+    },
+    {
+      "package": "debugserver-types@0.5.0",
+      "crate_sha256": "2bf6834a70ed14e8e4e41882df27190bea150f1f6ecf461f1033f8739cd8af4a",
+      "license": "MIT",
+      "copyright_headers": [],
+      "authors": [
+        "Markus Westerlind <marwes91@gmail.com>"
+      ],
+      "original_standalone_notice_found": false
+    },
+    {
+      "package": "display_container@0.9.0",
+      "crate_sha256": "0a110a75c96bedec8e65823dea00a1d710288b7a369d95fd8a0f5127639466fa",
+      "license": "Apache-2.0",
+      "copyright_headers": [
+        " * Copyright (c) Meta Platforms, Inc. and affiliates."
+      ],
+      "authors": [
+        "Facebook"
+      ],
+      "original_standalone_notice_found": false
+    },
+    {
+      "package": "eventsource-stream@0.2.3",
+      "crate_sha256": "74fef4569247a5f429d9156b9d0a2599914385dd189c539334c625d8099d90ab",
+      "license": "Apache-2.0",
+      "copyright_headers": [],
+      "authors": [
+        "Julian Popescu <jpopesculian@gmail.com>"
+      ],
+      "original_standalone_notice_found": false
+    },
+    {
+      "package": "fxhash@0.2.1",
+      "crate_sha256": "c31b6d751ae2c7f11320402d34e41349dd1016f8d5d45e48c4312bc8625af50c",
+      "license": "Apache-2.0",
+      "copyright_headers": [
+        "// Copyright 2015 The Rust Project Developers. See the COPYRIGHT",
+        "// http://rust-lang.org/COPYRIGHT."
+      ],
+      "authors": [
+        "cbreeden <github@u.breeden.cc>"
+      ],
+      "original_standalone_notice_found": false
+    },
+    {
+      "package": "io_tee@0.1.1",
+      "crate_sha256": "4b3f7cef34251886990511df1c61443aa928499d598a9473929ab5a90a527304",
+      "license": "Apache-2.0",
+      "copyright_headers": [],
+      "authors": [],
+      "original_standalone_notice_found": false
+    },
+    {
+      "package": "lock_free_hashtable@0.1.4",
+      "crate_sha256": "ebf3631712f5b790675292ff827af269f5d9f920c920b77dc41d0485e3719612",
+      "license": "Apache-2.0",
+      "copyright_headers": [
+        " * Copyright (c) Meta Platforms, Inc. and affiliates."
+      ],
+      "authors": [],
+      "original_standalone_notice_found": false
+    },
+    {
+      "package": "static_interner@0.1.2",
+      "crate_sha256": "fab44341fbf4deae6e8d5ab450f24e1b34e0b2439d39ac0e9b5215a4e5493263",
+      "license": "Apache-2.0",
+      "copyright_headers": [
+        " * Copyright (c) Meta Platforms, Inc. and affiliates."
+      ],
+      "authors": [],
+      "original_standalone_notice_found": false
+    },
+    {
+      "package": "strong_hash@0.1.0",
+      "crate_sha256": "0831334aea34390b6b6ec7af0a27f9ee6324ad3a69463e6b240d83d6b7bce9c9",
+      "license": "Apache-2.0",
+      "copyright_headers": [
+        " * Copyright (c) Meta Platforms, Inc. and affiliates."
+      ],
+      "authors": [],
+      "original_standalone_notice_found": false
+    },
+    {
+      "package": "strong_hash_derive@0.1.0",
+      "crate_sha256": "ace6b48b7c4383a39bd3b966cca41bc999003aab9f690a2f355525c924296928",
+      "license": "Apache-2.0",
+      "copyright_headers": [
+        " * Copyright (c) Meta Platforms, Inc. and affiliates."
+      ],
+      "authors": [],
+      "original_standalone_notice_found": false
+    }
+  ]
+}

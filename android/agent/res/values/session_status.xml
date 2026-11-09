@@ -1,0 +1,10 @@
+<resources>
+    <string name="session_status_queued">Queued</string>
+    <string name="session_status_running">Running</string>
+    <string name="session_status_paused">Paused</string>
+    <string name="session_status_completed">Completed</string>
+    <string name="session_status_failed">Failed</string>
+    <string name="session_status_interrupted">Stopped</string>
+    <string name="session_status_assistant">Assistant conversation</string>
+    <string name="session_open_assistant">Open assistant</string>
+</resources>

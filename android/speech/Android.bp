@@ -1,0 +1,50 @@
+java_import {
+    name: "aios-sherpa-java",
+    jars: ["sherpa.jar"],
+    sdk_version: "current",
+}
+android_app {
+    name: "AIOSSpeech",
+    srcs: ["src/**/*.java"],
+    platform_apis: true,
+    certificate: "platform",
+    system_ext_specific: true,
+    asset_dirs: ["assets"],
+    resource_dirs: ["res"],
+    static_libs: ["aios-sherpa-java", "kotlin-stdlib", "AIOSCoreRuntime"],
+    jni_libs: ["aios-sherpa-jni", "aios-whisper"],
+    use_embedded_native_libs: true,
+    compile_multilib: "64",
+    optimize: { enabled: false },
+}
+cc_prebuilt_library_shared {
+    name: "aios-onnxruntime",
+    stem: "libonnxruntime",
+    enabled: false,
+    arch: { arm64: { enabled: true, srcs: ["lib/libonnxruntime.so"] } },
+    compile_multilib: "64",
+    system_ext_specific: true,
+    strip: { none: true },
+    shared_libs: ["libdl", "liblog", "libm", "libc"],
+}
+cc_prebuilt_library_shared {
+    name: "aios-sherpa-jni",
+    stem: "libsherpa-onnx-jni",
+    enabled: false,
+    arch: { arm64: { enabled: true, srcs: ["lib/libsherpa-onnx-jni.so"] } },
+    compile_multilib: "64",
+    system_ext_specific: true,
+    strip: { none: true },
+    shared_libs: ["libandroid", "liblog", "aios-onnxruntime", "libm", "libdl", "libc"],
+}
+
+cc_prebuilt_library_shared {
+    name: "aios-whisper",
+    stem: "libaios_whisper",
+    arch: { arm64: { srcs: ["lib/libaios_whisper.so"] } },
+    compile_multilib: "64",
+    system_ext_specific: true,
+    strip: { none: true },
+    check_elf_files: false,
+    stl: "none",
+}

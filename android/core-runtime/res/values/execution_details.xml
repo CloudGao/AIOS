@@ -1,0 +1,11 @@
+<resources>
+  <string name="execution_details">Execution details</string>
+  <string name="execution_details_hide">Hide execution details</string>
+  <string name="history_loading">Loading conversation…</string>
+  <string name="history_load_failed">Unable to load conversation history. Try again.</string>
+  <string name="history_native_caption">Conversation history</string>
+  <string name="history_load_older">Load earlier messages</string>
+  <string name="history_refresh">Refresh history</string>
+  <string name="history_load_steps">Load earlier steps</string>
+  <string name="history_saved_fallback">History could not be refreshed. Saved content may be incomplete.</string>
+</resources>

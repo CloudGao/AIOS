@@ -1,0 +1,67 @@
+[
+  {
+    "package": "@npmcli/agent",
+    "version": "3.0.0",
+    "license": "ISC",
+    "url": "https://registry.npmjs.org/@npmcli/agent/3.0.0",
+    "tarball": "https://registry.npmjs.org/@npmcli/agent/-/agent-3.0.0.tgz",
+    "integrity": "sha512-S79NdEgDQd/NGCay6TCoVzXSj74skRZIKJcpJjC5lOq34SZzyI6MqtiiWoiVWoVrTcGjNeC4ipbh1VIHlpfF5Q==",
+    "status": "readme_restored; further attribution review required"
+  },
+  {
+    "package": "@sigstore/verify",
+    "version": "2.1.1",
+    "license": "Apache-2.0",
+    "url": "https://registry.npmjs.org/@sigstore/verify/2.1.1",
+    "tarball": "https://registry.npmjs.org/@sigstore/verify/-/verify-2.1.1.tgz",
+    "integrity": "sha512-hVJD77oT67aowHxwT4+M6PGOp+E2LtLdTK3+FC0lBO9T7sYwItDMXZ7Z07IDCvR1M717a4axbIWckrW67KMP/w==",
+    "status": "readme_restored; further attribution review required"
+  },
+  {
+    "package": "eastasianwidth",
+    "version": "0.2.0",
+    "license": "MIT",
+    "url": "https://registry.npmjs.org/eastasianwidth/0.2.0",
+    "tarball": "https://registry.npmjs.org/eastasianwidth/-/eastasianwidth-0.2.0.tgz",
+    "integrity": "sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==",
+    "status": "complete_upstream_notice_and_historical_permission_preserved",
+    "notice_revision": "1cae8a1e507ad6bd5da2e9a01c0f6c90131699bf",
+    "evidence": "npm/eastasianwidth-0.2.0/LICENSE-NOTES.md"
+  },
+  {
+    "package": "err-code",
+    "version": "2.0.3",
+    "license": "MIT",
+    "url": "https://registry.npmjs.org/err-code/2.0.3",
+    "tarball": "https://registry.npmjs.org/err-code/-/err-code-2.0.3.tgz",
+    "integrity": "sha512-2bmlRpNKBxT/CRmPOlyISQpNj+qSeYvcym/uT0Jx2bMOlKLtSy1ZmLuVxSEKKyor/N5yhvp/ZiG1oE3DEYMSFA==",
+    "status": "readme_restored; further attribution review required"
+  },
+  {
+    "package": "imurmurhash",
+    "version": "0.1.4",
+    "license": "MIT",
+    "url": "https://registry.npmjs.org/imurmurhash/0.1.4",
+    "tarball": "https://registry.npmjs.org/imurmurhash/-/imurmurhash-0.1.4.tgz",
+    "integrity": "sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==",
+    "status": "readme_restored; further attribution review required"
+  },
+  {
+    "package": "spdx-exceptions",
+    "version": "2.5.0",
+    "license": "CC-BY-3.0",
+    "url": "https://registry.npmjs.org/spdx-exceptions/2.5.0",
+    "tarball": "https://registry.npmjs.org/spdx-exceptions/-/spdx-exceptions-2.5.0.tgz",
+    "integrity": "sha512-PiU42r+xO4UbUS1buo3LPJkjlO7430Xn5SVAhdpzzsPHsjbYVflnnFdATgabnLude+Cqu25p6N+g2lw/PFsa4w==",
+    "status": "readme_restored; further attribution review required"
+  },
+  {
+    "package": "spdx-license-ids",
+    "version": "3.0.23",
+    "license": "CC0-1.0",
+    "url": "https://registry.npmjs.org/spdx-license-ids/3.0.23",
+    "tarball": "https://registry.npmjs.org/spdx-license-ids/-/spdx-license-ids-3.0.23.tgz",
+    "integrity": "sha512-CWLcCCH7VLu13TgOH+r8p1O/Znwhqv/dbb6lqWy67G+pT1kHmeD/+V36AVb/vq8QMIQwVShJ6Ssl5FPh0fuSdw==",
+    "status": "readme_restored; further attribution review required"
+  }
+]

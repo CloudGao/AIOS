@@ -1,0 +1,19 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="os.aios.codex" android:versionCode="1" android:versionName="0.162.1-aios.1">
+    <permission android:name="os.aios.permission.CODEX_RUNTIME" android:protectionLevel="signature"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="os.aios.permission.CODEX_RUNTIME"/>
+    <uses-permission android:name="os.aios.permission.CORE_RUNTIME"/>
+    <uses-permission android:name="os.aios.permission.CONTROL_SESSION"/>
+    <queries><package android:name="os.aios.agent"/></queries>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <application android:label="AIOS 后台服务" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:allowBackup="false" android:extractNativeLibs="true" android:usesCleartextTraffic="false">
+        <provider android:name=".MiniAppSourceProvider" android:authorities="os.aios.codex.miniapps" android:exported="true" android:permission="os.aios.permission.CODEX_RUNTIME"/>
+        <activity android:name=".RuntimeActivity" android:exported="true">
+        </activity>
+        <service android:name=".RuntimeService" android:exported="true" android:permission="os.aios.permission.CODEX_RUNTIME" android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User-started on-device assistant service"/>
+        </service>
+    </application>
+</manifest>

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><string name="provider_saved_start_failed">帳號已儲存，但執行階段啟動失敗。請重新開啟帳號重試，金鑰已保留。</string></resources>

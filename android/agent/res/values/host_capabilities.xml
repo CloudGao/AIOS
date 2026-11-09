@@ -1,0 +1,5 @@
+<resources>
+    <string name="screen_release_pending">Screen close requested; release is not yet confirmed. Its slot remains reserved.</string>
+    <string name="capability_snapshot_tool">Read the current host capability snapshot, including unavailable features, reasons and backend instance identities. This is read-only and cannot enable modules.</string>
+    <string name="capability_dispatch_tool">Execute a registered device capability using its exact name and documented arguments. Read capabilities.snapshot for current availability; unavailable capabilities cannot be enabled by this tool. Read current state before making changes and verify the returned result.</string>
+</resources>

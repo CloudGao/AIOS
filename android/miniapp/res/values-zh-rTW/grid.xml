@@ -1,0 +1,8 @@
+<resources>
+<string name="mini_grid_hint">長按圖示可管理或加入桌面。</string>
+<string name="mini_grid_empty">還沒有小程式</string>
+<string name="mini_grid_empty_hint">讓助手建立一個小程式，發佈後會出現在這裡。</string>
+<string name="mini_grid_unavailable">無法載入小程式，請重新進入此頁重試。</string>
+<string name="mini_grid_manage">管理小程式</string>
+<string name="mini_grid_title">我的小程式</string>
+</resources>

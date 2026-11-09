@@ -1,0 +1,43 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="os.aios.speech">
+ <uses-permission android:name="android.permission.RECORD_AUDIO" />
+ <uses-permission android:name="android.permission.WAKE_LOCK" />
+ <permission android:name="os.aios.permission.VOICE_MINUTES" android:protectionLevel="signature" />
+ <uses-permission android:name="os.aios.permission.VOICE_MINUTES" />
+ <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+ <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+ <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROCESSING" />
+ <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+ <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+ <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT" />
+ <uses-permission android:name="android.permission.MODIFY_AUDIO_ROUTING" />
+ <uses-permission android:name="android.permission.CAPTURE_VOICE_COMMUNICATION_OUTPUT" />
+ <uses-permission android:name="android.permission.BYPASS_CONCURRENT_RECORD_AUDIO_RESTRICTION" />
+ <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+ <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+ <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+ <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+ <uses-permission android:name="android.permission.READ_CALL_LOG" />
+ <queries><intent><action android:name="android.intent.action.TTS_SERVICE" /></intent><intent><action android:name="android.speech.RecognitionService" /></intent></queries>
+ <uses-permission android:name="os.aios.permission.CONTROL_SESSION"/>
+ <uses-permission android:name="android.permission.INTERNET"/>
+ <application android:supportsRtl="true" android:label="AIOS 离线中文语音" android:allowBackup="false" android:extractNativeLibs="false" android:theme="@style/AiosSystemTheme">
+  <activity android:name=".MinutesActivity" android:exported="true" android:label="录音纪要">
+  </activity>
+  <service android:name=".MinutesService" android:exported="true" android:permission="os.aios.permission.VOICE_MINUTES" android:foregroundServiceType="microphone" />
+  <service android:name=".RecordingImportService" android:exported="false" android:foregroundServiceType="specialUse">
+   <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User-enabled local transcription of recordings saved by the native recorder" />
+  </service>
+  <provider android:name=".MinutesProvider" android:authorities="os.aios.speech.minutes" android:exported="true" />
+  <service android:name=".MeetingMonitorService" android:exported="true" android:permission="os.aios.permission.VOICE_MINUTES" android:foregroundServiceType="specialUse">
+   <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="Shows a user-controlled minutes entry while another app uses the microphone; monitors metadata only" />
+  </service>
+  <receiver android:name=".MeetingBootReceiver" android:exported="true">
+   <intent-filter><action android:name="android.intent.action.BOOT_COMPLETED"/><action android:name="android.intent.action.MY_PACKAGE_REPLACED"/></intent-filter>
+  </receiver>
+  <service android:name=".SenseVoiceService" android:foregroundServiceType="microphone|mediaProcessing" android:exported="true" android:permission="android.permission.BIND_SPEECH_RECOGNITION_SERVICE">
+   <intent-filter><action android:name="android.speech.RecognitionService" /></intent-filter>
+   <meta-data android:name="android.speech" android:resource="@xml/recognition_service" />
+  </service>
+ <activity android:name=".SpeakerModelActivity" android:exported="true" android:permission="os.aios.permission.VOICE_MINUTES" android:theme="@style/AiosSystemTheme"/>
+ </application>
+</manifest>

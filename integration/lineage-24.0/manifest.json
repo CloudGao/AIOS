@@ -1,0 +1,888 @@
+{
+  "schema": 1,
+  "branch": "lineage-24.0",
+  "status": "source_only_unvalidated",
+  "repositories": [
+    {
+      "path": "frameworks/base",
+      "revision": "7f6de40b6429462d47ba9ba351b99943269c8067",
+      "scope": "common",
+      "review_patch": "frameworks__base.patch",
+      "files": [
+        {
+          "path": "core/java/android/companion/virtual/computercontrol/ComputerControlSession.java",
+          "before_sha256": "3ab33c355e774bcd00a7f3ee9692438ee5a48a53df464f3da577cce7b601fb59",
+          "after_sha256": "9ffc54bbbd82285d1023c9c6507dc84d13e00be7c66bdf549b3f03135a7eeb5f",
+          "mode": 420,
+          "observed_after_sha256": "9ffc54bbbd82285d1023c9c6507dc84d13e00be7c66bdf549b3f03135a7eeb5f",
+          "kind": "patch"
+        },
+        {
+          "path": "core/java/android/companion/virtual/computercontrol/IComputerControlSession.aidl",
+          "before_sha256": "83aea3fbe508f0b0a03f62f8907998bb0dba362bbbaf421b867e5f4207edeaa4",
+          "after_sha256": "be08ddafd0244f59f2d3a3dde860eba660e16af02303fb46ccadee9348cfbe12",
+          "mode": 420,
+          "observed_after_sha256": "be08ddafd0244f59f2d3a3dde860eba660e16af02303fb46ccadee9348cfbe12",
+          "kind": "patch"
+        },
+        {
+          "path": "core/java/android/speech/tts/TextToSpeech.java",
+          "before_sha256": "f0f552896ccd392164b527cb88cab744abe45cdf67c96a4ab6bf36e30f8b4407",
+          "after_sha256": "06f450a0b1d2fe4fdc2b4e2618f39e178d31b136f44da4df7e5a538acb4ee7fe",
+          "mode": 420,
+          "observed_after_sha256": "06f450a0b1d2fe4fdc2b4e2618f39e178d31b136f44da4df7e5a538acb4ee7fe",
+          "kind": "patch"
+        },
+        {
+          "path": "packages/Shell/AndroidManifest.xml",
+          "before_sha256": "0ad846d813e76567d9ff30c64dc0589be40b9d40925846ab4357290af5e926c7",
+          "after_sha256": "b66917426f99c1bc2d874d84f65617b23a4dea5d8dbecd5e5c64126e3fcf0a3f",
+          "mode": 420,
+          "observed_after_sha256": "b66917426f99c1bc2d874d84f65617b23a4dea5d8dbecd5e5c64126e3fcf0a3f",
+          "kind": "patch"
+        },
+        {
+          "path": "packages/Shell/src/com/android/shell/AiosBrowserBridgeService.java",
+          "source": "integration/lineage-24.0/files/frameworks/base/packages/Shell/src/com/android/shell/AiosBrowserBridgeService.java",
+          "before_sha256": null,
+          "after_sha256": "35165bf9d786508576a815bfe9835aef0529ad7f433c3b220c5a38a782296b80",
+          "mode": 420,
+          "kind": "addition"
+        },
+        {
+          "path": "services/accessibility/java/com/android/server/accessibility/AbstractAccessibilityServiceConnection.java",
+          "before_sha256": "a904abaa330030317667faf20304a983141d1e3cb7618af772a0d82d781092bd",
+          "after_sha256": "0323fdc91cf2faab7fc6eea76abf54138f3a0670851872c3c30ba5e145e7ab9b",
+          "mode": 420,
+          "observed_after_sha256": "0323fdc91cf2faab7fc6eea76abf54138f3a0670851872c3c30ba5e145e7ab9b",
+          "kind": "patch"
+        },
+        {
+          "path": "services/accessibility/java/com/android/server/accessibility/AccessibilityServiceConnection.java",
+          "before_sha256": "0d026f39109bcb60807c297c17d50c84fdadb2e6abb82aa778a63d37112031cf",
+          "after_sha256": "0a6068ffb4f79c96de79aa750b5669095414c5300686fac562ce84ae12b888de",
+          "mode": 420,
+          "observed_after_sha256": "0a6068ffb4f79c96de79aa750b5669095414c5300686fac562ce84ae12b888de",
+          "kind": "patch"
+        },
+        {
+          "path": "services/accessibility/java/com/android/server/accessibility/MotionEventInjector.java",
+          "before_sha256": "8ba5bbb68f66e2635379357c0fb169aaacf0c93b00cab001249cb506cd4539e3",
+          "after_sha256": "f459b18e0119c64a5920665908e131de636a14f90c10131be146f966123fd85c",
+          "mode": 420,
+          "observed_after_sha256": "f459b18e0119c64a5920665908e131de636a14f90c10131be146f966123fd85c",
+          "kind": "patch"
+        },
+        {
+          "path": "services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlAllowlistController.java",
+          "before_sha256": "f96c32b111b4021187200adc2ec1944bcdbf7a913325b8aa92e4702c67f4a79b",
+          "after_sha256": "a7bea32852ac626770109bff7347ce434c7847d66e491912d747d1b5043139c7",
+          "mode": 420,
+          "observed_after_sha256": "a7bea32852ac626770109bff7347ce434c7847d66e491912d747d1b5043139c7",
+          "kind": "patch"
+        },
+        {
+          "path": "services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionImpl.java",
+          "before_sha256": "66447d84e061d2a0304f51f9e06fa45032db3f2a1e5ac035689cb4522fd0f735",
+          "after_sha256": "c4ac35ac53361a97ee764a7feabc239ee2f2a9e95486931381822839856f482d",
+          "mode": 420,
+          "observed_after_sha256": "c4ac35ac53361a97ee764a7feabc239ee2f2a9e95486931381822839856f482d",
+          "kind": "patch"
+        },
+        {
+          "path": "services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionProcessor.java",
+          "before_sha256": "b0ace1a81f4c49dbcfb724d16951ac717684ab4a6ee97f6ea58ae7c850ebbf52",
+          "after_sha256": "ceb6e8182b4084b20ae940d953c543a47024d6fba429a9d2ddcd3f68aa4f625c",
+          "mode": 420,
+          "observed_after_sha256": "ceb6e8182b4084b20ae940d953c543a47024d6fba429a9d2ddcd3f68aa4f625c",
+          "kind": "patch"
+        },
+        {
+          "path": "services/core/Android.bp",
+          "before_sha256": "8b234b049efd53593fb33fc88c88da5b42827ace40ec9e37dda3fc791af79452",
+          "after_sha256": "0e7b1f140377ac5ec373de4e3fdec984e4a42f2b91d58b0ff79aa67b059c0d4f",
+          "mode": 420,
+          "observed_after_sha256": "0e7b1f140377ac5ec373de4e3fdec984e4a42f2b91d58b0ff79aa67b059c0d4f",
+          "kind": "patch"
+        },
+        {
+          "path": "services/core/java/com/android/server/AiosAssistantPolicy.java",
+          "source": "integration/lineage-24.0/files/frameworks/base/services/core/java/com/android/server/AiosAssistantPolicy.java",
+          "before_sha256": null,
+          "after_sha256": "f684a80a7664a7701639523d1442288ac07ab034af5fbb6d8b38588cf6d356df",
+          "mode": 420,
+          "kind": "addition"
+        },
+        {
+          "path": "services/core/java/com/android/server/notification/NotificationAttentionHelper.java",
+          "before_sha256": "5630065f4b45260dcbf72c942e807b646e64b55d618bb5bb4ea75a362f0f5cde",
+          "after_sha256": "5bb11b43a4fea22b228df65cf3634ec6ad3db212d79e68beacfd3492db09bb7b",
+          "mode": 420,
+          "observed_after_sha256": "5bb11b43a4fea22b228df65cf3634ec6ad3db212d79e68beacfd3492db09bb7b",
+          "kind": "patch"
+        },
+        {
+          "path": "services/core/java/com/android/server/wm/InputMonitor.java",
+          "before_sha256": "9cf0b0936f61a9a013032c07c5de6486e7538893102b6f0264da1080359d401b",
+          "after_sha256": "02c7c11fe7f3fb7df4243dc9ec686673cf1caa56e3c0e0dcd7c8c58605b5dff6",
+          "mode": 420,
+          "observed_after_sha256": "02c7c11fe7f3fb7df4243dc9ec686673cf1caa56e3c0e0dcd7c8c58605b5dff6",
+          "kind": "patch"
+        },
+        {
+          "path": "services/core/java/com/android/server/wm/WindowManagerInternal.java",
+          "before_sha256": "15cac6f6496e8bceaf2d1ec0cd5377b46b69199e77f1b9a7c86e837cdc559a56",
+          "after_sha256": "2b6f48b9e8515a08bf5065b1a316daa41e53e92f017cdeedd51b82eacc28d003",
+          "mode": 420,
+          "observed_after_sha256": "2b6f48b9e8515a08bf5065b1a316daa41e53e92f017cdeedd51b82eacc28d003",
+          "kind": "patch"
+        },
+        {
+          "path": "services/core/java/com/android/server/wm/WindowManagerService.java",
+          "before_sha256": "6865206588f67a7b07990a197ebca45559c66cfdbd1aaac0e517c7937651b9db",
+          "after_sha256": "498e4bde6b6c3bf8beec6a070b93800a478e4bfd037c01af8affefc95e1a7e16",
+          "mode": 420,
+          "observed_after_sha256": "498e4bde6b6c3bf8beec6a070b93800a478e4bfd037c01af8affefc95e1a7e16",
+          "kind": "patch"
+        },
+        {
+          "path": "tests/VirtualDeviceTests/services/src/com/android/server/companion/virtual/computercontrol/ComputerControlAllowlistControllerTest.java",
+          "before_sha256": "7b6838a32f9ba57f75b4bac7542addf1fd607cdab22967b6a5c04e61ae03c6a8",
+          "after_sha256": "b1fc0165552df24e922f57eefe3f60fc4d8dab1e2b0fa975a952d18651d292de",
+          "mode": 420,
+          "observed_after_sha256": "b1fc0165552df24e922f57eefe3f60fc4d8dab1e2b0fa975a952d18651d292de",
+          "kind": "patch"
+        },
+        {
+          "path": "core/java/android/content/ContentResolver.java",
+          "before_sha256": "433d0796303f3aa101ee9e1ef9d7aba55433336bcedd945a65553fbb05619e31",
+          "after_sha256": "08bd2be3779326b44530b56a82b9224fd9843f079eeaca8effdb072ced90536f",
+          "mode": 420,
+          "kind": "patch"
+        },
+        {
+          "path": "packages/SystemUI/compose/features/src/com/android/systemui/notifications/ui/composable/row/BundleHeader.kt",
+          "kind": "patch",
+          "before_sha256": "ef6e9d72f8922eab88b33a61ae9441163b180d1af73ca09ed49dab810f6087ac",
+          "mode": 420,
+          "after_sha256": "71c4c050dc2b0d2654097e3c913a812cf6b4705c16fbec767deb3e6feb41ac21",
+          "observed_after_sha256": "71c4c050dc2b0d2654097e3c913a812cf6b4705c16fbec767deb3e6feb41ac21"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/ShadeListBuilder.java",
+          "kind": "patch",
+          "before_sha256": "ffe0380e1a220d064213ec949229325b09d02e191eb1edd6593dd8a3be5bf5b0",
+          "mode": 420,
+          "after_sha256": "a016c3f334e29377276831e26e7f371c4f62e6d4ff32a4953f0d43e5fcc8dc7d",
+          "observed_after_sha256": "a016c3f334e29377276831e26e7f371c4f62e6d4ff32a4953f0d43e5fcc8dc7d"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/BundleCoordinator.kt",
+          "kind": "patch",
+          "before_sha256": "6773dc49c6d5a9460d4a2baba003efbb7fcdc6fee9841d27658a211ed1726bd4",
+          "mode": 420,
+          "after_sha256": "34b25cc60bb5de7420fc0eb87b063d87c697288c749ec9fa36bb44808ea26312",
+          "observed_after_sha256": "34b25cc60bb5de7420fc0eb87b063d87c697288c749ec9fa36bb44808ea26312"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/RankingCoordinator.java",
+          "kind": "patch",
+          "before_sha256": "bf1f738562ff4ad172ec7938df32c932e975e96316dc832c5dae8dc960935457",
+          "mode": 420,
+          "after_sha256": "72e4832d743e323b2ce59f5c0d1f53df6a5459b517a09377c429ec9054993338",
+          "observed_after_sha256": "72e4832d743e323b2ce59f5c0d1f53df6a5459b517a09377c429ec9054993338"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/FullScreenIntentDecisionProvider.kt",
+          "kind": "patch",
+          "before_sha256": "afedaaa35835665aa830071b017af4932513f92efa25364a0f43d31157472b4e",
+          "mode": 420,
+          "after_sha256": "5cc0865e061f5cd275a00ef2e20dc0f984ddf82ff1092daa1a74899ba1d240ba",
+          "observed_after_sha256": "5cc0865e061f5cd275a00ef2e20dc0f984ddf82ff1092daa1a74899ba1d240ba"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/VisualInterruptionDecisionProviderImpl.kt",
+          "kind": "patch",
+          "before_sha256": "1406e9afd3c827a886a5e6618cbea45e9e9c2438481af2b7429f4619a2669bf1",
+          "mode": 420,
+          "after_sha256": "9e0161a127c72ca25c2f83fafce32a7e1fc2c4ae0c47690d5d8c20c3ae1547d9",
+          "observed_after_sha256": "9e0161a127c72ca25c2f83fafce32a7e1fc2c4ae0c47690d5d8c20c3ae1547d9"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationRowContentBinderImpl.kt",
+          "kind": "patch",
+          "before_sha256": "4ced2765e9fa9886977a534200dd817736a17421bd718264dc70801bffb72714",
+          "mode": 420,
+          "after_sha256": "64a405f0b99194be955c2897a256e3639d87fff093d8dbb9e89a286245122867",
+          "observed_after_sha256": "64a405f0b99194be955c2897a256e3639d87fff093d8dbb9e89a286245122867"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/row/data/repository/BundleRepository.kt",
+          "kind": "patch",
+          "before_sha256": "88db0f702ee7197e27f17fb020286f2059b8a0a55e366c478cd62f2087ac1f71",
+          "mode": 420,
+          "after_sha256": "5d7d05505a4a689f04ce5cea7c0e984706acae70f416ce50ac16c5bcde8f3a77",
+          "observed_after_sha256": "5d7d05505a4a689f04ce5cea7c0e984706acae70f416ce50ac16c5bcde8f3a77"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/row/domain/interactor/BundleInteractor.kt",
+          "kind": "patch",
+          "before_sha256": "8a1a3b163fffe68088ce1695604136d81fa5b52f095a4d3f1e8a27dab0e8c3a9",
+          "mode": 420,
+          "after_sha256": "0e51b483c51c5788c6bd0d77fd9b9310d0f18bfd8529e45081ed9d6a6732ceb2",
+          "observed_after_sha256": "0e51b483c51c5788c6bd0d77fd9b9310d0f18bfd8529e45081ed9d6a6732ceb2"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ui/viewmodel/BundleHeaderViewModel.kt",
+          "kind": "patch",
+          "before_sha256": "1b97cbe6d92538a5cbe3fb27aaf13b7eef8079f7c96786f1aec85fed86ecea18",
+          "mode": 420,
+          "after_sha256": "d9daa24bc6693d595f0f61d640519c1d635569daf5cafa20e34192db849db262",
+          "observed_after_sha256": "d9daa24bc6693d595f0f61d640519c1d635569daf5cafa20e34192db849db262"
+        },
+        {
+          "path": "services/core/java/com/android/server/notification/NotificationManagerService.java",
+          "kind": "patch",
+          "before_sha256": "1d4cd44337e87b8d35e55fe7a4d6a7678d27503374b9f15b75f3376f2acc7006",
+          "mode": 420,
+          "after_sha256": "9c5144ef409bfbe5a9cfd122f9d77ce3c12e70b01409e8cd7036705669253e44",
+          "observed_after_sha256": "9c5144ef409bfbe5a9cfd122f9d77ce3c12e70b01409e8cd7036705669253e44"
+        },
+        {
+          "path": "services/core/java/com/android/server/notification/AiosNotificationGate.java",
+          "kind": "addition",
+          "before_sha256": null,
+          "after_sha256": "cb7541c19fe8dfb26c86ed353f848e1aeb852604944097c865c4c59b260c2636",
+          "mode": 420,
+          "source": "integration/lineage-24.0/files/frameworks/base/services/core/java/com/android/server/notification/AiosNotificationGate.java"
+        },
+        {
+          "path": "packages/SystemUI/AndroidManifest.xml",
+          "kind": "patch",
+          "before_sha256": "43e6586889f0f0ad96deaab722d5cdef3054d2a9e02c49719f61ddb90b1b9da1",
+          "mode": 420,
+          "after_sha256": "a2c6fdb289634fccbf1992a57efc9b3df22ad877e17034baf5ca0ebfc971e349",
+          "observed_after_sha256": "a2c6fdb289634fccbf1992a57efc9b3df22ad877e17034baf5ca0ebfc971e349"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationMenuRow.java",
+          "kind": "patch",
+          "before_sha256": "284164c9a869680ddab8736995be8ec6609350a4022bc620b711d551a0040c5f",
+          "mode": 420,
+          "after_sha256": "14b10f0af039973434fa00cc152c055d53e798abd577e345509055dbffdf42c5",
+          "observed_after_sha256": "14b10f0af039973434fa00cc152c055d53e798abd577e345509055dbffdf42c5"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/AiosNotificationState.java",
+          "kind": "addition",
+          "before_sha256": null,
+          "after_sha256": "f466182ce4e8bdb55abd785179c47f3f22b622a6fd8abae9ba53f53d9583995e",
+          "mode": 420,
+          "source": "integration/lineage-24.0/files/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/AiosNotificationState.java"
+        },
+        {
+          "path": "packages/SystemUI/res/values/aios_notifications.xml",
+          "kind": "addition",
+          "before_sha256": null,
+          "after_sha256": "a4e06633a07166334760c98ff95c2a0d2a84caae3ba43f39b09b6fd967169f3a",
+          "mode": 420,
+          "source": "integration/lineage-24.0/files/frameworks/base/packages/SystemUI/res/values/aios_notifications.xml"
+        },
+        {
+          "path": "packages/SystemUI/res/values-zh-rCN/aios_notifications.xml",
+          "kind": "addition",
+          "before_sha256": null,
+          "after_sha256": "49452e8c072fc42ba4e9c37a5b2ab3ccdd1c975c829a3f7266358f03fec5f739",
+          "mode": 420,
+          "source": "integration/lineage-24.0/files/frameworks/base/packages/SystemUI/res/values-zh-rCN/aios_notifications.xml"
+        },
+        {
+          "path": "packages/SystemUI/res/values-zh-rTW/aios_notifications.xml",
+          "kind": "addition",
+          "before_sha256": null,
+          "after_sha256": "489a0ff9da0835fe38b8dbf664ee5e717f374a2655617411b7c6121af31bd09d",
+          "mode": 420,
+          "source": "integration/lineage-24.0/files/frameworks/base/packages/SystemUI/res/values-zh-rTW/aios_notifications.xml"
+        },
+        {
+          "path": "packages/SystemUI/res/drawable/aios_ic_pin.xml",
+          "kind": "addition",
+          "before_sha256": null,
+          "after_sha256": "21c8a946970df587dc8dbb8d55c6bcd3990178b8f62d91d85f2d6070b8789dfd",
+          "mode": 420,
+          "source": "integration/lineage-24.0/files/frameworks/base/packages/SystemUI/res/drawable/aios_ic_pin.xml"
+        },
+        {
+          "path": "packages/SystemUI/res/values/aios_dimens.xml",
+          "kind": "addition",
+          "before_sha256": null,
+          "after_sha256": "c35d6ad1fe643e97e38387e674a61081003a7796749018a7e410f938f62f6034",
+          "mode": 420,
+          "source": "integration/lineage-24.0/files/frameworks/base/packages/SystemUI/res/values/aios_dimens.xml"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/NotifCollection.java",
+          "kind": "patch",
+          "before_sha256": "3faf0054dec495731afcf16afd469d5350c285e10f33403b96664188010eb102",
+          "mode": 420,
+          "after_sha256": "4d054d8491f63202712a04c61a659a5b37939e3b17582c3a4befe45b7ba2ca29",
+          "observed_after_sha256": "4d054d8491f63202712a04c61a659a5b37939e3b17582c3a4befe45b7ba2ca29"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/headsup/HeadsUpManagerImpl.java",
+          "kind": "patch",
+          "before_sha256": "74885cc688a70d30ea0fa3f2fccbd57865fafbce4907f014f968c5184926dca8",
+          "mode": 420,
+          "after_sha256": "da4a22de6edf854243810fd3bdd3346abcc74c5f16ef256e91455b1d2ae202ff",
+          "observed_after_sha256": "da4a22de6edf854243810fd3bdd3346abcc74c5f16ef256e91455b1d2ae202ff"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/headsup/AvalancheController.kt",
+          "kind": "patch",
+          "before_sha256": "0ded47519e37054f2f8e916b758aace07c15bdfbc2edb8140fd9eb7256642161",
+          "mode": 420,
+          "after_sha256": "ccbba443fc78af39a630093bb97ce8718cbc9f97ba428ece97696669bb26dc06",
+          "observed_after_sha256": "ccbba443fc78af39a630093bb97ce8718cbc9f97ba428ece97696669bb26dc06"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/icon/IconManager.kt",
+          "kind": "patch",
+          "before_sha256": "03fe527a0e224ff0105f9c23d5fd70609e051fe53f75c35d3bf1b2a86c4fbaf9",
+          "mode": 420,
+          "after_sha256": "f20747dd41ac73b46b29a6399bfada753e52334e7cc0959d420e1c5bb4972b86",
+          "observed_after_sha256": "f20747dd41ac73b46b29a6399bfada753e52334e7cc0959d420e1c5bb4972b86"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/AiosAlertHistory.java",
+          "kind": "addition",
+          "before_sha256": null,
+          "after_sha256": "1f8c340538036ddd7aa67f5670ed23e69166f955a7c9f6a8cd218993e73a1eb6",
+          "mode": 420,
+          "source": "integration/lineage-24.0/files/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/AiosAlertHistory.java"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/stack/NotificationSwipeHelper.java",
+          "kind": "patch",
+          "before_sha256": "e959fddbee11a5a10845e97f71e5b6f3ae94a2b92857e7e79c5ccb0dbef570a8",
+          "mode": 420,
+          "after_sha256": "8d6db8d7751527c2e6ac22ccb020ab6c69b01f88a88b5142e1f1a6b3a629822e",
+          "observed_after_sha256": "8d6db8d7751527c2e6ac22ccb020ab6c69b01f88a88b5142e1f1a6b3a629822e"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java",
+          "kind": "patch",
+          "before_sha256": "bac6fc0e7f06aa2ec36933d345251dcb3a6d570a06aeb30cde67428caba1e36b",
+          "mode": 420,
+          "after_sha256": "65670d4aa2bd2181a18787bdf377e55ad6c6cc26cad12d10b146cf686acc4d08",
+          "observed_after_sha256": "65670d4aa2bd2181a18787bdf377e55ad6c6cc26cad12d10b146cf686acc4d08"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/provider/HighPriorityProvider.java",
+          "kind": "patch",
+          "before_sha256": "1a5e93ee8452c2d7bcc6e181f33767f6c5047c155ebde430bdb9f43801e15565",
+          "mode": 420,
+          "after_sha256": "b57be9a824fd1790472a0a333a5e38cac4446bc506e5269847c17c61a993ac78",
+          "observed_after_sha256": "b57be9a824fd1790472a0a333a5e38cac4446bc506e5269847c17c61a993ac78"
+        },
+        {
+          "path": "packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/BundleEntry.kt",
+          "kind": "patch",
+          "before_sha256": "1d50df6a0824baba2901ea5294c85db15248de17c5ae3a03ece6b97e2290953e",
+          "mode": 420,
+          "after_sha256": "3b80f17ce3c5c231b261b95587458a04b5aa351e6c05ae52d955aff0b297a9db",
+          "observed_after_sha256": "3b80f17ce3c5c231b261b95587458a04b5aa351e6c05ae52d955aff0b297a9db"
+        },
+        {
+          "path": "services/core/java/com/android/server/notification/NotificationRecord.java",
+          "kind": "patch",
+          "before_sha256": "5055c74604ec4d7b84faba21e87e53616a64cc554050a7306553e5d6bdcb6422",
+          "mode": 420,
+          "after_sha256": "ac6e989e0c56ce5d60e7400e46d8c984aa96eec93b13266c2cc6784e50276d0e",
+          "observed_after_sha256": "ac6e989e0c56ce5d60e7400e46d8c984aa96eec93b13266c2cc6784e50276d0e"
+        }
+      ],
+      "patch_sha256": "01d0d7d41a23a0a5ab0b18d3412208338f65e7302ad471a31638d520f983a391"
+    },
+    {
+      "path": "frameworks/native",
+      "revision": "46018f54b42489de960c62c3db9de131abce43ea",
+      "scope": "common",
+      "review_patch": "frameworks__native.patch",
+      "files": [
+        {
+          "path": "include/input/Input.h",
+          "before_sha256": "c7ee07df6681bc7d0045465fcfae838a964f6fac678cd21a901f18ad29a87870",
+          "after_sha256": "6c3440747ac72ee983d65a2e5726e6e4a5aa510f80fa5f759a77660f6cae364d",
+          "mode": 420,
+          "observed_after_sha256": "6c3440747ac72ee983d65a2e5726e6e4a5aa510f80fa5f759a77660f6cae364d",
+          "kind": "patch"
+        },
+        {
+          "path": "libs/gui/include/gui/WindowInfo.h",
+          "before_sha256": "c5b2543f2c36d2edfc1dbe65f3b34bc27aa4736ddd6e0bcd4b04be81564befbb",
+          "after_sha256": "39babfd21e83b400a91b19d9e7f9009603611fd5ebbc08d73edbe0051945e46d",
+          "mode": 420,
+          "observed_after_sha256": "39babfd21e83b400a91b19d9e7f9009603611fd5ebbc08d73edbe0051945e46d",
+          "kind": "patch"
+        },
+        {
+          "path": "libs/input/android/os/IInputConstants.aidl",
+          "before_sha256": "e2d2b7dc949fc803cd8e9a201b05ba6809a47e049c46c200120b04ec71e49726",
+          "after_sha256": "bf4a04008ee8431d4cec1690e1510562b668e2f18042f732800dc5532f4cd43b",
+          "mode": 420,
+          "observed_after_sha256": "bf4a04008ee8431d4cec1690e1510562b668e2f18042f732800dc5532f4cd43b",
+          "kind": "patch"
+        },
+        {
+          "path": "libs/input/android/os/InputConfig.aidl",
+          "before_sha256": "ed0b87b798370891f561c6a8fb8a3940af1757c5dc99830e7a283cbe7cec67c6",
+          "after_sha256": "3fbbf800fca58ebc0fd73e5dd8ef9d214af93698da57e09546c732b7fae6ee86",
+          "mode": 420,
+          "observed_after_sha256": "3fbbf800fca58ebc0fd73e5dd8ef9d214af93698da57e09546c732b7fae6ee86",
+          "kind": "patch"
+        },
+        {
+          "path": "services/inputflinger/dispatcher/InputDispatcher.cpp",
+          "before_sha256": "fe9197e4795ebfb2fa2d80d305cac1bcbf08f78e2a13b8710118f37612406a01",
+          "after_sha256": "611373d08ff1be17ea55ce7aa402fbebfdf8031d37f38880319213fa05235863",
+          "mode": 420,
+          "observed_after_sha256": "611373d08ff1be17ea55ce7aa402fbebfdf8031d37f38880319213fa05235863",
+          "kind": "patch"
+        },
+        {
+          "path": "services/inputflinger/dispatcher/InputDispatcher.h",
+          "before_sha256": "713ca2351b28ebde8829edada02bea18c4923614f353bd7ca277eff69f4994d6",
+          "after_sha256": "dd44383998efeaf4ca8cd11970ce8dba3fbc7b15ab72b958e066b7db83204e88",
+          "mode": 420,
+          "observed_after_sha256": "dd44383998efeaf4ca8cd11970ce8dba3fbc7b15ab72b958e066b7db83204e88",
+          "kind": "patch"
+        },
+        {
+          "path": "services/inputflinger/tests/FakeInputDispatcherPolicy.cpp",
+          "before_sha256": "54961406679d6aae58fd05c89f425fee697dda52c748613cfd81be37ea85df00",
+          "after_sha256": "ed998353eaa04348bf09428c737136fb64ca161e8b22b7150901d1bdedb5c864",
+          "mode": 420,
+          "observed_after_sha256": "ed998353eaa04348bf09428c737136fb64ca161e8b22b7150901d1bdedb5c864",
+          "kind": "patch"
+        },
+        {
+          "path": "services/inputflinger/tests/FakeInputDispatcherPolicy.h",
+          "before_sha256": "e77f7689438f6519579bb68916b6ccf63a10de0803b412c9e7618d1c72eb2373",
+          "after_sha256": "7d31777984849dee4f79e996e1cb9d877d1e3a5fee0766fe7d806b4cc7c00874",
+          "mode": 420,
+          "observed_after_sha256": "7d31777984849dee4f79e996e1cb9d877d1e3a5fee0766fe7d806b4cc7c00874",
+          "kind": "patch"
+        },
+        {
+          "path": "services/inputflinger/tests/InputDispatcher_test.cpp",
+          "before_sha256": "c175aa03f185e33433cf908f511c7df3a08197e50dc4944e935f41117dc79742",
+          "after_sha256": "f8c0a67ec3b6f707d4709984d8601d9a1c6fb1ae7cf785acf7c396697e132361",
+          "mode": 420,
+          "observed_after_sha256": "f8c0a67ec3b6f707d4709984d8601d9a1c6fb1ae7cf785acf7c396697e132361",
+          "kind": "patch"
+        }
+      ],
+      "patch_sha256": "03befdb36349761f700229bb68b9ade783970c3ebb73376e9ae828bad283d0c6"
+    },
+    {
+      "path": "packages/apps/Launcher3",
+      "revision": "818f72b74e6f914cbca2b465776d6d20f960ee87",
+      "scope": "common",
+      "review_patch": "packages__apps__Launcher3.patch",
+      "files": [
+        {
+          "path": "AndroidManifest-common.xml",
+          "before_sha256": "0949463792a20a1b45cbcc8917e04b0f1eee75bc527b772866fea3f1a82023cd",
+          "after_sha256": "80201f3c751dbf73ae63d6e8704b8f128af9bd9557d0cac7021e3d1703858648",
+          "mode": 420,
+          "observed_after_sha256": "80201f3c751dbf73ae63d6e8704b8f128af9bd9557d0cac7021e3d1703858648",
+          "kind": "patch"
+        },
+        {
+          "path": "quickstep/src/com/android/launcher3/appprediction/PredictionRowView.java",
+          "before_sha256": "10515c279e3c205ca0b15abe8dc5bd5ccfd56ae5efdf572b26d2cbcf6c7635f5",
+          "after_sha256": "f0ed72e89170c740bc5c3c6f67f336af88fed59e85325252b5759f3a61825ef9",
+          "mode": 420,
+          "observed_after_sha256": "f0ed72e89170c740bc5c3c6f67f336af88fed59e85325252b5759f3a61825ef9",
+          "kind": "patch"
+        },
+        {
+          "path": "quickstep/src/com/android/launcher3/uioverrides/QuickstepLauncher.java",
+          "before_sha256": "fb09c86eb4db203657b5f52e96a563a7835ba9471919d797a6f7ade2168cac05",
+          "after_sha256": "02566c4fbf4d92a26b5550374da889af32935c89104765dc6c442a78b1f8282f",
+          "mode": 420,
+          "observed_after_sha256": "02566c4fbf4d92a26b5550374da889af32935c89104765dc6c442a78b1f8282f",
+          "kind": "patch"
+        },
+        {
+          "path": "res/values-zh-rCN/aios_miniapps.xml",
+          "source": "integration/lineage-24.0/files/packages/apps/Launcher3/res/values-zh-rCN/aios_miniapps.xml",
+          "before_sha256": null,
+          "after_sha256": "c49b62f53135094a73b50307304a4d2320fb6e4ce3f0d48e07440c1bb9229c96",
+          "mode": 420,
+          "kind": "addition"
+        },
+        {
+          "path": "res/values-zh-rTW/aios_miniapps.xml",
+          "source": "integration/lineage-24.0/files/packages/apps/Launcher3/res/values-zh-rTW/aios_miniapps.xml",
+          "before_sha256": null,
+          "after_sha256": "ce23c2da50a34429279cdd1b6f32b902b5291a4b120e62adb9d26a4d2dae4529",
+          "mode": 420,
+          "kind": "addition"
+        },
+        {
+          "path": "res/values/aios_miniapps.xml",
+          "source": "integration/lineage-24.0/files/packages/apps/Launcher3/res/values/aios_miniapps.xml",
+          "before_sha256": null,
+          "after_sha256": "c7e184268ab73f3a08d268331964dc8bf39607fbc8d829b274fff5e6fa4e07b9",
+          "mode": 420,
+          "kind": "addition"
+        },
+        {
+          "path": "src/com/android/launcher3/Launcher.java",
+          "before_sha256": "08b1d78a520ad3a159af06da233f220fb964b4168ea175cc1aab3333c4101cf2",
+          "after_sha256": "9c61d346caf0921489abf6447a2c53738fe2bd70597e27abcc8ee699180434b0",
+          "mode": 420,
+          "observed_after_sha256": "9c61d346caf0921489abf6447a2c53738fe2bd70597e27abcc8ee699180434b0",
+          "kind": "patch"
+        },
+        {
+          "path": "src/com/android/launcher3/aios/AiosOverlay.java",
+          "source": "integration/lineage-24.0/files/packages/apps/Launcher3/src/com/android/launcher3/aios/AiosOverlay.java",
+          "before_sha256": null,
+          "after_sha256": "0225bfa59044b4fdc123d9223d4f55724bd819a7e4d79fdca9858cdd3949f0f2",
+          "mode": 493,
+          "kind": "addition"
+        },
+        {
+          "path": "src/com/android/launcher3/aios/DisplayText.java",
+          "source": "integration/lineage-24.0/files/packages/apps/Launcher3/src/com/android/launcher3/aios/DisplayText.java",
+          "before_sha256": null,
+          "after_sha256": "4e9292fc5db0c11b350cb370838bfd9c1fcbea77525cc8d478e553157d6a7ec3",
+          "mode": 420,
+          "kind": "addition"
+        },
+        {
+          "path": "src/com/android/launcher3/aios/MiniApps.java",
+          "source": "integration/lineage-24.0/files/packages/apps/Launcher3/src/com/android/launcher3/aios/MiniApps.java",
+          "before_sha256": null,
+          "after_sha256": "893057d365414b47ad2ddd7eff590064211affeb99f0e24a15a8ed165dc341a4",
+          "mode": 420,
+          "kind": "addition"
+        },
+        {
+          "path": "src/com/android/launcher3/allapps/AllAppsStore.java",
+          "before_sha256": "bef541a978058525aedddd2d0333575b2289faef856d04b88540683f87c101c4",
+          "after_sha256": "6fe3bd0b635f5fd506913257ebff1b217e74612fd80e208d15af3d7cc35966d5",
+          "mode": 420,
+          "observed_after_sha256": "6fe3bd0b635f5fd506913257ebff1b217e74612fd80e208d15af3d7cc35966d5",
+          "kind": "patch"
+        },
+        {
+          "path": "src/com/android/launcher3/allapps/search/DefaultAppSearchAlgorithm.java",
+          "before_sha256": "a13df91c2a44ea4797de6227de40a66292b6d2768b332fa4d7f7f0df6b62778d",
+          "after_sha256": "03ccbe73b9753dc18e455c37679a71ec231f4e2309923592e6f659b1e6bdd343",
+          "mode": 420,
+          "observed_after_sha256": "03ccbe73b9753dc18e455c37679a71ec231f4e2309923592e6f659b1e6bdd343",
+          "kind": "patch"
+        },
+        {
+          "path": "src/com/android/launcher3/dragndrop/DragView.java",
+          "before_sha256": "b8bbe981bea0bfb54180db60bfd5479cc469eed9268849c20eac6c4acbd660d3",
+          "after_sha256": "c1670c746f50b9e30f0f0ec1246b7cecdc58b6d8e79da6df19dd3e181ccae3a6",
+          "mode": 420,
+          "observed_after_sha256": "c1670c746f50b9e30f0f0ec1246b7cecdc58b6d8e79da6df19dd3e181ccae3a6",
+          "kind": "patch"
+        },
+        {
+          "path": "src/com/android/launcher3/icons/IconCache.kt",
+          "before_sha256": "10d39d1256fa566c4ba9164627de8a37bf7e48b4bee1b4d6ad73ceeb0b9e8264",
+          "after_sha256": "30c49096938bec1c6c79fde370b1835b79a83f603a37e9eb7d46689cac557cbf",
+          "mode": 420,
+          "observed_after_sha256": "30c49096938bec1c6c79fde370b1835b79a83f603a37e9eb7d46689cac557cbf",
+          "kind": "patch"
+        },
+        {
+          "path": "src/com/android/launcher3/model/WorkspaceItemProcessor.kt",
+          "before_sha256": "1259dea253b4956a98bd39d56f4243a912544f22a26c2375d5d1e5def6e74368",
+          "after_sha256": "1a43e229831ddfb0f9ea2d3b3c395951bd0a235815f7e2a61e38175130ba9bcd",
+          "mode": 420,
+          "observed_after_sha256": "1a43e229831ddfb0f9ea2d3b3c395951bd0a235815f7e2a61e38175130ba9bcd",
+          "kind": "patch"
+        },
+        {
+          "path": "src/com/android/launcher3/model/tasks/PackageUpdatedTask.java",
+          "before_sha256": "8b40a0236e0585eea0e4527d3426f628d6a1cc0ae4c2dfdc250cb3e6c365d9d7",
+          "after_sha256": "c959c3ca273d4b3b97ba8c801c6be4961fb40ce3c1743e65f2bdab70efde70fa",
+          "mode": 420,
+          "observed_after_sha256": "c959c3ca273d4b3b97ba8c801c6be4961fb40ce3c1743e65f2bdab70efde70fa",
+          "kind": "patch"
+        },
+        {
+          "path": "src/com/android/launcher3/touch/ItemClickHandler.java",
+          "before_sha256": "6d0158c96b07f0bf899d57801d141a40c066a66048ae57fb5d207deff82c1bc1",
+          "after_sha256": "7edbe334433eab0e9d2b3cdf864b7259d1416b2701a9febdfe5e844f9e9b9ea1",
+          "mode": 420,
+          "observed_after_sha256": "7edbe334433eab0e9d2b3cdf864b7259d1416b2701a9febdfe5e844f9e9b9ea1",
+          "kind": "patch"
+        }
+      ],
+      "patch_sha256": "40ccbb4b987f65a701f57a8e0aa0ed50aa46dabbd124361df9f087cd2f8b2dd8"
+    },
+    {
+      "path": "packages/apps/Dialer",
+      "revision": "81ae9e3a0246089dd89f644227509627d6e11a88",
+      "scope": "common",
+      "review_patch": "packages__apps__Dialer.patch",
+      "files": [
+        {
+          "path": "AndroidManifest.xml",
+          "before_sha256": "cefc714922f8b35f9c7b6cc3e587b2bf39ec046df3e51f35ac0cb0d0feea2306",
+          "after_sha256": "462f0c23f56a1def24baa2cb0ed34d2f43eb8d73825feaf9a5f70a81c2d05dd5",
+          "mode": 420,
+          "observed_after_sha256": "462f0c23f56a1def24baa2cb0ed34d2f43eb8d73825feaf9a5f70a81c2d05dd5",
+          "kind": "patch"
+        },
+        {
+          "path": "java/com/android/dialer/aios/AiosCallUi.java",
+          "source": "integration/lineage-24.0/files/packages/apps/Dialer/java/com/android/dialer/aios/AiosCallUi.java",
+          "before_sha256": null,
+          "after_sha256": "958b8f09dba8cb2f3427db47699f8f553599cd8a599e47248440eea995271384",
+          "mode": 420,
+          "kind": "addition"
+        },
+        {
+          "path": "java/com/android/dialer/aios/CallCaptureProvider.java",
+          "source": "integration/lineage-24.0/files/packages/apps/Dialer/java/com/android/dialer/aios/CallCaptureProvider.java",
+          "before_sha256": null,
+          "after_sha256": "01c42917567b4cf9e87189f998e682205942d0952b8b69fe5581202279b36625",
+          "mode": 420,
+          "kind": "addition"
+        },
+        {
+          "path": "java/com/android/dialer/aios/CallRecordingUi.java",
+          "source": "integration/lineage-24.0/files/packages/apps/Dialer/java/com/android/dialer/aios/CallRecordingUi.java",
+          "before_sha256": null,
+          "after_sha256": "ae746fbc80855a4e4dd155d43f929b96f097992aaccf9ae766f31d1231f9b74c",
+          "mode": 420,
+          "kind": "addition"
+        },
+        {
+          "path": "java/com/android/dialer/app/calllog/CallLogAdapter.java",
+          "before_sha256": "18b1c21e92df9643b48256f7577361f4894328f25deeafacb7c70c324d22dc2b",
+          "after_sha256": "33452ba81f47e63a3641bf515417a96e159e8dbb686bb68162a2d2401d63eaa6",
+          "mode": 420,
+          "observed_after_sha256": "33452ba81f47e63a3641bf515417a96e159e8dbb686bb68162a2d2401d63eaa6",
+          "kind": "patch"
+        },
+        {
+          "path": "java/com/android/dialer/calldetails/CallDetailsEntryViewHolder.java",
+          "before_sha256": "109dfe88ef619ac727fcbf6c3841e06684cc86cc70b7412ef69a2f35cb84c60b",
+          "after_sha256": "c2cbbf3c8a7bc055df6746a12d5e7f014416b281de70abe301d097ec1d0b4b7e",
+          "mode": 420,
+          "observed_after_sha256": "c2cbbf3c8a7bc055df6746a12d5e7f014416b281de70abe301d097ec1d0b4b7e",
+          "kind": "patch"
+        },
+        {
+          "path": "java/com/android/incallui/call/CallRecorder.java",
+          "before_sha256": "fea20399d0f715c4f47ab153a1ad048f146bd573e4307ca94fa21d5905013e8e",
+          "after_sha256": "9b57361a327e209f3ae5d47585862172ce66fca013558092ca3d230402b77905",
+          "mode": 420,
+          "observed_after_sha256": "9b57361a327e209f3ae5d47585862172ce66fca013558092ca3d230402b77905",
+          "kind": "patch"
+        },
+        {
+          "path": "java/com/android/incallui/incall/impl/InCallButtonGridFragment.java",
+          "before_sha256": "0bb17c72e0c3732fecc1fe1e899233dad5b548004d6f9cb8e6cf9deb08f9b0ee",
+          "after_sha256": "79f25a98e3590664e1be1962e53e9f35f8f0648c08b77e7137997532c00b229f",
+          "mode": 420,
+          "observed_after_sha256": "79f25a98e3590664e1be1962e53e9f35f8f0648c08b77e7137997532c00b229f",
+          "kind": "patch"
+        },
+        {
+          "path": "java/com/android/incallui/incall/impl/res/layout/incall_button_grid.xml",
+          "before_sha256": "44da9601e2bfd2fda9a6289c741ee32874472c74eca0da4a09c14d07d099e28e",
+          "after_sha256": "5923836b540dfb39f2af3eab7ca314da827158674afe1c4e55ba84dfc23f7007",
+          "mode": 420,
+          "observed_after_sha256": "5923836b540dfb39f2af3eab7ca314da827158674afe1c4e55ba84dfc23f7007",
+          "kind": "patch"
+        },
+        {
+          "path": "java/com/android/incallui/incall/impl/res/values/aios_strings.xml",
+          "source": "integration/lineage-24.0/files/packages/apps/Dialer/java/com/android/incallui/incall/impl/res/values/aios_strings.xml",
+          "before_sha256": null,
+          "after_sha256": "56b91d0bcf36a89443b008cf338325023821147660ee3acd7bcea458eb9872f5",
+          "mode": 420,
+          "kind": "addition"
+        }
+      ],
+      "patch_sha256": "05fd16917c3696f67526427fc66c73d9a0984a20da6acd82193f1f24b0047512"
+    },
+    {
+      "path": "packages/apps/Recorder",
+      "revision": "624957ca18496e7b63df3d5e4e040f8c99ca72b7",
+      "scope": "common",
+      "review_patch": "packages__apps__Recorder.patch",
+      "files": [
+        {
+          "path": "app/src/main/java/org/lineageos/recorder/DialogActivity.kt",
+          "before_sha256": "5c1f7ef4f063458eefd22999752e19e0cf559a5bdf744cad69f2d4719512798c",
+          "after_sha256": "8fab3061ded4c34be119f6464c15e6647fab4df4ac0428c08eacc7c280b66a9d",
+          "mode": 420,
+          "observed_after_sha256": "f2a804114b911cd20fb232c0e7ae7ca9878b3d0a3906eab36a792044402bc7f5",
+          "kind": "patch"
+        },
+        {
+          "path": "app/src/main/java/org/lineageos/recorder/RecorderActivity.kt",
+          "before_sha256": "0cdf40420def94fd487ce20ce25572a42ae45939be2683696f15a2b999bd6fdc",
+          "after_sha256": "587c29164d555b20b68f4ef011aa0dcc199e0b48bbe553df5fe26b0628be5b6e",
+          "mode": 420,
+          "observed_after_sha256": "a0ba437b9ccf4456a89288868970a14c25f4b854799090057812b35bdbcb0b07",
+          "kind": "patch"
+        },
+        {
+          "path": "app/src/main/java/org/lineageos/recorder/service/SoundRecorderService.kt",
+          "before_sha256": "96073500dd55fcc878d70c2038301ef1286061b89bcebb89a6e654b5ae672d84",
+          "after_sha256": "cd696e5cae5bd3cb7f47f7cb67c731aa900fba59470ade59ab886615984e092f",
+          "mode": 420,
+          "observed_after_sha256": "d7a5a71b2c3932886f5f728a44554ff25e6212954f20eea5f328560149866b49",
+          "kind": "patch"
+        },
+        {
+          "path": "app/src/main/res/values/aios_strings.xml",
+          "source": "integration/lineage-24.0/files/packages/apps/Recorder/app/src/main/res/values/aios_strings.xml",
+          "before_sha256": null,
+          "after_sha256": "ac610c7aad1fe1d93729177a3960381bb1b601b4f5c6188770096c53b32cfd17",
+          "mode": 420,
+          "kind": "addition"
+        }
+      ],
+      "patch_sha256": "75c52f565666edef1ea2b4b7102acb75a7d980eb395f9ef803ca079c6c34791b"
+    },
+    {
+      "path": "packages/apps/DeskClock",
+      "revision": "85cde5712f2f3eb6a0ffa9d6951ec4a83734586e",
+      "scope": "common",
+      "review_patch": "packages__apps__DeskClock.patch",
+      "files": [
+        {
+          "path": "AndroidManifest.xml",
+          "before_sha256": "5d30d03972456768336e41512ad9af746a36b7794656ec57a8dc8524d2a42250",
+          "after_sha256": "c5457ce4f7aa04f514ad940e40bc7429b47708b1f330ab886e5a61d9e90c5981",
+          "mode": 420,
+          "observed_after_sha256": "c5457ce4f7aa04f514ad940e40bc7429b47708b1f330ab886e5a61d9e90c5981",
+          "kind": "patch"
+        },
+        {
+          "path": "src/com/android/deskclock/data/DataModel.java",
+          "before_sha256": "3bf8e98cc46bc6848c8c61aa8538007a1157a4577ad714fdfb86e3eb38e14317",
+          "after_sha256": "8985acccdcd62201659d06368ec913fc790e9bb8b99ec98893cd24e36aa63d70",
+          "mode": 420,
+          "observed_after_sha256": "8985acccdcd62201659d06368ec913fc790e9bb8b99ec98893cd24e36aa63d70",
+          "kind": "patch"
+        },
+        {
+          "path": "src/com/android/deskclock/provider/AiosClockProvider.java",
+          "source": "integration/lineage-24.0/files/packages/apps/DeskClock/src/com/android/deskclock/provider/AiosClockProvider.java",
+          "before_sha256": null,
+          "after_sha256": "94c0652e5ca35822f0543ce9a08e8956d5002c3ea20ee45bbb39299702441bf1",
+          "mode": 420,
+          "kind": "addition"
+        }
+      ],
+      "patch_sha256": "784d7acf87069e31013b0801fe95b3d9f3639206718b10c9be53ea93fac01914"
+    },
+    {
+      "path": "packages/services/Telephony",
+      "revision": "2d0e6fb0059b8c1cab748f6f04453c9955a14fe3",
+      "scope": "frankel",
+      "review_patch": "packages__services__Telephony.patch",
+      "files": [
+        {
+          "path": "src/com/android/phone/CarrierConfigLoader.java",
+          "before_sha256": "701d68fdbdae4d84fd4cc0f78b0cfde6849861ee79783b26e2da69fa761daede",
+          "after_sha256": "5db21671ee802c061c9e30b4fac2edadb82f76d1144557c9d12eff6ab6866d79",
+          "mode": 420,
+          "observed_after_sha256": "5db21671ee802c061c9e30b4fac2edadb82f76d1144557c9d12eff6ab6866d79",
+          "kind": "patch"
+        },
+        {
+          "path": "src/com/android/phone/ChinaVoltePolicy.java",
+          "source": "integration/lineage-24.0/files/packages/services/Telephony/src/com/android/phone/ChinaVoltePolicy.java",
+          "before_sha256": null,
+          "after_sha256": "c3bd3e4322fec7779b8423e53cc41559ac2f4884e80aa485ad78faa066d1fc98",
+          "mode": 420,
+          "kind": "addition"
+        }
+      ],
+      "patch_sha256": "e8f9a8ecda7b6aeae6c20eae231853969781f65e5c733f1ca95fda34776458d0"
+    },
+    {
+      "path": "packages/apps/Contacts",
+      "revision": "28137197bf5b6a4e3baf9de36d52e0e471ac1d47",
+      "scope": "common",
+      "review_patch": "packages__apps__Contacts.patch",
+      "patch_sha256": "fe7cdabcd4c1e53465d35373d4253dedf1f2ee25ab850449e7a2daa2b10f4a31",
+      "files": [
+        {
+          "path": "src/com/android/contacts/list/ProviderStatusWatcher.java",
+          "before_sha256": "92c2470b18d8ba9521983d6ee8db23893b259b7653a4a5abcefcd9b50ca937f9",
+          "after_sha256": "c645155d6930d6436c1b7f2e340e576a888718209b13a86ce9a9e7079de09e5e",
+          "mode": 420,
+          "kind": "patch"
+        },
+        {
+          "path": "src/com/android/contacts/activities/PeopleActivity.java",
+          "before_sha256": "5c8de23afa0cd4a3f3bd9d9c9111c15c7d4232e15efdc6a627d9ad9e07297ac9",
+          "after_sha256": "691692db4e97506b131d39b8dcca5beee9cde4735aa5a6dec111577dd9316551",
+          "mode": 420,
+          "kind": "patch"
+        }
+      ]
+    }
+  ],
+  "legacy_policy": [
+    {
+      "path": "device/google/laguna/sepolicy/certificates/keys.conf",
+      "before_sha256": "2ff3dc9237233b7b9c74f48c9e1601e68ec8e4378d1d574c594cbe67baf07605",
+      "after_sha256": "c8ca0a324afc1605f831f4dc13826a7bdab54c9ac7ee636a52d7242c00d68aee",
+      "source": "integration/lineage-24.0/legacy/sepolicy/certificates/keys.conf"
+    },
+    {
+      "path": "device/google/laguna/sepolicy/certificates/mac_permissions.xml",
+      "before_sha256": "9b9e68f435cc39327036fa4b661533d2c1c8cfd8c3d9e8affcba7b19178556d3",
+      "after_sha256": "3d07eb494c232ef90eddc0e86c4d03fd60a32727b8fae594e5de84ea30433467",
+      "source": "integration/lineage-24.0/legacy/sepolicy/certificates/mac_permissions.xml"
+    },
+    {
+      "path": "device/google/laguna/sepolicy/system_ext/private/seapp_contexts",
+      "before_sha256": "b1f320da9b985e0aff8fc55ebbc0ccff24a9b5ec1d23f1b4071f762ff21d36cf",
+      "after_sha256": "910cb2ef1f919e5323901ccd185a4bbfb2f568b02b633bc580e1d25b7cdfccb7",
+      "source": "integration/lineage-24.0/legacy/sepolicy/system_ext/private/seapp_contexts"
+    },
+    {
+      "path": "device/google/laguna/sepolicy/system_ext/private/mac_permissions.xml",
+      "before_sha256": "e6c9eede9bdf855ee3e9a608a05f2c832891fffef20c11b1df3425c1aba79ac5",
+      "after_sha256": null,
+      "source": null
+    },
+    {
+      "path": "device/google/laguna/sepolicy/system_ext/private/keys.conf",
+      "before_sha256": "4ce6fa44b6494feef1a3b58afae073e4fa4be54b4f62b17b2c6e99ae9146c91c",
+      "after_sha256": null,
+      "source": null
+    },
+    {
+      "path": "device/google/laguna/sepolicy/system_ext/private/aios_chrome.te",
+      "before_sha256": "865067e8d2891b332da4e1ec64c4caf4586149f5b62cf1f61e216882182426ce",
+      "after_sha256": null,
+      "source": null
+    },
+    {
+      "path": "device/google/laguna/sepolicy/certificates/certs/aios_chromium.x509.pem",
+      "before_sha256": "565175e430e28c31f603e18436ed04e6ef48a4edb5c283e82bc8edef12f50a31",
+      "after_sha256": null,
+      "source": null
+    }
+  ]
+}

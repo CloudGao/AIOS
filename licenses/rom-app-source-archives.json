@@ -1,0 +1,98 @@
+[
+  {
+    "name": "AppManager-4.1.1",
+    "source_url": "https://codeload.github.com/MuntashirAkon/AppManager/zip/refs/tags/v4.1.1",
+    "archive": "AppManager-4.1.1.zip",
+    "sha256": "e9f7f417df4038ca4d9ac85aea38254d0635ca1c17b1566d9046f86d759a0443",
+    "bytes": 40700075,
+    "license_files": [
+      "AppManager-4.1.1/COPYING",
+      "AppManager-4.1.1/LICENSES/"
+    ],
+    "build_files": [
+      "AppManager-4.1.1/app/build.gradle",
+      "AppManager-4.1.1/build.gradle",
+      "AppManager-4.1.1/docs/build.gradle",
+      "AppManager-4.1.1/gradlew",
+      "AppManager-4.1.1/hiddenapi/build.gradle",
+      "AppManager-4.1.1/libcore/compat/build.gradle",
+      "AppManager-4.1.1/libcore/io/build.gradle",
+      "AppManager-4.1.1/libcore/ui/build.gradle",
+      "AppManager-4.1.1/libopenpgp/build.gradle",
+      "AppManager-4.1.1/libserver/build.gradle",
+      "AppManager-4.1.1/server/build.gradle",
+      "AppManager-4.1.1/settings.gradle"
+    ],
+    "submodules": [
+      {
+        "path": "scripts/android-debloat-list",
+        "revision": "c9a1db2935b89c342066a4de8179173542c05510",
+        "url": "https://codeload.github.com/MuntashirAkon/android-debloat-list/zip/c9a1db2935b89c342066a4de8179173542c05510",
+        "archive": "AppManager-android-debloat-list-c9a1db2935b8.zip",
+        "sha256": "9539919df1255aa5c2410286de6be5e812ea92f4b0b35626f4f938b5698099d4",
+        "bytes": 324634,
+        "status": "downloaded_and_archive_verified"
+      },
+      {
+        "path": "scripts/android-libraries",
+        "revision": "8fb3919828e9c9f6e75faaaa322c5af59c6d05fa",
+        "url": "https://codeload.github.com/MuntashirAkon/android-libraries/zip/8fb3919828e9c9f6e75faaaa322c5af59c6d05fa",
+        "archive": "AppManager-android-libraries-8fb3919828e9.zip",
+        "sha256": "34dc12c5ced4c4efd2f2f85b091febb74b6b3567dd9442e16ee1120a918069fc",
+        "bytes": 399090,
+        "status": "downloaded_and_archive_verified"
+      }
+    ],
+    "status": "tag source archived; complete corresponding-source and binary equivalence not yet proven",
+    "commit": "69d09a2ab29527dfe46629bd6f5403d11d87090e",
+    "archive_git_blob_verification": {
+      "source_files": 2006,
+      "git_blob_mismatches": [],
+      "commit": "69d09a2ab29527dfe46629bd6f5403d11d87090e"
+    }
+  },
+  {
+    "name": "Editor-1.98",
+    "source_url": "https://codeload.github.com/billthefarmer/editor/zip/refs/tags/v1.98",
+    "archive": "Editor-1.98.zip",
+    "sha256": "8cad56b130c599004f1b4f80e9afb99c6d60e9d0fac35d471163e62f394b991c",
+    "bytes": 2442785,
+    "license_files": [
+      "editor-1.98/LICENSE"
+    ],
+    "build_files": [
+      "editor-1.98/build.gradle",
+      "editor-1.98/gradlew"
+    ],
+    "submodules": [],
+    "status": "tag source archived; complete corresponding-source and binary equivalence not yet proven",
+    "project_license": "GPL-3.0-or-later; confirmed in Editor.java and FileAdapter.java headers"
+  },
+  {
+    "name": "MJ-PDF-3.1.0",
+    "source_url": "https://gitlab.com/mudlej_android/mj_pdf_reader/-/archive/V3.1.0/mj_pdf_reader-V3.1.0.zip",
+    "archive": "MJ-PDF-3.1.0.zip",
+    "sha256": "83864d13f93c2d80b9049ae782791d37f1e975747aa69ab3f341085af68b0f94",
+    "bytes": 14300773,
+    "license_files": [
+      "mj_pdf_reader-V3.1.0/AndroidPdfViewer/LICENSE",
+      "mj_pdf_reader-V3.1.0/LICENSE",
+      "mj_pdf_reader-V3.1.0/PdfiumAndroid/LICENSE",
+      "mj_pdf_reader-V3.1.0/PdfiumAndroid/src/main/jni/LICENSE",
+      "mj_pdf_reader-V3.1.0/app/src/main/res/drawable/license_icon.xml"
+    ],
+    "build_files": [
+      "mj_pdf_reader-V3.1.0/AndroidPdfViewer/android-pdf-viewer/build.gradle",
+      "mj_pdf_reader-V3.1.0/AndroidPdfViewer/gradlew",
+      "mj_pdf_reader-V3.1.0/AndroidPdfViewer/settings.gradle",
+      "mj_pdf_reader-V3.1.0/PdfiumAndroid/build.gradle",
+      "mj_pdf_reader-V3.1.0/PdfiumAndroid/gradlew",
+      "mj_pdf_reader-V3.1.0/app/build.gradle",
+      "mj_pdf_reader-V3.1.0/build.gradle",
+      "mj_pdf_reader-V3.1.0/gradlew",
+      "mj_pdf_reader-V3.1.0/settings.gradle"
+    ],
+    "submodules": [],
+    "status": "tag source archived; complete corresponding-source and binary equivalence not yet proven"
+  }
+]

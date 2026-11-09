@@ -1,0 +1,14 @@
+prebuilt_etc {
+    name: "aios-local-text-model",
+    src: "LFM2.5-350M-Q4_K_M.gguf",
+    filename: "LFM2.5-350M-Q4_K_M.gguf",
+    sub_dir: "aios/text-models",
+    system_ext_specific: true,
+}
+prebuilt_etc {
+    name: "aios-local-text-model-license",
+    src: "LICENSE",
+    filename: "LICENSE",
+    sub_dir: "aios/text-models",
+    system_ext_specific: true,
+}

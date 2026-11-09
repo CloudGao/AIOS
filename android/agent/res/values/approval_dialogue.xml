@@ -1,0 +1,9 @@
+<resources>
+    <string name="approval_allow_once">Allow once</string>
+    <string name="approval_decline">Decline</string>
+    <string name="approval_command">Allow this command?</string>
+    <string name="approval_files">Allow these file changes?</string>
+    <string name="approval_system_title">Allow control of this app?</string>
+    <string name="approval_system_reason">Continue to Android system confirmation. The original task resumes only after the system reports its result.</string>
+    <string name="approval_system_open">Open system confirmation</string>
+</resources>

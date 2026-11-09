@@ -1,0 +1,36 @@
+android_app {
+    name: "AIOSControlAgent",
+    srcs: [":aios-host-agent-sources", ":aios-device-rom-sources"],
+    static_libs: ["AIOSControlAgentShared", "com.android.extensions.computercontrol"],
+    platform_apis: true,
+    privileged: true,
+    system_ext_specific: true,
+    certificate: "platform",
+    optimize: { enabled: false },
+    required: ["AIOSAssistantOverlay", "AIOSPermissionAnchor", "privapp-permissions-aios-control", "default-permissions-aios"],
+}
+
+// Real shared Agent/UI sources, not a test shell and not platform API stubs.
+android_library {
+    name: "AIOSControlAgentShared",
+    srcs: ["*.java"],
+    manifest: "SharedManifest.xml",
+    sdk_version: "current",
+    min_sdk_version: "30",
+    static_libs: ["AIOSCoreRuntime", "AIOSWorkspace", "AIOSAutomation", "AIOSDeviceApi", "AIOSDeviceCommon", "androidx.work_work-runtime"],
+}
+prebuilt_etc {
+    name: "privapp-permissions-aios-control",
+    src: "privapp-permissions-aios-control.xml",
+    filename: "privapp-permissions-aios-control.xml",
+    sub_dir: "permissions",
+    system_ext_specific: true,
+}
+
+prebuilt_etc {
+ name: "default-permissions-aios",
+ src: "default-permissions-aios.xml",
+ filename: "default-permissions-aios.xml",
+ sub_dir: "default-permissions",
+ system_ext_specific: true,
+}

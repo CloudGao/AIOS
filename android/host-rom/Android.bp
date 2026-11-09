@@ -1,0 +1,34 @@
+// Build-selected bindings. A future APK product supplies the same public contract.
+filegroup {
+    name: "aios-host-runtime-sources",
+    srcs: ["runtime/**/*.java"],
+}
+filegroup {
+    name: "aios-host-agent-sources",
+    srcs: ["agent/**/*.java"],
+}
+filegroup {
+    name: "aios-host-core-sources",
+    srcs: ["core/**/*.java"],
+}
+
+java_library {
+    name: "AIOSHostBindings",
+    srcs: ["src/**/*.java", ":aios-host-product"],
+    sdk_version: "current",
+    min_sdk_version: "28",
+}
+
+python_binary_host {
+    name: "aios-generate-product",
+    main: "generate_product.py",
+    srcs: ["generate_product.py"],
+}
+
+genrule {
+    name: "aios-host-product",
+    tools: ["aios-generate-product"],
+    srcs: ["modules.json", "product.json"],
+    out: ["ProductManifest.java"],
+    cmd: "$(location aios-generate-product) --catalog $(location modules.json) --product $(location product.json) --java $(out)",
+}

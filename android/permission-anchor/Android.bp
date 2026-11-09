@@ -1,0 +1,1 @@
+android_app {name: "AIOSPermissionAnchor", srcs: ["*.java"], platform_apis: true, system_ext_specific: true, certificate: "platform", optimize: {enabled: false},}

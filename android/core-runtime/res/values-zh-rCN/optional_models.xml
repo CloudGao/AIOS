@@ -1,0 +1,26 @@
+<resources>
+    <string name="optional_model_lfm">LFM2.5-350M Q4_K_M</string>
+    <string name="optional_model_speaker">CAM++ 说话人区分</string>
+    <string name="optional_model_face">BlazeFace 人脸检测</string>
+    <string name="optional_model_description">可按需下载或导入本地文件，仅支持此固定模型版本，不会自动下载。离开此页面会取消正在进行的传输。</string>
+    <string name="optional_model_license_pending">此版本权重的许可范围仍待核实，项目许可证不能单独证明权重使用授权。请在确认自己的使用已获授权后再导入或下载。</string>
+    <string name="optional_model_license_terms">此模型使用独立许可证及附加条件，请核对上游条款是否涵盖你的用途。</string>
+    <string name="optional_model_source">官方来源</string>
+    <string name="optional_model_license">许可参考</string>
+    <string name="optional_model_download">下载模型</string>
+    <string name="optional_model_import">导入模型文件</string>
+    <string name="optional_model_continue">继续</string>
+    <string name="optional_model_confirm">从官方来源下载此模型？请先阅读其许可条款。</string>
+    <string name="optional_model_confirm_pending">AIOS 尚未确认此版本权重的使用授权。仅在你已自行确认用途获得授权后继续。</string>
+    <string name="optional_model_checking">正在检查模型…</string>
+    <string name="optional_model_ready">文件校验通过，下次使用时加载；人脸检测还需要设备 GPU 验证。</string>
+    <string name="optional_model_missing">尚未安装通过校验的可选模型文件。</string>
+    <string name="optional_model_working">正在传输和校验…请保持此页面打开。</string>
+    <string name="optional_model_failed">模型安装失败。请检查网络、剩余空间和文件版本后重试。传输或校验失败不会覆盖原模型文件。</string>
+    <string name="optional_model_no_browser">没有应用可以打开此链接，请先安装浏览器。</string>
+    <string name="optional_model_unknown_speaker">说话人待确认</string>
+    <string name="optional_model_speaker_number">说话人 %1$d</string>
+    <string name="optional_model_manage">可选模型文件</string>
+    <string name="optional_model_face_unavailable">人脸模型及设备 GPU 验证就绪前，人脸检测不可用。</string>
+    <string name="optional_model_import_only">此运行时需要转换后的稠密模型，不能直接使用上游稀疏文件。请导入上方哈希对应的兼容文件；当前不提供直接下载。离线转换方式见源码文档。</string>
+</resources>

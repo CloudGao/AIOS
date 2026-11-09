@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "modules": [
+    {"id":"core","fixed":true,"requires":[],"provider":"core","capabilities":["workspace.*","automation.*","events.*","context.*","scheduler.*","dream.*","processing.*","policy.*"]},
+    {"id":"harness","fixed":true,"requires":["core"],"provider":"runtime","capabilities":["harness.*"]},
+    {"id":"device","requires":["core"],"provider":"agent","capabilities":["device.*","maps.*","browser.open","context.snapshot","battery.*","display.*","audio.*","network.*","bluetooth.*","storage.*","phone.*","sms.*","calllog.*","location.*","camera.*","sensors.*","input.*","clipboard.*","security.*","settings.*","permissions.*","requests.*","apps.*","contacts.*","calendar.*","wifi.*","hotspot.*","mobile_data.*","dnd.*","media.*","usb.*","windows.*","power.*","diagnostics.*","system.*","alarm.*","timer.*"]},
+    {"id":"files","requires":["device"],"provider":"agent","capabilities":["files.*","downloads.*"]},
+    {"id":"notification-events","requires":["device"],"provider":"agent","capabilities":["notifications.*","source.notifications"]},
+    {"id":"notification-governance","requires":["device"],"provider":"agent","capabilities":["notification.governance.*"]},
+    {"id":"virtual-screen","requires":["device"],"provider":"agent","capabilities":["screen.virtual.*"]},
+    {"id":"foreground-control","requires":["device"],"provider":"agent","capabilities":["screen.foreground.*"]},
+    {"id":"photos","requires":["device"],"provider":"agent","capabilities":["photos.*","source.photos"]},
+    {"id":"photo-index","requires":["photos"],"provider":"core","capabilities":["processing.album.*","photos.semantic.*","photos.derived.*"]},
+    {"id":"documents","requires":["files"],"provider":"core","capabilities":["documents.*","processing.document.*"]},
+    {"id":"local-inference","requires":["core"],"provider":"core","capabilities":["inference.local.*"]},
+    {"id":"speech","requires":["device"],"provider":"agent","capabilities":["speech.*"]},
+    {"id":"recording","requires":["device"],"provider":"agent","capabilities":["microphone.*"]},
+    {"id":"minutes","requires":["recording","harness"],"provider":"agent","capabilities":["minutes.*"]},
+    {"id":"browser","requires":["device"],"provider":"agent","capabilities":["browser.action"]},
+    {"id":"miniapps","requires":["device"],"provider":"agent","capabilities":["miniapp.*"]},
+    {"id":"cli","requires":["harness"],"provider":"runtime","capabilities":["apps.cli.*"]},
+    {"id":"mcp","requires":["harness"],"provider":"runtime","capabilities":["apps.mcp.*"]},
+    {"id":"sharing","requires":["files"],"provider":"agent","capabilities":["shares.*"]},
+    {"id":"notes","requires":["files"],"provider":"agent","capabilities":["notes.*"]},
+    {"id":"streams","requires":["device"],"provider":"agent","capabilities":["streams.*","sensors.stream","location.stream","location.current"]},
+    {"id":"launcher","requires":["core"],"provider":"agent","capabilities":["launcher.*"]}
+  ]
+}

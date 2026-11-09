@@ -1,0 +1,25 @@
+package os.aios.tests;
+import android.content.*;import android.os.*;import android.widget.*;import android.text.*;import android.text.style.URLSpan;import java.lang.reflect.*;import dalvik.system.PathClassLoader;
+public final class DisplayDevice {
+ public static int count;static void check(boolean b,String msg){if(!b)throw new AssertionError(msg);count++;}
+ public static void run(Context system)throws Exception {
+  count=0;
+  String[][] modules={{"os.aios.agent","os.aios.core.DisplayText"},{"os.aios.core","os.aios.core.DisplayText"},{"os.aios.miniapp","os.aios.core.DisplayText"},{"os.aios.speech","os.aios.core.DisplayText"},{"os.aios.codex","os.aios.codex.DisplayText"},{"com.android.launcher3","com.android.launcher3.aios.DisplayText"}};
+  for(String[] row:modules){Context app=system.createPackageContext(row[0],Context.CONTEXT_IGNORE_SECURITY);ClassLoader loader=new PathClassLoader(app.getApplicationInfo().sourceDir,ClassLoader.getSystemClassLoader());Class<?> type=Class.forName(row[1],true,loader);Method clean=type.getMethod("clean",String.class),span=type.getMethod("clean",CharSequence.class),bind=type.getMethod("bind",TextView.class);
+   check(clean.invoke(null,"Codex CODEX codex cOdEx").equals("AIOS AIOS AIOS AIOS"),row[0]+" cases");
+   check(clean.invoke(null,new Object[]{null})==null,"null");check(clean.invoke(null,"普通文字 العربية 😀").equals("普通文字 العربية 😀"),"Unicode");
+   String raw="gpt-5-codex";check(clean.invoke(null,raw).equals("gpt-5-AIOS")&&raw.equals("gpt-5-codex"),"identifier retained");
+   SpannableStringBuilder original=new SpannableStringBuilder("Codex link CODEX");URLSpan link=new URLSpan("https://example.test/codex");original.setSpan(link,0,5,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);CharSequence rendered=(CharSequence)span.invoke(null,original);check(rendered.toString().equals("AIOS link AIOS"),"spanned label");check(((Spanned)rendered).getSpans(0,4,URLSpan.class)[0].getURL().endsWith("/codex"),"click target retained");check(original.toString().equals("Codex link CODEX"),"source retained");
+   TextView view=(TextView)bind.invoke(null,new TextView(system));view.setText("Codex first");check(view.getText().toString().equals("AIOS first"),"first render");view.setText("later CODEX");check(view.getText().toString().equals("later AIOS"),"async render");view.setText("Co");view.append("dex");check(view.getText().toString().equals("AIOS"),"split streaming");view.setText("Codex codex CODEX");check(view.getText().toString().equals("AIOS AIOS AIOS"),"multiple matches");view.setText(rendered);check(((Spanned)view.getText()).getSpans(0,4,URLSpan.class).length==1,"widget keeps links");
+   if(row[0].equals("com.android.launcher3")){
+    String[][] locales={{"en-US","AIOS · Conversation"},{"zh-CN","AIOS · 会话记录"},{"zh-TW","AIOS · 對話記錄"},{"zh-Hant","AIOS · 對話記錄"},{"zh-HK","AIOS · 對話記錄"},{"fr-FR","AIOS · Conversation"},{"ar-EG","AIOS · Conversation"}};
+    for(String[] sample:locales){android.content.res.Configuration cfg=new android.content.res.Configuration(app.getResources().getConfiguration());cfg.setLocales(LocaleList.forLanguageTags(sample[0]));Context localized=app.createConfigurationContext(cfg);int key=localized.getResources().getIdentifier("aios_phone_conversation","string",row[0]);check(key!=0&&localized.getString(key).equals(sample[1]),"Launcher "+sample[0]);if(sample[0].startsWith("ar"))check(cfg.getLayoutDirection()==1,"RTL layout direction");}
+    continue; // Release shrinker removes APIs this module does not use.
+   }
+   EditText input=new EditText(system);type.getMethod("editable",EditText.class).invoke(null,input);input.setText(raw);check(input.getText().toString().equals(raw),"input submission unchanged");check(input.getTransformationMethod().getTransformation(input.getText(),input).toString().equals("gpt-5-AIOS "),"input presentation");check(input.length()==input.getTransformationMethod().getTransformation(input.getText(),input).length(),"cursor offsets");CharSequence live=input.getTransformationMethod().getTransformation(input.getText(),input);input.append("-edited");check(live.toString().equals("gpt-5-AIOS -edited"),"live editing retains current characters");input.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());check(!input.getTransformationMethod().getTransformation(input.getText(),input).toString().contains("AIOS"),"password mask");
+   String[] ids={"codex-model","other"};String[] labels=(String[])type.getMethod("clean",String[].class).invoke(null,(Object)ids);check(labels[0].equals("AIOS-model")&&ids[0].equals("codex-model"),"choice indices and IDs");
+   try{bind.invoke(null,input);throw new AssertionError("editable filter accepted");}catch(InvocationTargetException expected){check(expected.getCause() instanceof IllegalArgumentException,"reject mutating inputs");}
+  }
+  System.out.println("PASS "+count+" installed-APK display assertions");
+ }
+}

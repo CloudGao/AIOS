@@ -1,0 +1,399 @@
+{
+  "schema": 1,
+  "date": "2026-11-09",
+  "overall": "not_cleared",
+  "scope": "48 locked inputs; current model replacement and original notice review recorded separately",
+  "files": [
+    {
+      "scope": "inputs",
+      "path": "release-inputs/appmanager.apk",
+      "sha256": "2540d6d9352acd8b04d6210140630a380abb1bc46ad4745c89ad97603dee3c40",
+      "license_expression_review": "GPL-3.0-or-later AND LicenseRef-Embedded-Dependencies",
+      "status": "correspondence_or_terms_pending",
+      "obligation": "Provide exact complete corresponding source/build materials using an applicable GPLv3 section 6 delivery method."
+    },
+    {
+      "scope": "inputs",
+      "path": "release-inputs/chromium.apk",
+      "sha256": "1f11bc1870586e31df6b6b99939164452f29e47a86e41181f473c6b8a64309b1",
+      "license_expression_review": "NOASSERTION",
+      "status": "correspondence_or_terms_pending",
+      "obligation": "Verify exact source correspondence, complete notices and redistribution terms."
+    },
+    {
+      "scope": "inputs",
+      "path": "validation/document-capabilities/apps/collabora.apk",
+      "sha256": "79e72f810d711706d205a9ff457b4bb830c607a2b988cf44246829ec4593c393",
+      "license_expression_review": "MPL-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "correspondence_or_terms_pending",
+      "obligation": "Identify matching Collabora/LibreOffice source version and deliver covered source/notices."
+    },
+    {
+      "scope": "inputs",
+      "path": "validation/document-capabilities/apps/editor.apk",
+      "sha256": "343d17e11d0914e1a7708df2781580a0413e52501c0a41d91f7ef725d9615fe9",
+      "license_expression_review": "GPL-3.0-or-later AND LicenseRef-Embedded-Dependencies",
+      "status": "correspondence_or_terms_pending",
+      "obligation": "Main app GPL-3.0-or-later confirmed from source headers; complete embedded dependency and corresponding-source delivery still required."
+    },
+    {
+      "scope": "inputs",
+      "path": "validation/document-capabilities/apps/mj-pdf.apk",
+      "sha256": "c095c1d339aa58eb9dddca701054419c373957941bd518df50eacca33737a5d2",
+      "license_expression_review": "GPL-3.0-or-later AND LicenseRef-Embedded-Dependencies",
+      "status": "correspondence_or_terms_pending",
+      "obligation": "Main app GPL-3.0-or-later confirmed from source headers; complete embedded dependency and corresponding-source delivery still required."
+    },
+    {
+      "scope": "source",
+      "path": "android/browser-bridge/agent-browser",
+      "sha256": "67fcac36c4e9a1930d5808a5349f39174b7ccd718f6b56b615b3df3974532a1e",
+      "license_expression_review": "Apache-2.0",
+      "status": "correspondence_or_terms_pending",
+      "obligation": "Verify patched upstream source and native build; retain license/notices."
+    },
+    {
+      "scope": "source",
+      "path": "android/codex-runtime/assets/cli-runtime/npm.zip",
+      "sha256": "dc834ba76c8fcaa5ad17360f61d6947d9e235c61d6479baba6c6e67937577a0e",
+      "license_expression_review": "Artistic-2.0 AND LicenseRef-Npm-Dependencies",
+      "status": "partial_notice_bundle",
+      "obligation": "Keep npm LICENSE and dependency terms; restored missing READMEs do not close all notices."
+    },
+    {
+      "scope": "source",
+      "path": "android/codex-runtime/native/libaios_cli_launcher.so",
+      "sha256": "8c185a77b949a7076ce6c916c8a8fef51b5498a8372fc593a0ac2b52825fec34",
+      "license_expression_review": "GPL-3.0-only",
+      "status": "original_code_GPL-3.0-only",
+      "obligation": "Original AIOS code GPL-3.0-only; preserve third-party notices and deliver corresponding source."
+    },
+    {
+      "scope": "source",
+      "path": "android/codex-runtime/native/libaios_node.so",
+      "sha256": "211c50d6f91f96b9df10f2129bd7872fb26c386ccdef3b567d14f6a17c93bad1",
+      "license_expression_review": "MIT AND LicenseRef-Node-Third-Party",
+      "status": "base_notice_retained",
+      "obligation": "Keep complete Node NOTICE; reconstruct patched Android binary."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-runtime/third_party/commonmark/commonmark-ext-gfm-strikethrough.jar",
+      "sha256": "7385cb637f04dc4cbda4ddca9c2fcd2af7ac536a50e4c8d2c77f4748bb14bf41",
+      "license_expression_review": "BSD-2-Clause",
+      "status": "notice_retained",
+      "obligation": "Retain upstream copyright and BSD conditions."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-runtime/third_party/commonmark/commonmark-ext-gfm-tables.jar",
+      "sha256": "b54dc332f931e6d07c2766144c087b08f3693677e368151a67020b4e95bb4b99",
+      "license_expression_review": "BSD-2-Clause",
+      "status": "notice_retained",
+      "obligation": "Retain upstream copyright and BSD conditions."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-runtime/third_party/commonmark/commonmark.jar",
+      "sha256": "679338e0b7fc15c02d275d598654b01a149893bc28a87992e90123c8d06af25b",
+      "license_expression_review": "BSD-2-Clause",
+      "status": "notice_retained",
+      "obligation": "Retain upstream copyright and BSD conditions."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/documents/bcpkix-jdk15to18-1.72.jar",
+      "sha256": "d9b97477b72499bcee02f5a906510810257ff36a94bf69fbca0b1e65e7ffdb6e",
+      "license_expression_review": "LicenseRef-Bouncy-Castle",
+      "status": "notice_retained",
+      "obligation": "Retain upstream Bouncy Castle license and copyright."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/documents/bcprov-jdk15to18-1.72.jar",
+      "sha256": "ea66ea8a450810b2193e8bf9a7ad3e46307c9896224c0f407d1b7d96ba1221cc",
+      "license_expression_review": "LicenseRef-Bouncy-Castle",
+      "status": "notice_retained",
+      "obligation": "Retain upstream Bouncy Castle license and copyright."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/documents/bcutil-jdk15to18-1.72.jar",
+      "sha256": "d92184bdeb3105a11ad9e36acbd66b5f8eed091b08b9c8f3e2549e42b7f131f1",
+      "license_expression_review": "LicenseRef-Bouncy-Castle",
+      "status": "notice_retained",
+      "obligation": "Retain upstream Bouncy Castle license and copyright."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/documents/pdfbox-android-2.0.27.0.aar",
+      "sha256": "30277f879cfd571db2a137582c95516a0d4ea6778e945519bc58ca93d57d88c7",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "base_notice_retained",
+      "obligation": "Retain Apache license, modification notices and component notices; verify embedded dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/litert/litert-2.3.0.aar",
+      "sha256": "9508c6e9142646f0f2bc1fe68b3925fb470ee7ddd29114540339a04a8ab189dc",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "base_notice_retained",
+      "obligation": "Retain Apache license, modification notices and component notices; verify embedded dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/litert/litert-api-2.3.0.aar",
+      "sha256": "20f630e9ed0b4f0564da616fd3d6406f3013cacad7d492cbe2963330f519256b",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "base_notice_retained",
+      "obligation": "Retain Apache license, modification notices and component notices; verify embedded dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "8827b8d383d397fe4efa992331fecaabbfc5595fa3db4205148182ed34aebfe5",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "base_notice_retained",
+      "obligation": "Retain Apache license, modification notices and component notices; verify embedded dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/litert/litert-api/jni/arm64-v8a/liblitert_jni.so",
+      "sha256": "b4bc082f740076f09d566b2deaa8a1af6b1ec1252d20c3688acb8405d69871dc",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "base_notice_retained",
+      "obligation": "Retain Apache license, modification notices and component notices; verify embedded dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/litert/litert-gpu-2.3.0.aar",
+      "sha256": "173a4c3813601f7e9542f4e6a49e237775e2f9ce1e0948f35407098bffb1824f",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "base_notice_retained",
+      "obligation": "Retain Apache license, modification notices and component notices; verify embedded dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/litert/litert-gpu/classes.jar",
+      "sha256": "5250efd06bdf9819a5d42ded11a2df8edc3effdf81c7bc88b550df77e63f0113",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "base_notice_retained",
+      "obligation": "Retain Apache license, modification notices and component notices; verify embedded dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/litert/litert-gpu/jni/arm64-v8a/libLiteRtClGlAccelerator.so",
+      "sha256": "c200369269a3994b646a8d0ac56ff29127c6ce742abcfd345a7d478eab3b6c6d",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "base_notice_retained",
+      "obligation": "Retain Apache license, modification notices and component notices; verify embedded dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/litert/litert-offline-api.jar",
+      "sha256": "c7c9c45fa0581323b4760861ba3395100c5217833cdf85806ac4858575bba003",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "base_notice_retained",
+      "obligation": "Retain Apache license, modification notices and component notices; verify embedded dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/litert/litert/classes.jar",
+      "sha256": "0c95900ba8e9c853987b39b10b56d8d232ffbb4a965693e827011f575df8e4d9",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "base_notice_retained",
+      "obligation": "Retain Apache license, modification notices and component notices; verify embedded dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/litert/litert/jni/arm64-v8a/libLiteRt.so",
+      "sha256": "e5b7e3413a8b428b1a1b669f368cf613058868bc7b63e10d0b9c2e6ba55c97d8",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "base_notice_retained",
+      "obligation": "Retain Apache license, modification notices and component notices; verify embedded dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/core-services/third_party/text-inference/arm64-v8a/libaios_llama_server.so",
+      "sha256": "62445fa7d1fe612107eb68779e42910e8d1c70514802ce434c6f3aaa81cec8e3",
+      "license_expression_review": "MIT AND LicenseRef-Llama-Dependencies",
+      "status": "correspondence_or_terms_pending",
+      "obligation": "Retain vendored exact source/notices and validate native rebuild."
+    },
+    {
+      "scope": "source",
+      "path": "android/miniapp/third_party/webkit-1.13.0.aar",
+      "sha256": "001c836ea612e835991288a7a66877f25288e4cf5ec89729ee7ae066e3491a35",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Embedded-Dependencies",
+      "status": "base_notice_retained",
+      "obligation": "Retain Apache license, modification notices and component notices; verify embedded dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/assets/silero_vad.onnx",
+      "sha256": "9e2449e1087496d8d4caba907f23e0bd3f78d91fa552479bb9c23ac09cbb1fd6",
+      "license_expression_review": "MIT",
+      "status": "notice_snapshot_added",
+      "obligation": "Match exact model version to retained copyright and permission text."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/assets/speaker.onnx",
+      "sha256": "f682b514c05d947ee3fa91cd6ec6c5c7543479a128373fa29b1faedccd21fd11",
+      "license_expression_review": "NOASSERTION",
+      "status": "correspondence_or_terms_pending",
+      "obligation": "Confirm exact historical model/sample license; preserve authors/model names; engine license does not license weights."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/deps/classes.jar",
+      "sha256": "8af5aa647494ec9cb6596959d6d20864377cf4a9dedf1c1b178d936bfb7cea95",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Sherpa-Embedded-Dependencies",
+      "status": "partial_notice_bundle",
+      "obligation": "Retain speech notices; reconcile all linked dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/deps/lib/arm64-v8a/libonnxruntime.so",
+      "sha256": "33847ad43bffe204699fd4a27f7f3603452a8cdaf2f9a44983a0bc31ffcf2da1",
+      "license_expression_review": "MIT AND LicenseRef-ONNX-Embedded-Dependencies",
+      "status": "partial_notice_bundle",
+      "obligation": "Retain speech notices; reconcile all linked dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/deps/lib/arm64-v8a/libsherpa-onnx-c-api.so",
+      "sha256": "c85e2382e2ca12b0513826be926eaccfea896b4cbf568182e287671ba526f80d",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Sherpa-Embedded-Dependencies",
+      "status": "partial_notice_bundle",
+      "obligation": "Retain speech notices; reconcile all linked dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/deps/lib/arm64-v8a/libsherpa-onnx-cxx-api.so",
+      "sha256": "5eabb2bcf5a8af66aeab37431c09fab4a9c65cdebf02bd7e50f8c589044bd70e",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Sherpa-Embedded-Dependencies",
+      "status": "partial_notice_bundle",
+      "obligation": "Retain speech notices; reconcile all linked dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/deps/lib/arm64-v8a/libsherpa-onnx-jni.so",
+      "sha256": "3c6492ea91ea68fd3b72b9495efdde6dd913f6b58c387e3b07389cf335f4d26f",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Sherpa-Embedded-Dependencies",
+      "status": "partial_notice_bundle",
+      "obligation": "Retain speech notices; reconcile all linked dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/deps/lib/x86_64/libonnxruntime.so",
+      "sha256": "087e84297cad64acb823c3d901d6e0cc934e91add7cdb20da802cd1c0bea5c3e",
+      "license_expression_review": "MIT AND LicenseRef-ONNX-Embedded-Dependencies",
+      "status": "partial_notice_bundle",
+      "obligation": "Retain speech notices; reconcile all linked dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/deps/lib/x86_64/libsherpa-onnx-c-api.so",
+      "sha256": "631ca2828e47b61d8afe4b3c75a157423cbafaba6f8c0db89c27d21f1b173d9a",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Sherpa-Embedded-Dependencies",
+      "status": "partial_notice_bundle",
+      "obligation": "Retain speech notices; reconcile all linked dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/deps/lib/x86_64/libsherpa-onnx-cxx-api.so",
+      "sha256": "09cd2ea23b15ae3234b0b4678fbef14639c58792dd36d2cd435c030dc030c5d0",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Sherpa-Embedded-Dependencies",
+      "status": "partial_notice_bundle",
+      "obligation": "Retain speech notices; reconcile all linked dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/deps/lib/x86_64/libsherpa-onnx-jni.so",
+      "sha256": "1dc24c88fb364f1022a5217b70ab3bc3c9cae3120ae2e1ed358e1f68ed120b04",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Sherpa-Embedded-Dependencies",
+      "status": "partial_notice_bundle",
+      "obligation": "Retain speech notices; reconcile all linked dependencies."
+    },
+    {
+      "scope": "source",
+      "path": "android/text-models/LFM2.5-350M-Q4_K_M.gguf",
+      "sha256": "7e6f72643caafc9a68256686638c4d7916f2cec76d1df478d4c3ddcd95a6aed4",
+      "license_expression_review": "LicenseRef-LFM-Open-1.0",
+      "status": "conditional_model_terms",
+      "obligation": "Retain model license/attribution and comply with commercial revenue restriction."
+    },
+    {
+      "scope": "source",
+      "path": "tools/codex-runtime/build/arm64-v8a/release/libcodex_app_server.so",
+      "sha256": "fae801495ad3a126b7293da30c172d78f667940b0546e025ff67add641228973",
+      "license_expression_review": "Apache-2.0 AND LicenseRef-Codex-Dependencies",
+      "status": "correspondence_or_terms_pending",
+      "obligation": "Android source patch reconstruction passed; exact native rebuild and complete transitive notices/source delivery pending."
+    },
+    {
+      "scope": "source",
+      "path": "tools/lineage/state/kokoro-arm64.apk",
+      "sha256": "71f41df45800fe1c4f1208f5f5fd1abd92e123f2ecd8f251e80688157d18647b",
+      "license_expression_review": "NOASSERTION",
+      "status": "correspondence_or_terms_pending",
+      "obligation": "Verify exact source correspondence, complete notices and redistribution terms."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/assets/ggml-small-q5_1.bin",
+      "sha256": "ae85e4a935d7a567bd102fe55afc16bb595bdb618e11b2fc7591bc08120411bb",
+      "license_expression_review": "MIT",
+      "status": "upstream_license_and_provenance_preserved",
+      "obligation": "Preserve exact notices and source/conversion provenance."
+    },
+    {
+      "scope": "source",
+      "path": "android/speech/lib/libaios_whisper.so",
+      "sha256": "6a771fb0041cd560deed3d63949c823aeb7a91003b432b483185a92d46338738",
+      "license_expression_review": "MIT",
+      "status": "upstream_license_and_provenance_preserved",
+      "obligation": "Preserve exact notices and source/conversion provenance."
+    },
+    {
+      "scope": "source",
+      "path": "android/search-models/image.tflite",
+      "sha256": "a810c23746c0990964eb0a445172d6307f3ba74ac8c6b207e27273e31410adce",
+      "license_expression_review": "MIT",
+      "status": "upstream_license_and_provenance_preserved",
+      "obligation": "Preserve exact notices and source/conversion provenance."
+    },
+    {
+      "scope": "source",
+      "path": "android/search-models/text.tflite",
+      "sha256": "d633b6c65c1632316889a0994aeaae4b40081bcdf3757a12ffb7d1f0a6ee4d20",
+      "license_expression_review": "MIT",
+      "status": "upstream_license_and_provenance_preserved",
+      "obligation": "Preserve exact notices and source/conversion provenance."
+    },
+    {
+      "scope": "source",
+      "path": "android/search-models/face.tflite",
+      "sha256": "3e82b513e65d00b56c35b572f964a594fdbd6e56717361bc0b64cbaf9e140a4d",
+      "license_expression_review": "NOASSERTION",
+      "status": "optional_not_bundled",
+      "obligation": "Preserve exact notices and source/conversion provenance."
+    },
+    {
+      "scope": "source",
+      "path": "android/search-models/token-embeddings.fp16",
+      "sha256": "735c4bb3d104ff84416a33b494905f1364caf9f7118b0b06f4097ac7f3686b40",
+      "license_expression_review": "MIT",
+      "status": "upstream_license_and_provenance_preserved",
+      "obligation": "Preserve exact notices and source/conversion provenance."
+    }
+  ],
+  "supplemental_evidence": [
+    "licenses/codex-notice-index.json",
+    "licenses/codex-upstream-notices.json",
+    "licenses/mpl-corresponding-source.json",
+    "licenses/rom-app-source-archives.json"
+  ],
+  "supplemental_materials": "See docs/THIRD_PARTY_RELEASE_MATERIALS.md; overall remains not_cleared."
+}

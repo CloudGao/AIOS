@@ -1,0 +1,7 @@
+<resources>
+ <string name="mini_desktop_add">添加到桌面</string>
+ <string name="mini_desktop_requested">已请求添加到桌面；系统桌面可能需要你确认。</string>
+ <string name="mini_desktop_pinned">已添加到桌面。</string>
+ <string name="mini_desktop_unsupported">当前桌面不支持添加快捷方式。</string>
+ <string name="mini_desktop_failed">未能添加到桌面，请在小程序列表重试。</string>
+</resources>

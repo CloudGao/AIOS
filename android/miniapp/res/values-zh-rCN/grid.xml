@@ -1,0 +1,8 @@
+<resources>
+<string name="mini_grid_hint">长按图标可管理或添加到桌面。</string>
+<string name="mini_grid_empty">还没有小程序</string>
+<string name="mini_grid_empty_hint">让助手创建一个小程序，发布后会出现在这里。</string>
+<string name="mini_grid_unavailable">无法加载小程序，请重新进入此页重试。</string>
+<string name="mini_grid_manage">管理小程序</string>
+<string name="mini_grid_title">我的小程序</string>
+</resources>

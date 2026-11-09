@@ -1,0 +1,16 @@
+<resources>
+    <string name="model_choice_speech">Voice input model / service</string>
+    <string name="model_choice_speech_description">Choose Whisper Small or an installed Android recognition service for subsequent assistant voice input.</string>
+    <string name="model_choice_host_default">Keep the current product default</string>
+    <string name="model_choice_system_default">Android default recognition service</string>
+    <string name="model_choice_sensevoice">Whisper Small — bundled offline engine</string>
+    <string name="model_choice_speech_confirm">Use this service for subsequent voice input? Third-party or system services may process audio online under their own settings and terms. AIOS will not silently fall back to a different provider.</string>
+    <string name="model_choice_missing">The previous service is no longer available. Select an installed service.</string>
+    <string name="model_choice_photo">Photo semantic model</string>
+    <string name="model_choice_mobileclip">OpenCLIP ViT-B/16 DataComp — current paired profile</string>
+    <string name="model_choice_photo_description">Keep the current OpenCLIP image/text pair or pause new photo model processing, including the shared indexing and face pipeline. Existing files and indexes are retained. Other models will be listed after adapter and vector-space compatibility checks. This setting does not change the license or remove bundled weights.</string>
+    <string name="model_choice_disabled">Disable photo model processing</string>
+    <string name="model_choice_save">Save selection</string>
+    <string name="model_choice_failed">Could not save the selection.</string>
+    <string name="aios_nav_back">Back</string>
+</resources>

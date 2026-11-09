@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policy>
+    <signer signature="@AIOS_CHROMIUM">
+        <seinfo value="aios_chromium" />
+    </signer>
+</policy>

@@ -1,0 +1,16 @@
+<resources>
+    <string name="background_tasks">背景工作</string>
+    <string name="background_all">全部  ›</string>
+    <string name="background_empty">暫無背景工作</string>
+    <string name="background_close">關閉 %1$s</string>
+    <string name="background_open">開啟 %1$s</string>
+    <string name="background_preview">預覽：%1$s</string>
+    <string name="background_paused">已暫停</string>
+    <string name="background_running">進行中</string>
+    <string name="background_resuming">正在檢查能否恢復控制</string>
+    <string name="background_idle_released">背景工作停止五分鐘，已釋放畫面</string>
+    <string name="background_block_secure">%1$s 顯示受保護內容。請接管處理後繼續。</string>
+    <string name="background_block_auth">%1$s 需要身分驗證。請接管驗證後繼續。</string>
+    <string name="background_block_launch">%1$s 的頁面無法在目前背景工作階段開啟，請接管處理。</string>
+    <string name="background_block_other">系統暫停了對 %1$s 的控制，請檢查應用程式後繼續或接管。</string>
+</resources>

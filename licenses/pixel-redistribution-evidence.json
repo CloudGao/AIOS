@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-08",
+  "status": "no_general_redistribution_grant_identified",
+  "sources": [
+    "https://developers.google.com/android/drivers",
+    "https://developers.google.com/android/images"
+  ],
+  "finding": "Official download pages restrict redistribution except as allowed by individual/device terms. No additional authorization was identified for local Pixel proprietary components. Public-source export excludes vendor payloads; inspect actual partition contents before making any binary distribution claim.",
+  "snapshots": [
+    {
+      "url": "https://developers.google.com/android/drivers",
+      "sha256": "9845592743b7e5dfd0d17ef2edaa1504d09987b082447c653238922474b63bfb"
+    },
+    {
+      "url": "https://developers.google.com/android/images",
+      "sha256": "3db874d0ccf0615a85c6fe506896c7fd0413e1a9012fc5b2e35898c0bb64e249"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="os.aios.core" android:versionCode="1" android:versionName="AIOS-core-runtime-v1.5">
+ <permission android:name="os.aios.permission.CORE_RUNTIME" android:protectionLevel="signature"/>
+ <uses-permission android:name="os.aios.permission.CORE_RUNTIME"/>
+ <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+ <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+ <uses-permission android:name="android.permission.INTERNET"/>
+ <application android:supportsRtl="true" android:extractNativeLibs="true" android:networkSecurityConfig="@xml/local_inference_network" android:name=".CoreApplication" android:label="AIOS Core Services" android:allowBackup="false">
+  <activity android:name="os.aios.core.inference.LocalTextModelActivity" android:exported="true" android:permission="os.aios.permission.CORE_RUNTIME" android:theme="@style/AiosSystemTheme"/>
+  <activity android:name="os.aios.core.embedding.PhotoModelSelectionActivity" android:exported="true" android:permission="os.aios.permission.CORE_RUNTIME" android:theme="@style/AiosSystemTheme"/>
+  <activity android:name="os.aios.core.embedding.FaceModelActivity" android:exported="true" android:permission="os.aios.permission.CORE_RUNTIME" android:theme="@style/AiosSystemTheme"/>
+  <!-- CoreApplication supplies WorkManager configuration; initialize on demand only. -->
+  <provider android:name="androidx.startup.InitializationProvider" android:authorities="${applicationId}.androidx-startup" android:exported="false" tools:node="merge">
+   <meta-data android:name="androidx.work.WorkManagerInitializer" tools:node="remove"/>
+  </provider>
+    <service android:name="os.aios.core.embedding.DeviceModelValidation" android:process=":model_validation" android:exported="false"/>
+  <provider android:name=".CoreRuntimeProvider" android:authorities="os.aios.core.runtime" android:exported="true" android:permission="os.aios.permission.CORE_RUNTIME" android:grantUriPermissions="true" android:directBootAware="false"/>
+  <provider android:name=".CapabilityProvider" android:authorities="os.aios.core.capabilities" android:exported="true" android:permission="os.aios.permission.CONTROL_SESSION" android:directBootAware="false"/>
+  <service android:name=".documents.DocumentWorkerService" android:process=":documents" android:isolatedProcess="true" android:exported="false"/>
+  <service android:name=".embedding.EmbeddingService" android:process=":embedding" android:exported="false"/>
+  <receiver android:name=".CoreBootReceiver" android:exported="false"><intent-filter><action android:name="android.intent.action.BOOT_COMPLETED"/><action android:name="android.intent.action.MY_PACKAGE_REPLACED"/><action android:name="android.intent.action.TIME_SET"/><action android:name="android.intent.action.TIMEZONE_CHANGED"/></intent-filter></receiver>
+ </application>
+</manifest>

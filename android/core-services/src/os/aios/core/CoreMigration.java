@@ -1,0 +1,11 @@
+package os.aios.core;
+import android.content.*;import android.net.Uri;import java.io.*;import java.nio.file.*;import java.util.*;import java.util.zip.*;import org.json.*;
+/** Idempotent one-way migration from the former Agent-owned state into Core Services. */
+final class CoreMigration{
+ static void run(Context c)throws Exception{File marker=new File(c.getFilesDir(),"migration-v1.json");if(marker.isFile())return;JSONObject report=new JSONObject().put("id","agent-to-core-v1").put("started_at",System.currentTimeMillis());JSONArray copied=new JSONArray();
+  for(String name:List.of("aios_workspace.db","aios_context.db","aios_automation.db","aios_events.db")){File target=c.getDatabasePath(name);if(target.isFile())continue;try(InputStream in=c.getContentResolver().openInputStream(Uri.parse("content://os.aios.agent.legacy/database/"+name))){if(in==null)continue;target.getParentFile().mkdirs();File temp=new File(target.getPath()+".migration");try(OutputStream out=new FileOutputStream(temp)){in.transferTo(out);out.flush();((FileOutputStream)out).getFD().sync();}Files.move(temp.toPath(),target.toPath(),StandardCopyOption.ATOMIC_MOVE);copied.put(name);}catch(FileNotFoundException ignored){}}
+  File skills=new File(c.getFilesDir(),"skills");if(!skills.exists())try(InputStream in=c.getContentResolver().openInputStream(Uri.parse("content://os.aios.agent.legacy/asset/skills.zip"))){if(in!=null){extract(in,skills);copied.put("skills");}}catch(FileNotFoundException ignored){}
+  report.put("copied",copied).put("completed_at",System.currentTimeMillis());File temp=new File(marker.getPath()+".next");try(FileOutputStream out=new FileOutputStream(temp)){out.write(report.toString(2).getBytes(java.nio.charset.StandardCharsets.UTF_8));out.getFD().sync();}Files.move(temp.toPath(),marker.toPath(),StandardCopyOption.ATOMIC_MOVE);
+ }
+ private static void extract(InputStream input,File root)throws Exception{root.mkdirs();String prefix=root.getCanonicalPath()+File.separator;try(ZipInputStream zip=new ZipInputStream(input)){for(ZipEntry e;(e=zip.getNextEntry())!=null;){if(e.isDirectory())continue;File target=new File(root,e.getName());if(!target.getCanonicalPath().startsWith(prefix))throw new SecurityException("Invalid skill archive path");target.getParentFile().mkdirs();try(OutputStream out=new FileOutputStream(target)){zip.transferTo(out);}}}}
+}

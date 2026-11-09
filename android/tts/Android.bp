@@ -1,0 +1,51 @@
+// Preserve upstream v2/v3 signature. Compressed JNI is supplied separately below.
+android_app_import {
+    name: "AIOSKokoroTts",
+    apk: "kokoro-arm64.apk",
+    presigned: true,
+    preprocessed: true,
+    skip_preprocessed_apk_checks: true,
+    system_ext_specific: true,
+    dex_preopt: { enabled: false },
+    required: ["aios-kokoro-native-link"],
+}
+install_symlink {
+    name: "aios-kokoro-native-link",
+    system_ext_specific: true,
+    installed_location: "app/AIOSKokoroTts/lib/arm64",
+    symlink_target: "/system_ext/lib64/aios-kokoro",
+    required: ["aios-kokoro-onnx", "aios-kokoro-piper", "aios-kokoro-sherpa"],
+}
+cc_prebuilt_library_shared {
+    name: "aios-kokoro-onnx",
+    stem: "libonnxruntime",
+    enabled: false,
+    arch: { arm64: { enabled: true, srcs: ["arm64/libonnxruntime.so"] } },
+    compile_multilib: "64",
+    system_ext_specific: true,
+    relative_install_path: "aios-kokoro",
+    strip: { none: true },
+    shared_libs: ["libdl", "liblog", "libm", "libc"],
+}
+cc_prebuilt_library_shared {
+    name: "aios-kokoro-piper",
+    stem: "libpiper-phonemize-jni",
+    enabled: false,
+    arch: { arm64: { enabled: true, srcs: ["arm64/libpiper-phonemize-jni.so"] } },
+    compile_multilib: "64",
+    system_ext_specific: true,
+    relative_install_path: "aios-kokoro",
+    strip: { none: true },
+    shared_libs: ["libm", "libandroid", "liblog", "libdl", "libc"],
+}
+cc_prebuilt_library_shared {
+    name: "aios-kokoro-sherpa",
+    stem: "libsherpa-onnx-jni",
+    enabled: false,
+    arch: { arm64: { enabled: true, srcs: ["arm64/libsherpa-onnx-jni.so"] } },
+    compile_multilib: "64",
+    system_ext_specific: true,
+    relative_install_path: "aios-kokoro",
+    strip: { none: true },
+    shared_libs: ["libandroid", "liblog", "aios-kokoro-onnx", "libm", "libdl", "libc"],
+}

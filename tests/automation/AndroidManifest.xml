@@ -1,0 +1,4 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="os.aios.automation.tests">
+    <application android:label="AIOS Automation Tests"/>
+    <instrumentation android:name="os.aios.agent.AutomationTestRunner" android:targetPackage="os.aios.agent"/>
+</manifest>

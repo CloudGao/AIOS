@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gpt_api_title">OpenAI API 金鑰</string>
+    <string name="gpt_web_title">使用 ChatGPT 帳號登入</string>
+    <string name="gpt_auth_hint">選擇 ChatGPT 網頁登入或 OpenAI API 金鑰，兩種帳號獨立保留。</string>
+    <string name="gpt_api_hint">填寫 OpenAI API 金鑰，已預設官方介面位址。實際模型權限在傳送請求時驗證。</string>
+    <string name="gpt_legacy">已有 OpenAI 設定與歷史</string>
+    <string name="gpt_choose_model">選擇 GPT 模型</string>
+    <string name="gpt_effort_hint">儲存後可在設定中選擇推理強度，也可以手動填寫模型 ID。</string>
+    <string name="account_effort_auto">自動（模型預設）</string>
+    <string name="account_model_auto">自動（服務預設）</string>
+    <string name="account_effort_none">無</string>
+    <string name="account_effort_minimal">最低</string>
+    <string name="account_effort_low">低</string>
+    <string name="account_effort_medium">中</string>
+    <string name="account_effort_high">高</string>
+    <string name="account_effort_xhigh">更高</string>
+    <string name="account_effort_max">最大</string>
+    <string name="account_effort_ultra">極高</string>
+    <string name="account_effort_title">推理強度</string>
+    <string name="account_effort_next">推理強度 · 下次傳送生效</string>
+    <string name="account_effort_empty">目前模型未提供可調檔位，使用模型預設強度。</string>
+    <string name="account_effort_saved">推理強度已儲存，下次傳送生效</string>
+    <string name="account_effort_read_failed">無法讀取推理檔位，請稍後重試</string>
+    <string name="account_retry_save">儲存失敗，請重新開啟設定重試</string>
+    <string name="account_ok">知道了</string>
+    <string name="account_cancel">取消</string>
+    <string name="account_read_unavailable">無法讀取</string>
+    <string name="account_manage">登入或管理模型帳號</string>
+    <string name="account_card_title">模型帳號</string>
+    <string name="account_card_loading">正在讀取登入狀態…</string>
+    <string name="account_card_saved">已儲存帳號 · 服務未傳回帳號資訊</string>
+    <string name="account_card_verify"> · 請求時驗證可用性</string>
+    <string name="account_card_waiting">等待授權</string>
+    <string name="account_card_signed_out">未登入</string>
+    <string name="account_card_api">已設定 API Key · 模型 %1$s</string>
+    <string name="account_card_unknown">未知</string>
+    <string name="account_card_failed">AIOS 執行階段啟動失敗，點選重試</string>
+    <string name="account_model_label">模型</string>
+    <string name="account_reading">正在讀取…</string>
+</resources>

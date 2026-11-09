@@ -1,0 +1,16 @@
+<resources>
+    <string name="background_tasks">后台任务</string>
+    <string name="background_all">全部  ›</string>
+    <string name="background_empty">暂无后台任务</string>
+    <string name="background_close">关闭 %1$s</string>
+    <string name="background_open">打开 %1$s</string>
+    <string name="background_preview">预览：%1$s</string>
+    <string name="background_paused">已暂停</string>
+    <string name="background_running">进行中</string>
+    <string name="background_resuming">正在检查能否恢复控制</string>
+    <string name="background_idle_released">后台任务停止五分钟，已释放屏幕</string>
+    <string name="background_block_secure">%1$s 显示受保护内容。请接管处理后继续。</string>
+    <string name="background_block_auth">%1$s 需要身份认证。请接管验证后继续。</string>
+    <string name="background_block_launch">%1$s 的页面无法在当前后台会话打开，请接管处理。</string>
+    <string name="background_block_other">系统暂停了对 %1$s 的控制，请检查应用后继续或接管。</string>
+</resources>

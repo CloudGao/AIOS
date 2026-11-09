@@ -1,0 +1,33 @@
+{
+  "libadb": {
+    "url": "https://github.com/MuntashirAkon/libadb-android",
+    "commit": "c849886ebc6d48e7b46d967e78a6bb65c90c3b74",
+    "version": "3.1.1",
+    "license_choice": "Apache-2.0",
+    "changes": [
+      "public API 31 TLS exporter",
+      "bounded pairing socket",
+      "bounded client connect",
+      "BC 1.72 cipher construction"
+    ]
+  },
+  "spake2": {
+    "url": "https://github.com/MuntashirAkon/spake2-java",
+    "commit": "7615ddd680b990e14513ebb66eac4cb0dbf82464",
+    "version": "2.2.1",
+    "license": "See retained LICENSE and per-file headers; Java implementation retained as source",
+    "implementation": "Android JNI wrapper; statically linked Lineage BoringSSL; rejected pure-Java implementation not shipped",
+    "changes": [
+      "idempotent synchronized context disposal",
+      "JNI error lifetime fix",
+      "BoringSSL public SPAKE2 API",
+      "clear native key buffer"
+    ]
+  },
+  "boringssl": {
+    "source": "Lineage external/boringssl",
+    "commit": "0cd1f6a94b670e6b61af95a06e71e690ae8e3262",
+    "library": "libcrypto_static",
+    "license": "BORINGSSL-LICENSE.txt"
+  }
+}

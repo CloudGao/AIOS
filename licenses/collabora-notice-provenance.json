@@ -1,0 +1,28 @@
+{
+  "apk_sha256": "79e72f810d711706d205a9ff457b4bb830c607a2b988cf44246829ec4593c393",
+  "version": "26.04.4.2",
+  "files": [
+    {
+      "apk_member": "assets/license.html",
+      "file": "licenses/rom-notices/collabora-26.04.4.2/license.html",
+      "sha256": "97ef2ae8cad32deeb053db278c714b71cdab7f43a0c88d8b0e76fd516744a87d"
+    },
+    {
+      "apk_member": "assets/notice.txt",
+      "file": "licenses/rom-notices/collabora-26.04.4.2/notice.txt",
+      "sha256": "68421bcdfed13d444be60c23baea19c6fbd7dc5a45bd8522c924e17eff3e1903"
+    },
+    {
+      "apk_member": "assets/program/versionrc",
+      "file": "licenses/rom-notices/collabora-26.04.4.2/versionrc",
+      "sha256": "302976c88b7cccf54dc1daab8a6077213190e2009b8e5e9357d77da512a22e1e"
+    }
+  ],
+  "status": "embedded_notices_preserved_exact_source_revision_still_pending",
+  "source_candidate": {
+    "repository": "https://gerrit.collaboraoffice.com/online",
+    "tag": "cp-26.04.4-2",
+    "commit": "201368fc8ded1a0f28d1891c77e0410cb9416531",
+    "scope": "Official same-version source tag found through ls-remote; not proven to produce APK build 937; mobile patches/build configuration remain unverified."
+  }
+}

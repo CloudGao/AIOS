@@ -1,0 +1,215 @@
+{
+  "scope": "Candidate source declarations cross-checked against codex-selected-build.json; excluded packages are not obligations of this selected binary, but their source notices remain retained.",
+  "items": [
+    {
+      "package": "allocative@0.3.6",
+      "declared_license": "Apache-2.0",
+      "repository": "https://github.com/facebookexperimental/allocative",
+      "crate": {
+        "package": "allocative@0.3.6",
+        "crate_sha256": "d8cf9afc79c83d514444b55df3935d317da54b1ce3b17a133c646889cc260de8",
+        "archive_url": "https://static.crates.io/crates/allocative/allocative-0.3.6.crate",
+        "extracted_members_match": true
+      },
+      "status": "published_crate_declaration_and_available_notices_assembled",
+      "selected_option": "Apache-2.0",
+      "copyright_header_count": 1,
+      "in_selected_build_graph": true,
+      "delivery_materials": "exact_manifest_authors_existing_headers_and_full_declared_terms_in_selected_package_supplement",
+      "unresolved": "No independent upstream repository NOTICE found/proven for packages without VCS metadata; not claimed as upstream confirmation."
+    },
+    {
+      "package": "allocative_derive@0.3.6",
+      "declared_license": "Apache-2.0",
+      "repository": "https://github.com/facebookexperimental/allocative",
+      "crate": {
+        "package": "allocative_derive@0.3.6",
+        "crate_sha256": "614043c56c1173b800acb007b81fd0cbc0a0d7d717b71ba705fc2230d0760a23",
+        "archive_url": "https://static.crates.io/crates/allocative_derive/allocative_derive-0.3.6.crate",
+        "extracted_members_match": true
+      },
+      "status": "published_crate_declaration_and_available_notices_assembled",
+      "selected_option": "Apache-2.0",
+      "copyright_header_count": 1,
+      "in_selected_build_graph": true,
+      "delivery_materials": "exact_manifest_authors_existing_headers_and_full_declared_terms_in_selected_package_supplement",
+      "unresolved": "No independent upstream repository NOTICE found/proven for packages without VCS metadata; not claimed as upstream confirmation."
+    },
+    {
+      "package": "debugserver-types@0.5.0",
+      "declared_license": "MIT",
+      "repository": "https://github.com/Marwes/debugserver-types",
+      "crate": {
+        "package": "debugserver-types@0.5.0",
+        "crate_sha256": "2bf6834a70ed14e8e4e41882df27190bea150f1f6ecf461f1033f8739cd8af4a",
+        "archive_url": "https://static.crates.io/crates/debugserver-types/debugserver-types-0.5.0.crate",
+        "extracted_members_match": true
+      },
+      "status": "declared_mit_terms_assembled_original_full_notice_not_published",
+      "in_selected_build_graph": true,
+      "delivery_materials": "exact_manifest_authors_existing_headers_and_full_declared_terms_in_selected_package_supplement"
+    },
+    {
+      "package": "display_container@0.9.0",
+      "declared_license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/facebookincubator/gazebo",
+      "crate": {
+        "package": "display_container@0.9.0",
+        "crate_sha256": "0a110a75c96bedec8e65823dea00a1d710288b7a369d95fd8a0f5127639466fa",
+        "archive_url": "https://static.crates.io/crates/display_container/display_container-0.9.0.crate",
+        "extracted_members_match": true
+      },
+      "status": "published_crate_declaration_and_available_notices_assembled",
+      "selected_option": "Apache-2.0",
+      "copyright_header_count": 1,
+      "in_selected_build_graph": true,
+      "delivery_materials": "exact_manifest_authors_existing_headers_and_full_declared_terms_in_selected_package_supplement",
+      "unresolved": "No independent upstream repository NOTICE found/proven for packages without VCS metadata; not claimed as upstream confirmation."
+    },
+    {
+      "package": "eventsource-stream@0.2.3",
+      "declared_license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/jpopesculian/eventsource-stream",
+      "crate": {
+        "package": "eventsource-stream@0.2.3",
+        "crate_sha256": "74fef4569247a5f429d9156b9d0a2599914385dd189c539334c625d8099d90ab",
+        "archive_url": "https://static.crates.io/crates/eventsource-stream/eventsource-stream-0.2.3.crate",
+        "extracted_members_match": true
+      },
+      "status": "published_crate_declaration_and_available_notices_assembled",
+      "selected_option": "Apache-2.0",
+      "copyright_header_count": 0,
+      "in_selected_build_graph": true,
+      "delivery_materials": "exact_manifest_authors_existing_headers_and_full_declared_terms_in_selected_package_supplement",
+      "unresolved": "No independent upstream repository NOTICE found/proven for packages without VCS metadata; not claimed as upstream confirmation."
+    },
+    {
+      "package": "fax@0.2.6",
+      "declared_license": "MIT",
+      "repository": "https://github.com/pdf-rs/fax",
+      "crate": {
+        "package": "fax@0.2.6",
+        "crate_sha256": "f05de7d48f37cd6730705cbca900770cab77a89f413d23e100ad7fad7795a0ab",
+        "archive_url": "https://static.crates.io/crates/fax/fax-0.2.6.crate",
+        "extracted_members_match": true
+      },
+      "status": "not_in_selected_build_graph",
+      "in_selected_build_graph": false
+    },
+    {
+      "package": "fax_derive@0.2.0",
+      "declared_license": "MIT",
+      "repository": "https://github.com/pdf-rs/fax",
+      "crate": {
+        "package": "fax_derive@0.2.0",
+        "crate_sha256": "a0aca10fb742cb43f9e7bb8467c91aa9bcb8e3ffbc6a6f7389bb93ffc920577d",
+        "archive_url": "https://static.crates.io/crates/fax_derive/fax_derive-0.2.0.crate",
+        "extracted_members_match": true
+      },
+      "status": "not_in_selected_build_graph",
+      "in_selected_build_graph": false
+    },
+    {
+      "package": "fxhash@0.2.1",
+      "declared_license": "Apache-2.0/MIT",
+      "repository": "https://github.com/cbreeden/fxhash",
+      "crate": {
+        "package": "fxhash@0.2.1",
+        "crate_sha256": "c31b6d751ae2c7f11320402d34e41349dd1016f8d5d45e48c4312bc8625af50c",
+        "archive_url": "https://static.crates.io/crates/fxhash/fxhash-0.2.1.crate",
+        "extracted_members_match": true
+      },
+      "status": "published_crate_declaration_and_available_notices_assembled",
+      "selected_option": "Apache-2.0",
+      "copyright_header_count": 1,
+      "in_selected_build_graph": true,
+      "delivery_materials": "exact_manifest_authors_existing_headers_and_full_declared_terms_in_selected_package_supplement",
+      "unresolved": "No independent upstream repository NOTICE found/proven for packages without VCS metadata; not claimed as upstream confirmation."
+    },
+    {
+      "package": "io_tee@0.1.1",
+      "declared_license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/TheOnlyMrCat/io_tee",
+      "crate": {
+        "package": "io_tee@0.1.1",
+        "crate_sha256": "4b3f7cef34251886990511df1c61443aa928499d598a9473929ab5a90a527304",
+        "archive_url": "https://static.crates.io/crates/io_tee/io_tee-0.1.1.crate",
+        "extracted_members_match": true
+      },
+      "status": "published_crate_declaration_and_available_notices_assembled",
+      "selected_option": "Apache-2.0",
+      "copyright_header_count": 0,
+      "in_selected_build_graph": true,
+      "delivery_materials": "exact_manifest_authors_existing_headers_and_full_declared_terms_in_selected_package_supplement",
+      "unresolved": "No independent upstream repository NOTICE found/proven for packages without VCS metadata; not claimed as upstream confirmation."
+    },
+    {
+      "package": "lock_free_hashtable@0.1.4",
+      "declared_license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/facebook/buck2",
+      "crate": {
+        "package": "lock_free_hashtable@0.1.4",
+        "crate_sha256": "ebf3631712f5b790675292ff827af269f5d9f920c920b77dc41d0485e3719612",
+        "archive_url": "https://static.crates.io/crates/lock_free_hashtable/lock_free_hashtable-0.1.4.crate",
+        "extracted_members_match": true
+      },
+      "status": "published_crate_declaration_and_available_notices_assembled",
+      "selected_option": "Apache-2.0",
+      "copyright_header_count": 1,
+      "in_selected_build_graph": true,
+      "delivery_materials": "exact_manifest_authors_existing_headers_and_full_declared_terms_in_selected_package_supplement",
+      "unresolved": "No independent upstream repository NOTICE found/proven for packages without VCS metadata; not claimed as upstream confirmation."
+    },
+    {
+      "package": "static_interner@0.1.2",
+      "declared_license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/facebook/buck2",
+      "crate": {
+        "package": "static_interner@0.1.2",
+        "crate_sha256": "fab44341fbf4deae6e8d5ab450f24e1b34e0b2439d39ac0e9b5215a4e5493263",
+        "archive_url": "https://static.crates.io/crates/static_interner/static_interner-0.1.2.crate",
+        "extracted_members_match": true
+      },
+      "status": "published_crate_declaration_and_available_notices_assembled",
+      "selected_option": "Apache-2.0",
+      "copyright_header_count": 1,
+      "in_selected_build_graph": true,
+      "delivery_materials": "exact_manifest_authors_existing_headers_and_full_declared_terms_in_selected_package_supplement",
+      "unresolved": "No independent upstream repository NOTICE found/proven for packages without VCS metadata; not claimed as upstream confirmation."
+    },
+    {
+      "package": "strong_hash@0.1.0",
+      "declared_license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/facebook/buck2",
+      "crate": {
+        "package": "strong_hash@0.1.0",
+        "crate_sha256": "0831334aea34390b6b6ec7af0a27f9ee6324ad3a69463e6b240d83d6b7bce9c9",
+        "archive_url": "https://static.crates.io/crates/strong_hash/strong_hash-0.1.0.crate",
+        "extracted_members_match": true
+      },
+      "status": "published_crate_declaration_and_available_notices_assembled",
+      "selected_option": "Apache-2.0",
+      "copyright_header_count": 1,
+      "in_selected_build_graph": true,
+      "delivery_materials": "exact_manifest_authors_existing_headers_and_full_declared_terms_in_selected_package_supplement",
+      "unresolved": "No independent upstream repository NOTICE found/proven for packages without VCS metadata; not claimed as upstream confirmation."
+    },
+    {
+      "package": "strong_hash_derive@0.1.0",
+      "declared_license": "MIT OR Apache-2.0",
+      "repository": "https://github.com/facebook/buck2",
+      "crate": {
+        "package": "strong_hash_derive@0.1.0",
+        "crate_sha256": "ace6b48b7c4383a39bd3b966cca41bc999003aab9f690a2f355525c924296928",
+        "archive_url": "https://static.crates.io/crates/strong_hash_derive/strong_hash_derive-0.1.0.crate",
+        "extracted_members_match": true
+      },
+      "status": "published_crate_declaration_and_available_notices_assembled",
+      "selected_option": "Apache-2.0",
+      "copyright_header_count": 1,
+      "in_selected_build_graph": true,
+      "delivery_materials": "exact_manifest_authors_existing_headers_and_full_declared_terms_in_selected_package_supplement",
+      "unresolved": "No independent upstream repository NOTICE found/proven for packages without VCS metadata; not claimed as upstream confirmation."
+    }
+  ]
+}

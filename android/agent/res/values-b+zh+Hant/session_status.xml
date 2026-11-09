@@ -1,0 +1,10 @@
+<resources>
+    <string name="session_status_queued">排隊中</string>
+    <string name="session_status_running">進行中</string>
+    <string name="session_status_paused">已暫停</string>
+    <string name="session_status_completed">已完成</string>
+    <string name="session_status_failed">失敗</string>
+    <string name="session_status_interrupted">已停止</string>
+    <string name="session_status_assistant">小助手對話</string>
+    <string name="session_open_assistant">開啟小助手</string>
+</resources>

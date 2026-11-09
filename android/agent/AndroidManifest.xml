@@ -1,0 +1,127 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="os.aios.agent" android:versionCode="51" android:versionName="AIOS-selection-ask">
+ <permission android:name="os.aios.permission.CONTROL_SESSION" android:protectionLevel="signature"/>
+ <permission android:name="os.aios.permission.BROWSER_BRIDGE" android:protectionLevel="signature"/>
+ <uses-permission android:name="os.aios.permission.VOICE_MINUTES"/>
+ <uses-permission android:name="os.aios.permission.CODEX_RUNTIME"/>
+ <uses-permission android:name="os.aios.permission.CONTROL_SESSION"/>
+ <uses-permission android:name="os.aios.permission.BROWSER_BRIDGE"/>
+ <uses-permission android:name="os.aios.permission.CORE_RUNTIME"/>
+ <uses-permission android:name="android.permission.REAL_GET_TASKS"/>
+ <uses-permission android:name="android.permission.DUMP"/>
+ <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+ <uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW"/>
+ <uses-permission android:name="android.permission.ACCESS_COMPUTER_CONTROL"/>
+ <uses-permission android:name="android.permission.ACCESSIBILITY_MOTION_EVENT_OBSERVING"/>
+ <uses-permission android:name="android.permission.OPEN_ACCESSIBILITY_DETAILS_SETTINGS"/>
+ <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+ <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+ <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+ <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE"/>
+ <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
+ <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+ <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+ <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+ <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+ <uses-permission android:name="android.permission.READ_CONTACTS"/>
+ <uses-permission android:name="android.permission.READ_CALENDAR"/>
+ <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+ <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+ <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED"/>
+ <uses-permission android:name="android.permission.CALL_PHONE"/>
+ <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+ <uses-permission android:name="android.permission.READ_SMS"/>
+ <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+ <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+ <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+ <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+ <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
+ <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+ <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+ <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+ <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+ <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+ <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+ <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+ <uses-permission android:name="android.permission.REBOOT"/>
+ <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"/>
+ <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+ <uses-permission android:name="android.permission.START_ACTIVITIES_FROM_BACKGROUND"/>
+ <uses-permission android:name="android.permission.MANAGE_MEDIA"/>
+ <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+ <uses-permission android:name="android.permission.CAMERA"/>
+ <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+ <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
+ <uses-permission android:name="android.permission.SET_TIME"/>
+ <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"/>
+ <uses-permission android:name="android.permission.TETHER_PRIVILEGED"/>
+ <uses-permission android:name="android.permission.NETWORK_SETTINGS"/>
+ <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"/>
+ <uses-permission android:name="android.permission.MODIFY_AUDIO_ROUTING"/>
+ <uses-permission android:name="android.permission.INTERNET"/>
+ <uses-permission android:name="android.permission.DISCOVER_APP_FUNCTIONS"/>
+ <uses-permission android:name="android.permission.EXECUTE_APP_FUNCTIONS"/>
+ <uses-permission android:name="android.permission.EXECUTE_APP_FUNCTIONS_SYSTEM"/>
+ <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS"/>
+ <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+ <uses-permission android:name="android.permission.INSTALL_PACKAGES"/>
+ <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+ <queries><package android:name="os.aios.codex"/><intent><action android:name="android.speech.RecognitionService"/></intent><intent><action android:name="android.intent.action.TTS_SERVICE"/></intent></queries>
+ <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+ <uses-permission android:name="os.aios.permission.MANAGE_MINIAPPS"/>
+ <queries><package android:name="os.aios.miniapp"/></queries>
+ <uses-permission android:name="android.permission.WAKE_LOCK"/>
+ <application android:supportsRtl="true" android:forceQueryable="true" android:name=".AiosApplication" android:label="@string/redzhong_app_name" android:icon="@mipmap/ic_redzhong" android:roundIcon="@mipmap/ic_redzhong" android:theme="@style/AiosSystemTheme" android:allowBackup="false">
+  <service android:name=".NotificationGovernanceService" android:exported="true" android:permission="os.aios.permission.CONTROL_SESSION"/>
+  <service android:name=".DocumentStorageService" android:process=":document_storage" android:exported="true" android:permission="os.aios.permission.CORE_RUNTIME"/>
+  <service android:name=".DeviceSearchService" android:process=":search" android:exported="true" android:permission="os.aios.permission.CORE_RUNTIME"/>
+  <provider android:name=".SharedInferenceProvider" android:authorities="os.aios.agent.inference" android:exported="true" android:permission="os.aios.permission.CONTROL_SESSION"/>
+  <provider android:name=".NotificationGovernanceProvider" android:authorities="os.aios.agent.notifications" android:exported="true" android:permission="os.aios.permission.CONTROL_SESSION"/>
+  <activity android:name=".NotificationManagementActivity" android:exported="false"/>
+  <activity android:name=".SpeechModelSelectionActivity" android:exported="false"/>
+  <activity android:name=".OptionalAppsActivity" android:exported="false"/>
+  <activity android:name=".ModelManagementActivity" android:exported="false"/>
+  <activity android:name=".GoogleRegistrationActivity" android:exported="false"/>
+  <provider android:name="androidx.startup.InitializationProvider" android:authorities="${applicationId}.androidx-startup" android:exported="false" tools:node="merge"><meta-data android:name="androidx.work.WorkManagerInitializer" tools:node="remove"/></provider>
+  <provider android:name=".WorkspaceHomeProvider" android:authorities="os.aios.agent.home" android:exported="true" android:grantUriPermissions="false"/>
+  <provider android:name=".CodexHistoryProvider" android:authorities="os.aios.agent.history" android:exported="true" android:permission="os.aios.permission.CORE_RUNTIME" android:grantUriPermissions="false"/>
+  <provider android:name=".LegacyStateProvider" android:authorities="os.aios.agent.legacy" android:exported="true" android:permission="os.aios.permission.CORE_RUNTIME" android:grantUriPermissions="false"/>
+  <activity android:name=".MainActivity" android:exported="true" android:windowSoftInputMode="adjustResize" android:enableOnBackInvokedCallback="false">
+   <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+  </activity>
+  <activity android:label="@string/assistant_assistant_d78a1" android:name=".AssistantActivity" android:exported="true" android:theme="@style/AIOSAssistantTheme" android:taskAffinity="os.aios.assistant" android:launchMode="singleTask" android:excludeFromRecents="true" android:windowSoftInputMode="adjustResize|stateAlwaysHidden" android:enableOnBackInvokedCallback="false">
+   <intent-filter><action android:name="android.intent.action.ASSIST"/><category android:name="android.intent.category.DEFAULT"/></intent-filter>
+  </activity>
+  <activity android:name=".AssistantCameraActivity" android:exported="false" android:theme="@style/AIOSAssistantTheme" android:excludeFromRecents="true" android:taskAffinity="os.aios.assistant.camera"/>
+  <activity android:name=".AssistantAttachmentActivity" android:configChanges="orientation|screenSize|uiMode" android:exported="false" android:theme="@style/AIOSAssistantTheme" android:excludeFromRecents="true" android:taskAffinity="os.aios.assistant.attachments"/>
+  <activity android:name=".AssistantInputActivity" android:exported="false" android:theme="@style/AIOSAssistantTheme" android:excludeFromRecents="true" android:taskAffinity="os.aios.assistant.input"/>
+  <activity android:name=".SelectionAskActivity" android:label="问 AI" android:exported="true" android:theme="@style/AIOSAssistantTheme" android:excludeFromRecents="true" android:windowSoftInputMode="adjustResize|stateAlwaysHidden" android:enableOnBackInvokedCallback="false">
+   <intent-filter><action android:name="android.intent.action.PROCESS_TEXT"/><category android:name="android.intent.category.DEFAULT"/><data android:mimeType="text/plain"/></intent-filter>
+  </activity>
+  <service android:name=".AssistantOrbService" android:exported="false" android:foregroundServiceType="specialUse"><property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User-visible voice assistant orb"/></service>
+  <activity android:name=".CodexAccountsActivity" android:exported="true" android:permission="os.aios.permission.CODEX_RUNTIME" android:theme="@style/AiosDialogTheme" android:windowSoftInputMode="adjustResize"/>
+  <activity android:name=".FirstUseActivity" android:exported="false" android:label="@string/setup_title"/>
+  <activity android:name=".ControlActivity" android:exported="false"/>
+  <receiver android:name=".SessionCommandReceiver" android:exported="true" android:permission="os.aios.permission.CONTROL_SESSION"/>
+  <receiver android:name=".PackageServices" android:exported="false">
+   <intent-filter><action android:name="os.aios.INSTALL_RESULT"/></intent-filter>
+  </receiver>
+  <activity android:name=".UiSessionsActivity" android:exported="false" android:taskAffinity="os.aios.screens" android:excludeFromRecents="true"/>
+  <activity android:name=".UiViewerActivity" android:exported="false" android:taskAffinity="os.aios.screens" android:excludeFromRecents="true"/>
+  <activity android:name=".InterventionActionActivity" android:exported="false" android:excludeFromRecents="true"/>
+  <activity android:name=".UserRequest" android:exported="false"/>
+  <service android:name=".PhoneNotifications" android:label="AIOS notifications" android:exported="true" android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+   <intent-filter><action android:name="android.service.notification.NotificationListenerService"/></intent-filter>
+  </service>
+  <service android:name=".AgentService" android:exported="true" android:permission="os.aios.permission.CONTROL_SESSION" android:foregroundServiceType="specialUse|microphone|location">
+   <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="Phone assistant tools, durable requests and user-controlled sessions"/>
+  </service>
+  <receiver android:name=".AgentBootReceiver" android:exported="false"><intent-filter><action android:name="android.intent.action.BOOT_COMPLETED"/><action android:name="android.intent.action.MY_PACKAGE_REPLACED"/></intent-filter></receiver>
+  <receiver android:name=".DreamDispatchReceiver" android:exported="true" android:permission="os.aios.permission.CORE_RUNTIME"><intent-filter><action android:name="os.aios.core.RUN_DREAM"/></intent-filter></receiver>
+  <service android:name=".ForegroundUiService" android:label="AIOS 前台控制" android:exported="true" android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+   <intent-filter><action android:name="android.accessibilityservice.AccessibilityService"/></intent-filter>
+   <meta-data android:name="android.accessibilityservice" android:resource="@xml/foreground_ui_service"/>
+  </service>
+  <receiver android:name=".AppCapabilityCatalog" android:exported="false"><intent-filter><action android:name="android.intent.action.PACKAGE_FULLY_REMOVED"/><data android:scheme="package"/></intent-filter></receiver>
+  <activity android:name=".ShareToAssistantActivity" android:label="@string/share_title" android:exported="true" android:configChanges="orientation|screenSize|uiMode" android:windowSoftInputMode="adjustResize"><intent-filter><action android:name="android.intent.action.SEND"/><action android:name="android.intent.action.SEND_MULTIPLE"/><category android:name="android.intent.category.DEFAULT"/><data android:mimeType="*/*"/></intent-filter></activity>
+ </application>
+</manifest>

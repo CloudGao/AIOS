@@ -1,0 +1,9 @@
+<resources>
+    <string name="approval_allow_once">允許一次</string>
+    <string name="approval_decline">不允許</string>
+    <string name="approval_command">允許執行此命令？</string>
+    <string name="approval_files">允許這些檔案修改？</string>
+    <string name="approval_system_title">允許控制此應用程式？</string>
+    <string name="approval_system_reason">繼續到 Android 系統確認畫面。系統傳回實際結果後，原任務才會繼續。</string>
+    <string name="approval_system_open">開啟系統確認</string>
+</resources>

@@ -1,0 +1,79 @@
+diff --git a/app/src/main/java/org/lineageos/recorder/DialogActivity.kt b/app/src/main/java/org/lineageos/recorder/DialogActivity.kt
+index 1e59dea..f81ea21 100644
+--- a/app/src/main/java/org/lineageos/recorder/DialogActivity.kt
++++ b/app/src/main/java/org/lineageos/recorder/DialogActivity.kt
+@@ -40,6 +40,15 @@ class DialogActivity : AppCompatActivity() {
+ 
+         highQualitySwitch = dialog.findViewById(R.id.highQualitySwitch)!!
+         setupHighQualitySwitch(highQualitySwitch, isRecording)
++        val minutesPreferences = getSharedPreferences("aios_minutes", MODE_PRIVATE)
++        val minutes = MaterialSwitch(this).apply {
++            text = "录音结束后转写并生成纪要"
++            isChecked = minutesPreferences.getBoolean("enabled", false)
++            isEnabled = !isRecording
++            setOnCheckedChangeListener { _, checked -> minutesPreferences.edit().putBoolean("enabled", checked).apply() }
++        }
++        (highQualitySwitch.parent as android.view.ViewGroup).addView(minutes)
++
+     }
+ 
+     override fun onRequestPermissionsResult(
+diff --git a/app/src/main/java/org/lineageos/recorder/RecorderActivity.kt b/app/src/main/java/org/lineageos/recorder/RecorderActivity.kt
+index 4f7288f..38b9211 100644
+--- a/app/src/main/java/org/lineageos/recorder/RecorderActivity.kt
++++ b/app/src/main/java/org/lineageos/recorder/RecorderActivity.kt
+@@ -136,7 +136,6 @@ class RecorderActivity : AppCompatActivity(R.layout.activity_main) {
+         pauseResumeImageView.setOnClickListener { togglePause() }
+         openSoundListImageView.setOnClickListener { openList() }
+         settingsImageView.setOnClickListener { openSettings() }
+-
+         ViewCompat.setOnApplyWindowInsetsListener(contentView) { _, windowInsets ->
+             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+ 
+@@ -231,6 +230,7 @@ class RecorderActivity : AppCompatActivity(R.layout.activity_main) {
+                 Intent(this, SoundRecorderService::class.java)
+                     .setAction(SoundRecorderService.ACTION_START)
+                     .putExtra(SoundRecorderService.EXTRA_FILE_NAME, newRecordFileName)
++                    .putExtra("aios_transcribe", !returnAudio && getSharedPreferences("aios_minutes", MODE_PRIVATE).getBoolean("enabled", false))
+             )
+         } else {
+             // Stop
+diff --git a/app/src/main/java/org/lineageos/recorder/service/SoundRecorderService.kt b/app/src/main/java/org/lineageos/recorder/service/SoundRecorderService.kt
+index 1ec1ef4..b699c4c 100644
+--- a/app/src/main/java/org/lineageos/recorder/service/SoundRecorderService.kt
++++ b/app/src/main/java/org/lineageos/recorder/service/SoundRecorderService.kt
+@@ -86,6 +86,7 @@ class SoundRecorderService : LifecycleService() {
+     private var elapsedTimeTimer: Timer? = null
+     private var isPaused = false
+     private var elapsedTime = 0L
++    private var transcribe = false
+ 
+     private val shutdownReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+         override fun onReceive(context: Context, intent: Intent) {
+@@ -130,6 +131,7 @@ class SoundRecorderService : LifecycleService() {
+         return intent?.let {
+             when (it.action) {
+                 ACTION_START -> it.getStringExtra(EXTRA_FILE_NAME)?.let { fileName ->
++                    transcribe = it.getBooleanExtra("aios_transcribe", getSharedPreferences("aios_minutes", MODE_PRIVATE).getBoolean("enabled", false))
+                     if (startRecording(fileName)) {
+                         START_STICKY
+                     } else {
+@@ -281,6 +283,18 @@ class SoundRecorderService : LifecycleService() {
+         stopForeground(STOP_FOREGROUND_REMOVE)
+ 
+         uri?.let {
++            if (transcribe) {
++                try {
++                    val audio = Uri.parse(it)
++                    grantUriPermission("os.aios.speech", audio, Intent.FLAG_GRANT_READ_URI_PERMISSION)
++                    val request = android.os.Bundle().apply { putString("uri", audio.toString()) }
++                    val accepted = contentResolver.call(Uri.parse("content://os.aios.speech.minutes"), "import_recording", null, request)
++                    check(accepted?.getBoolean("accepted") == true) { "Transcription was not accepted" }
++                } catch (e: Exception) {
++                    Log.e(TAG, "Unable to start local transcription", e)
++                    android.widget.Toast.makeText(this, "录音已保存，转写未能启动", android.widget.Toast.LENGTH_LONG).show()
++                }
++            }
+             createShareNotification(it)?.let { shareNotification ->
+                 notificationManager.notify(NOTIFICATION_ID, shareNotification)
+             }

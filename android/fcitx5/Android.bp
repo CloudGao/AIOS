@@ -1,0 +1,12 @@
+android_app_import {
+    name: "AIOSFcitx5",
+    apk: "Fcitx5.apk",
+    presigned: true,
+    preprocessed: true,
+    skip_preprocessed_apk_checks: true,
+    product_specific: true,
+    optional_uses_libs: [
+        "androidx.window.extensions",
+        "androidx.window.sidecar",
+    ],
+}

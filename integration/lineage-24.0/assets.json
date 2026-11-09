@@ -1,0 +1,449 @@
+{
+  "schema": 1,
+  "origins": {
+    "source:tools/codex-runtime/build/arm64-v8a/release/libcodex_app_server.so": "fae801495ad3a126b7293da30c172d78f667940b0546e025ff67add641228973",
+    "source:android/speech/deps/classes.jar": "8af5aa647494ec9cb6596959d6d20864377cf4a9dedf1c1b178d936bfb7cea95",
+    "source:android/speech/deps/lib/arm64-v8a/libonnxruntime.so": "33847ad43bffe204699fd4a27f7f3603452a8cdaf2f9a44983a0bc31ffcf2da1",
+    "source:android/speech/deps/lib/arm64-v8a/libsherpa-onnx-jni.so": "3c6492ea91ea68fd3b72b9495efdde6dd913f6b58c387e3b07389cf335f4d26f",
+    "source:tools/lineage/state/kokoro-arm64.apk": "71f41df45800fe1c4f1208f5f5fd1abd92e123f2ecd8f251e80688157d18647b",
+    "inputs:release-inputs/chromium.apk": "1f11bc1870586e31df6b6b99939164452f29e47a86e41181f473c6b8a64309b1",
+    "inputs:release-inputs/appmanager.apk": "2540d6d9352acd8b04d6210140630a380abb1bc46ad4745c89ad97603dee3c40",
+    "inputs:validation/document-capabilities/apps/collabora.apk": "79e72f810d711706d205a9ff457b4bb830c607a2b988cf44246829ec4593c393",
+    "inputs:validation/document-capabilities/apps/mj-pdf.apk": "c095c1d339aa58eb9dddca701054419c373957941bd518df50eacca33737a5d2",
+    "inputs:validation/document-capabilities/apps/editor.apk": "343d17e11d0914e1a7708df2781580a0413e52501c0a41d91f7ef725d9615fe9",
+    "source:licenses/CODEX_LICENSE.txt": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+    "source:android/search-models/manifest.json": "b88730eb091d66e420e28160e6dd3e9da594ac7039f976f6299f29e86b1f1167",
+    "source:android/search-models/LICENSE": "c4a0d1f0f1fd0674564d0eaeae92d75c3adfa03f07554d82eeb8da508d366bca",
+    "source:android/search-models/tokenizer.json": "46e6c94b00bcbac8517e133f33c6f7abf3f843176f7b30c21f0a1818d49a967e",
+    "source:android/search-models/image.tflite": "a810c23746c0990964eb0a445172d6307f3ba74ac8c6b207e27273e31410adce",
+    "source:android/search-models/text.tflite": "d633b6c65c1632316889a0994aeaae4b40081bcdf3757a12ffb7d1f0a6ee4d20",
+    "source:android/speech/lib/libaios_whisper.so": "e5c44c1f0a209f839c72ed081d76e0437117d28251ee1bfa9b9d241cc8ff81c2",
+    "source:android/search-models/face.tflite": "3e82b513e65d00b56c35b572f964a594fdbd6e56717361bc0b64cbaf9e140a4d",
+    "source:android/search-models/token-embeddings.fp16": "735c4bb3d104ff84416a33b494905f1364caf9f7118b0b06f4097ac7f3686b40"
+  },
+  "files": [
+    {
+      "destination": "vendor/aios/codex-runtime/aios-codex-app-server",
+      "origin": "source:tools/codex-runtime/build/arm64-v8a/release/libcodex_app_server.so",
+      "kind": "file",
+      "member": null,
+      "sha256": "fae801495ad3a126b7293da30c172d78f667940b0546e025ff67add641228973",
+      "mode": 493
+    },
+    {
+      "destination": "vendor/aios/codex-runtime/assets/CODEX_LICENSE.txt",
+      "origin": "source:licenses/CODEX_LICENSE.txt",
+      "kind": "file",
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/speech/sherpa.jar",
+      "origin": "source:android/speech/deps/classes.jar",
+      "kind": "file",
+      "member": null,
+      "sha256": "8af5aa647494ec9cb6596959d6d20864377cf4a9dedf1c1b178d936bfb7cea95",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/speech/lib/libonnxruntime.so",
+      "origin": "source:android/speech/deps/lib/arm64-v8a/libonnxruntime.so",
+      "kind": "file",
+      "member": null,
+      "sha256": "33847ad43bffe204699fd4a27f7f3603452a8cdaf2f9a44983a0bc31ffcf2da1",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/speech/lib/libsherpa-onnx-jni.so",
+      "origin": "source:android/speech/deps/lib/arm64-v8a/libsherpa-onnx-jni.so",
+      "kind": "file",
+      "member": null,
+      "sha256": "3c6492ea91ea68fd3b72b9495efdde6dd913f6b58c387e3b07389cf335f4d26f",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/tts/kokoro-arm64.apk",
+      "origin": "source:tools/lineage/state/kokoro-arm64.apk",
+      "kind": "file",
+      "member": null,
+      "sha256": "71f41df45800fe1c4f1208f5f5fd1abd92e123f2ecd8f251e80688157d18647b",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/tts/arm64/libonnxruntime.so",
+      "origin": "source:tools/lineage/state/kokoro-arm64.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libonnxruntime.so",
+      "sha256": "33847ad43bffe204699fd4a27f7f3603452a8cdaf2f9a44983a0bc31ffcf2da1",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/tts/arm64/libpiper-phonemize-jni.so",
+      "origin": "source:tools/lineage/state/kokoro-arm64.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libpiper-phonemize-jni.so",
+      "sha256": "50cc86af13e0ab0132a079f169df9675c78491e8321833e2b288ab517b0df15c",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/tts/arm64/libsherpa-onnx-jni.so",
+      "origin": "source:tools/lineage/state/kokoro-arm64.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libsherpa-onnx-jni.so",
+      "sha256": "fb6fde9789915a12e4c99ae78c36dcf8dfd1b1f4eeb8e5c54a91e5363f0544bc",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSChromium/app.apk",
+      "origin": "inputs:release-inputs/chromium.apk",
+      "kind": "file",
+      "member": null,
+      "sha256": "1f11bc1870586e31df6b6b99939164452f29e47a86e41181f473c6b8a64309b1",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSChromium/arm64/libarcore_sdk_jni.so",
+      "origin": "inputs:release-inputs/chromium.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libarcore_sdk_jni.so",
+      "sha256": "6075e760850e03e705c0a334fa76eb7cc9cce6ea277072f35c03c83c753b0c69",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSChromium/arm64/libandroidx.xr.arcore.openxr.so",
+      "origin": "inputs:release-inputs/chromium.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libandroidx.xr.arcore.openxr.so",
+      "sha256": "d8869b35b321ac814eb2ba3e24564f13a5484de63ed0307487c72277891c414e",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSChromium/arm64/libimpress_api_jni.so",
+      "origin": "inputs:release-inputs/chromium.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libimpress_api_jni.so",
+      "sha256": "694d44f066f1f8d2b5424e499756ec49bc51b4d763ae5107d37c2d3c09e7484b",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSChromium/arm64/libchromium_android_linker.so",
+      "origin": "inputs:release-inputs/chromium.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libchromium_android_linker.so",
+      "sha256": "68ba7dfe1733bb0a5aaf4284b278bafa0470791303ec22b6e88034b9742a883d",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSChromium/arm64/libandroidx.xr.runtime.openxr.so",
+      "origin": "inputs:release-inputs/chromium.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libandroidx.xr.runtime.openxr.so",
+      "sha256": "22dd5f9d18af0f0c9649cff347d2146692772a47e871acdc6fb4ceffeefa901d",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSChromium/arm64/libarcore_sdk_c.so",
+      "origin": "inputs:release-inputs/chromium.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libarcore_sdk_c.so",
+      "sha256": "e37317d976a0c872d1e32228056a6170876599e6f640ea774f0215e85467869c",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSChromium/arm64/libchrome.so",
+      "origin": "inputs:release-inputs/chromium.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libchrome.so",
+      "sha256": "e09dadc7befe0d3ce863e7676324f013060bcf242b6f9e58e052301b4e60945e",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSChromium/arm64/libcrashpad_handler_trampoline.so",
+      "origin": "inputs:release-inputs/chromium.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libcrashpad_handler_trampoline.so",
+      "sha256": "0a368616106d0b284e423107c8ca1fff288e040a18974089c25fe642fdf782be",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSAppManager/app.apk",
+      "origin": "inputs:release-inputs/appmanager.apk",
+      "kind": "file",
+      "member": null,
+      "sha256": "2540d6d9352acd8b04d6210140630a380abb1bc46ad4745c89ad97603dee3c40",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSAppManager/arm64/libam.so",
+      "origin": "inputs:release-inputs/appmanager.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libam.so",
+      "sha256": "284a221065eb5f3df5249001eb319fa4421ae0499f7a26a984d8af4d4af481e0",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSAppManager/arm64/librun_server.so",
+      "origin": "inputs:release-inputs/appmanager.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/librun_server.so",
+      "sha256": "23a35e22ff8844d3c3234ef019895d75a826dce3111a07a1731fcdc5e40bbf6a",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSAppManager/arm64/libspake2.so",
+      "origin": "inputs:release-inputs/appmanager.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libspake2.so",
+      "sha256": "2c243f1aef14dedb6b289bf913858d9b7244fb783e5886c3b8ef286a20677d78",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSAppManager/arm64/libzstd-jni-1.5.7-7.so",
+      "origin": "inputs:release-inputs/appmanager.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libzstd-jni-1.5.7-7.so",
+      "sha256": "3c2658d9cb452baca4ff0c71384f5284c7c836ca8d190b9807995d5282b05faa",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/app.apk",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "file",
+      "member": null,
+      "sha256": "79e72f810d711706d205a9ff457b4bb830c607a2b988cf44246829ec4593c393",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libsqlite3.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libsqlite3.so",
+      "sha256": "06883c87fd2ccb25a357d31b166ab76657e64ab7dbc7e65e454f9d7a50bfe8d5",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libnspr4.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libnspr4.so",
+      "sha256": "d7558bc7e2936f51a795791003057a6ff8725de8793c93ccb62f4a3e9bdca770",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libsoftokn3.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libsoftokn3.so",
+      "sha256": "58e236ec989b12d823e8577cea743a63b9b05e3094fe8dde0758f9e830fd855e",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libplds4.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libplds4.so",
+      "sha256": "19bf0a603ef41dcb5b04fa19f9f37fd78bdef28b3cb8b1b65808f93cbbf4f067",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libnssckbi.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libnssckbi.so",
+      "sha256": "1e2d9c8c885b3b452217b9a733005d267f702d3aa75108650519038f83fa5cb0",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libssl3.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libssl3.so",
+      "sha256": "085c7d200407d2b93493bb125c4dabeee9956ad5b4536708acd233ad09fb534c",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/liblo-native-code.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/liblo-native-code.so",
+      "sha256": "944c97e9a0d23d7842ca61458a6c3b27b2f3e51fad0f51ddf7a96627705c2035",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libandroidapp.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libandroidapp.so",
+      "sha256": "dbc2a5b77601081817ecf4e31415f681fcf58181ab09ce71e2db62ff56d93467",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libnssutil3.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libnssutil3.so",
+      "sha256": "0510a4524ee1f3e0cabccc9b69d20963e6ee1ac3d15dd39b6d374eaed0ce3152",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libc++_shared.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libc++_shared.so",
+      "sha256": "c4c2fe5cbcb1fba0003a31fc7ab29a9bb12df6cc187ec45a806462540e83d93b",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libsmime3.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libsmime3.so",
+      "sha256": "7c00d141172504bff1c2d3fd808f5ffa8dd50648c59ffc9388978da0d0994a37",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libnssdbm3.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libnssdbm3.so",
+      "sha256": "9fcf413c039fd8b99d53e0b5ad30dbf07cec49d4348adcc61fac6e173a4afeda",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libnss3.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libnss3.so",
+      "sha256": "0c03b4043514d998511a06d329e926ae1ee6d4b27a871f2a9235d7c5335d5c51",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libfreebl3.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libfreebl3.so",
+      "sha256": "86ae5a23b15ed7e7b45295c98827c05dfbe73bf5837914261ae57e9fd32199af",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSCollabora/arm64/libplc4.so",
+      "origin": "inputs:validation/document-capabilities/apps/collabora.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libplc4.so",
+      "sha256": "29cc78557f2c9bdaf6a0b929aa2d22fa3d424e8def89fbaa939fef8eb8720eba",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSPdfReader/app.apk",
+      "origin": "inputs:validation/document-capabilities/apps/mj-pdf.apk",
+      "kind": "file",
+      "member": null,
+      "sha256": "c095c1d339aa58eb9dddca701054419c373957941bd518df50eacca33737a5d2",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSPdfReader/arm64/libmodpdfium.so",
+      "origin": "inputs:validation/document-capabilities/apps/mj-pdf.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libmodpdfium.so",
+      "sha256": "17fa135a0576a8d182efc60b4fe9d5e25d875fbe69d73a570f348f9596e8f2a6",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSPdfReader/arm64/libmodft2.so",
+      "origin": "inputs:validation/document-capabilities/apps/mj-pdf.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libmodft2.so",
+      "sha256": "182d3d689b4f0877f8cb70d7b02290e015ea40c186ceb09745a90aa76178e0cd",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSPdfReader/arm64/libc++_shared.so",
+      "origin": "inputs:validation/document-capabilities/apps/mj-pdf.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libc++_shared.so",
+      "sha256": "cd61762848882a16c8244c964a6f396c0caa0b440588a210ce9cc4ab0e6d9f0c",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSPdfReader/arm64/libjniPdfium.so",
+      "origin": "inputs:validation/document-capabilities/apps/mj-pdf.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libjniPdfium.so",
+      "sha256": "7833b1ce7a65f2a006998c5eaa8d494e0432fa5cc13831f19fc53e14656b67fc",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSPdfReader/arm64/libmodpng.so",
+      "origin": "inputs:validation/document-capabilities/apps/mj-pdf.apk",
+      "kind": "zip",
+      "member": "lib/arm64-v8a/libmodpng.so",
+      "sha256": "b6a2974ad90c384c56c79ae2a7fac35703b1366591ed03b53e90197aeb2d4769",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/prebuilts/AIOSTextEditor/app.apk",
+      "origin": "inputs:validation/document-capabilities/apps/editor.apk",
+      "kind": "file",
+      "member": null,
+      "sha256": "343d17e11d0914e1a7708df2781580a0413e52501c0a41d91f7ef725d9615fe9",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/search-models/manifest.json",
+      "origin": "source:android/search-models/manifest.json",
+      "kind": "file",
+      "sha256": "b88730eb091d66e420e28160e6dd3e9da594ac7039f976f6299f29e86b1f1167",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/search-models/face.tflite",
+      "origin": "source:android/search-models/face.tflite",
+      "kind": "file",
+      "sha256": "3e82b513e65d00b56c35b572f964a594fdbd6e56717361bc0b64cbaf9e140a4d",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/search-models/LICENSE",
+      "origin": "source:android/search-models/LICENSE",
+      "kind": "file",
+      "sha256": "c4a0d1f0f1fd0674564d0eaeae92d75c3adfa03f07554d82eeb8da508d366bca",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/search-models/tokenizer.json",
+      "origin": "source:android/search-models/tokenizer.json",
+      "kind": "file",
+      "sha256": "46e6c94b00bcbac8517e133f33c6f7abf3f843176f7b30c21f0a1818d49a967e",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/search-models/image.tflite",
+      "origin": "source:android/search-models/image.tflite",
+      "kind": "file",
+      "sha256": "a810c23746c0990964eb0a445172d6307f3ba74ac8c6b207e27273e31410adce",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/search-models/text.tflite",
+      "origin": "source:android/search-models/text.tflite",
+      "kind": "file",
+      "sha256": "d633b6c65c1632316889a0994aeaae4b40081bcdf3757a12ffb7d1f0a6ee4d20",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/speech/lib/libaios_whisper.so",
+      "origin": "source:android/speech/lib/libaios_whisper.so",
+      "kind": "file",
+      "sha256": "e5c44c1f0a209f839c72ed081d76e0437117d28251ee1bfa9b9d241cc8ff81c2",
+      "mode": 420
+    },
+    {
+      "destination": "vendor/aios/search-models/token-embeddings.fp16",
+      "origin": "source:android/search-models/token-embeddings.fp16",
+      "kind": "file",
+      "mode": 420,
+      "sha256": "735c4bb3d104ff84416a33b494905f1364caf9f7118b0b06f4097ac7f3686b40"
+    }
+  ]
+}

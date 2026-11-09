@@ -1,0 +1,1 @@
+{"schema_version":1,"product_id":"aios-single-apk","host_id":"android-adb","limits":{"virtual_sessions":4,"scheduler_reserved":1,"headless_sessions":5},"modules":["core","harness","device","files","notification-events","virtual-screen","foreground-control","photos","documents","speech","miniapps","cli","mcp","sharing","notes","streams"]}

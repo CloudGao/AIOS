@@ -1,0 +1,14 @@
+<resources>
+  <string name="document_files">Files</string>
+  <string name="document_content_mode">Document content (on demand)</string>
+  <string name="document_directory">Document directory, e.g. Download/</string>
+  <string name="document_extension">File extension, e.g. pdf</string>
+  <string name="document_time_modified">File modification time</string>
+  <string name="document_time_added">Media library added time</string>
+  <string name="document_scope_required">Choose Files and enter a directory or extension for content search.</string>
+  <string name="document_scan_page">This batch: %1$d files completed, %2$d skipped. Continue to search remaining candidates.</string>
+  <string name="document_metadata_coverage">Files cover records visible in the primary storage media library; other locations may be missing.</string>
+  <string name="document_operation_failed">The document operation could not be completed. Check the error code and supported operations.</string>
+  <string name="document_save_unknown">The save result is unknown. Query its request receipt before trying another save.</string>
+  <string name="document_open_failed">Unable to open the document in an installed application.</string>
+</resources>

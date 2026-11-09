@@ -1,0 +1,5 @@
+<resources>
+<string name="aios_mini_app">Mini app</string>
+<string name="aios_phone_conversation">AIOS · Conversation</string>
+<string name="aios_local_conversation">AIOS · Local conversation</string>
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="models_title">模型管理</string>
+    <string name="models_description">為系統各項能力選擇模型。照片專用模型保留已驗證的設定。</string>
+    <string name="models_inherit">使用系統預設</string>
+    <string name="models_specialized">專用模型設定</string>
+    <string name="models_loading">正在讀取模型狀態…</string>
+    <string name="models_state_model_missing">模型未安裝</string>
+    <string name="models_state_backend_missing">推理後端未安裝</string>
+    <string name="models_state_unverified">尚未驗證</string>
+    <string name="models_state_available">模型完整性已驗證</string>
+    <string name="models_local_status">本機模型：%1$s · %2$s</string>
+    <string name="models_photo_ready">照片語意模型：已驗證</string>
+    <string name="models_photo_unverified">照片模型：驗證未完成</string>
+    <string name="models_read_failed">無法讀取模型狀態</string>
+    <string name="models_not_integrated">尚未接入</string>
+    <string name="models_fallback">失敗回退</string>
+    <string name="models_no_fallback">不回退</string>
+    <string name="models_cloud_item">雲端 · %1$s · %2$s</string>
+    <string name="models_cloud_disclosure">此能力使用此模型時，會將輸入內容傳送給所選雲端供應商。</string>
+    <string name="models_save">儲存</string>
+    <string name="models_save_failed">無法儲存模型選擇</string>
+    <string name="models_cap_text_default">預設文字模型</string>
+    <string name="models_cap_notification_filter">通知過濾</string>
+    <string name="models_cap_notification_importance">通知重要性</string>
+    <string name="models_cap_notification_summary">通知摘要</string>
+    <string name="models_cap_text_extract">文字擷取</string>
+    <string name="models_cap_text_summary">文字摘要</string>
+    <string name="models_cap_text_judge">文字判斷</string>
+    <string name="models_cap_photo_image_embedding">照片影像向量</string>
+    <string name="models_cap_photo_text_embedding">照片搜尋文字向量</string>
+    <string name="models_cap_photo_face_detection">人臉偵測</string>
+    <string name="models_cap_photo_description">照片描述</string>
+</resources>

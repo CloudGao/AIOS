@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "review_status": "partial_not_distribution_clearance",
+  "files": [
+    {
+      "path": "Apache-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "aios/GPL-3.0.txt",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "aios/LICENSE-SCOPE.txt",
+      "sha256": "141258b2195d1c518664c498ccd0794636647224d9b58bd58d56294eb69a66ca"
+    },
+    {
+      "path": "androidx-webkit/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "codex/CANDIDATE-THIRD-PARTY-NOTICES.txt",
+      "sha256": "278227e69cd94c5fc7085453c6b35c5008a37580fde5b13aa2403f736683668c"
+    },
+    {
+      "path": "codex/DECLARED-APACHE-SUPPLEMENT.txt",
+      "sha256": "ab6114e396f15c193c801d913e55b9bb99b6edeab39ece350ab68ebb3357e76a"
+    },
+    {
+      "path": "codex/NOTICE",
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+    },
+    {
+      "path": "codex/SELECTED-PACKAGE-SUPPLEMENT.txt",
+      "sha256": "e6d1e10f63cbc229a650530607e50754dc768ac238192abbb56ac47dda58aa54"
+    },
+    {
+      "path": "codex/UPSTREAM-SUPPLEMENTAL-NOTICES.txt",
+      "sha256": "4f03ddea3c9159c3838b64f1b90e7393ae898fb8938cc719086aa4908c3acbcb"
+    },
+    {
+      "path": "commonmark/LICENSE.txt",
+      "sha256": "db0ca9fbe898f07ba8a637e6f7b53ce7f8669c67673a8edcf30562e62935e8bb"
+    },
+    {
+      "path": "libadb/Apache-2.0.txt",
+      "sha256": "4557de501c3a82094c239a4d74e2e29993c188f6ebb28b668fedf942938e44f1"
+    },
+    {
+      "path": "libadb/BSD-3-Clause.txt",
+      "sha256": "8a094def3661adcb92d2e9f462052fe2bd6365ecf659f229ae9703bd4c412024"
+    },
+    {
+      "path": "libadb/COPYING",
+      "sha256": "dd5314a7504dc2c80aba35db43a8db2f9362bd5768af07e94539a3e2b6fc3275"
+    },
+    {
+      "path": "libadb/MIT.txt",
+      "sha256": "57a5669100695db12465be9fb3995322e87da6aa64d06cccdbccbb53b1839821"
+    },
+    {
+      "path": "libadb-spake2-ATTRIBUTIONS.txt",
+      "sha256": "4d20911e2d1a1946a93c957309966300c35e4866913185faf3d2c56f5d1735d2"
+    },
+    {
+      "path": "npm/@npmcli__agent-3.0.0/README.md",
+      "sha256": "838746c5f90e2560312ec35c4a83928027d94fe5bcdf8a80451eb9d73ed95ebe"
+    },
+    {
+      "path": "npm/@sigstore__verify-2.1.1/LICENSE",
+      "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+    },
+    {
+      "path": "npm/@sigstore__verify-2.1.1/README.md",
+      "sha256": "e88c6655d2c60ebad51a2ba9cf8139fb70936ca6018e37ea88791853fa46ba91"
+    },
+    {
+      "path": "npm/DECLARED-LICENSE-SUPPLEMENT.txt",
+      "sha256": "b8b1fc68c989479525f0bcf269af486d634baa66dfbe9a5e79c59e7388a8a804"
+    },
+    {
+      "path": "npm/eastasianwidth-0.2.0/README.md",
+      "sha256": "5a20e0a3c5f1a6b449dd3fee8e3f0c7dc0a6e508c93fa5703d7c8823d35aed54"
+    },
+    {
+      "path": "npm/err-code-2.0.3/README.md",
+      "sha256": "2d89bcf41bb06b2eddbe129a75abd418ef92a5f633accec609fd22a4843a5a93"
+    },
+    {
+      "path": "npm/imurmurhash-0.1.4/README.md",
+      "sha256": "4491517f7deb68d0b2a3bb590e785e276a60f12448447a9650d0bd50161a101c"
+    },
+    {
+      "path": "npm/spdx-exceptions-2.5.0/README.md",
+      "sha256": "554b19eee11d2964e9f7b244e47944c08d52ca75539260a04f3227e6c0144513"
+    },
+    {
+      "path": "npm/spdx-license-ids-3.0.23/README.md",
+      "sha256": "b4807793db6058c819f76c023362b7d522b3d19c9b41563fcc01c2b2c5b1ccd3"
+    },
+    {
+      "path": "npm-review.json",
+      "sha256": "58cd16f2b157b72d5b16db150cd692d03c3ba9c0d8903cae91ae7178336708dd"
+    },
+    {
+      "path": "spake2/GPL-3.0.txt",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "spake2/LGPL-3.0.txt",
+      "sha256": "a5681bf9b05db14d86776930017c647ad9e6e56ff6bbcfdf21e5848288dfaf1b"
+    },
+    {
+      "path": "speech/ATTRIBUTION.txt",
+      "sha256": "d0ba60c41e7bea04cbc8205c9f1c17a9520deff790862220f87575ba2af24aef"
+    },
+    {
+      "path": "speech/onnxruntime-LICENSE",
+      "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c"
+    },
+    {
+      "path": "speech/onnxruntime-ThirdPartyNotices.txt",
+      "sha256": "0e07b95f3a8d6230037707c5c4a2b554d12c4cb67369669ac255635528ffcee2"
+    },
+    {
+      "path": "speech/sherpa-LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "speech/silero-LICENSE",
+      "sha256": "2e63e9a38b6e8fc0c7bc37ce174caca1862870856c6daf5697cfb785e925520b"
+    },
+    {
+      "path": "speech/whisper-openai-LICENSE",
+      "sha256": "b5d65a59060e68c4ff940e1eddfa6f94b2d68fdf58ed7f4dd57721c997e35e9d"
+    },
+    {
+      "path": "speech/whisper-cpp-LICENSE",
+      "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d"
+    },
+    {
+      "path": "npm/eastasianwidth-0.2.0/LICENSE-NOTES.md",
+      "sha256": "652d0486b433ecd1e91c2a933f6d320f651bda1d7bb32ba50a48cf7329bb81b3"
+    },
+    {
+      "path": "npm/eastasianwidth-0.2.0/MIT-LICENSE.txt",
+      "sha256": "543f72322f0ec407fc96f9d2ea9c9af98db9b8448fdd99483be94d65a1011b16"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+android_app {
+    name: "AIOSMiniApps",
+    srcs: ["src/**/*.java"],
+    static_libs: ["AIOSMiniAppWebKit", "AIOSCoreRuntime"],
+    sdk_version: "current",
+    min_sdk_version: "35",
+    certificate: "platform",
+    system_ext_specific: true,
+    asset_dirs: ["assets"],
+    optimize: { enabled: false },
+}
+
+license {
+    name: "aios_miniapp_webkit_license",
+    visibility: [":__subpackages__"],
+    license_kinds: ["SPDX-license-identifier-Apache-2.0"],
+    license_text: ["third_party/LICENSE"],
+}
+android_library_import {
+    name: "AIOSMiniAppWebKit",
+    aars: ["third_party/webkit-1.13.0.aar"],
+    licenses: ["aios_miniapp_webkit_license"],
+    sdk_version: "current",
+    min_sdk_version: "23",
+    static_libs: ["androidx.annotation_annotation", "androidx.annotation_annotation-experimental", "androidx.core_core", "jspecify"],
+}

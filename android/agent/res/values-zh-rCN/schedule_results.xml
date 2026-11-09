@@ -1,0 +1,5 @@
+<resources>
+<string name="schedule_results_channel">自动化执行结果</string>
+<string name="schedule_result_success">已完成，点击查看结果</string>
+<string name="schedule_result_other">执行已结束，点击查看结果</string>
+</resources>

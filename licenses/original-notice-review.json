@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-09",
+  "scope": "Original notices for the four already identified dependencies",
+  "resolved": [
+    {
+      "package": "eastasianwidth@0.2.0",
+      "source": "https://github.com/komagata/eastasianwidth/blob/1cae8a1e507ad6bd5da2e9a01c0f6c90131699bf/LICENSE-NOTES.md",
+      "notice": "licenses/apk-notices/npm/eastasianwidth-0.2.0/MIT-LICENSE.txt",
+      "historical_permission": "Upstream explicitly covers previously published versions, including 0.2.0."
+    }
+  ],
+  "unresolved": [
+    {
+      "package": "debugserver-types@0.5.0",
+      "declared_license": "MIT",
+      "source": "https://github.com/mstange/debugserver-types/issues/5",
+      "finding": "Published crate and checked repository lack complete original copyright notice; issue comments are requests by third parties, not maintainer permission."
+    },
+    {
+      "package": "@npmcli/agent@3.0.0",
+      "declared_license": "ISC",
+      "source": "https://github.com/npm/agent/issues/176",
+      "finding": "ISC declaration exists; complete original notice absent. Proposed MIT license in unmerged PR does not establish ISC notice for this version."
+    },
+    {
+      "package": "err-code@2.0.3",
+      "declared_license": "MIT",
+      "source": "https://github.com/IndigoUnited/js-err-code/issues/45",
+      "finding": "MIT declaration exists; checked package/repository and issue comments do not provide original complete notice."
+    }
+  ],
+  "result": "One gap closed; three remain externally unconfirmed. No messages were sent, copyright years invented, or generic templates presented as upstream originals."
+}

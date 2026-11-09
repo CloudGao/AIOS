@@ -1,0 +1,112 @@
+android_app {
+    name: "AIOSCoreServices",
+    srcs: [":aios-host-core-sources"],
+    asset_dirs: ["third_party/documents/licenses"],
+    platform_apis: true,
+    privileged: true,
+    system_ext_specific: true,
+    certificate: "platform",
+    optimize: { enabled: false },
+    static_libs: ["AIOSCoreServicesShared"],
+    required: ["privapp-permissions-aios-core", "aios-local-text-model", "aios-local-text-model-license"],
+    jni_libs: ["libaios_llama_server", "libLiteRt", "liblitert_jni", "libLiteRtClGlAccelerator", "libaios_search"],
+    use_embedded_native_libs: false,
+    compile_multilib: "64",
+}
+
+// The actual fixed-core/shared feature sources compile against the public SDK.
+// ROM process wiring is compiled separately by the app above; no ROM type stubs.
+android_library {
+    name: "AIOSCoreServicesShared",
+    srcs: ["src/**/*.java"],
+    manifest: "SharedManifest.xml",
+    sdk_version: "current",
+    min_sdk_version: "30",
+    static_libs: ["AIOSDocumentPdfBox", "AIOSCoreRuntime", "AIOSLiteRtOfflineApi", "kotlin-stdlib", "androidx.exifinterface_exifinterface", "androidx.work_work-runtime", "androidx.javascriptengine_javascriptengine"],
+}
+
+prebuilt_etc {
+    name: "privapp-permissions-aios-core",
+    src: "privapp-permissions-aios-core.xml",
+    filename: "privapp-permissions-aios-core.xml",
+    sub_dir: "permissions",
+    system_ext_specific: true,
+}
+
+// Offline CompiledModel API only; excludes Play delivery and cloud model download classes.
+java_import {
+    name: "AIOSLiteRtOfflineApi",
+    jars: ["third_party/litert/litert-offline-api.jar"],
+    sdk_version: "current",
+}
+cc_library_shared {
+    name: "libaios_search",
+    srcs: ["jni/search_jni.cpp", "third_party/sqlite-vec/sqlite-vec.c"],
+    local_include_dirs: ["third_party/sqlite-vec"],
+    cflags: ["-DSQLITE_CORE", "-DSQLITE_VEC_OMIT_FS", "-Wno-unused-parameter"],
+    static_libs: ["libaios_search_sqlite"],
+    header_libs: ["jni_headers"],
+    shared_libs: ["liblog"],
+    system_ext_specific: true,
+    compile_multilib: "64",
+}
+cc_prebuilt_library_shared {
+    name: "libLiteRt",
+    arch: { arm64: { srcs: ["third_party/litert/litert/jni/arm64-v8a/libLiteRt.so"] } },
+    compile_multilib: "64",
+    system_ext_specific: true,
+    strip: { none: true },
+    check_elf_files: false,
+    stl: "none",
+}
+cc_prebuilt_library_shared {
+    name: "liblitert_jni",
+    arch: { arm64: { srcs: ["third_party/litert/litert-api/jni/arm64-v8a/liblitert_jni.so"] } },
+    compile_multilib: "64",
+    system_ext_specific: true,
+    strip: { none: true },
+    check_elf_files: false,
+    stl: "none",
+}
+cc_prebuilt_library_shared {
+    name: "libLiteRtClGlAccelerator",
+    arch: { arm64: { srcs: ["third_party/litert/litert-gpu/jni/arm64-v8a/libLiteRtClGlAccelerator.so"] } },
+    compile_multilib: "64",
+    system_ext_specific: true,
+    strip: { none: true },
+    check_elf_files: false,
+    stl: "none",
+}
+
+// Dedicated SQLite without platform ICU hooks; only app-owned vector files.
+cc_library_static {
+    name: "libaios_search_sqlite",
+    srcs: ["third_party/sqlite/sqlite3.c"],
+    export_include_dirs: ["third_party/sqlite"],
+    cflags: ["-DSQLITE_THREADSAFE=2", "-DSQLITE_OMIT_LOAD_EXTENSION", "-DSQLITE_TEMP_STORE=3", "-Wno-unused-parameter", "-Wno-unused-function"],
+    system_ext_specific: true,
+    compile_multilib: "64",
+}
+
+android_library_import {
+    name: "AIOSDocumentPdfBox",
+    aars: ["third_party/documents/pdfbox-android-2.0.27.0.aar"],
+    sdk_version: "current",
+    static_libs: ["AIOSDocumentCrypto"],
+}
+java_import {
+    name: "AIOSDocumentCrypto",
+    jars: ["third_party/documents/bcprov-jdk15to18-1.72.jar", "third_party/documents/bcpkix-jdk15to18-1.72.jar", "third_party/documents/bcutil-jdk15to18-1.72.jar"],
+    sdk_version: "current",
+}
+
+// ARM64 PIE executable packaged in the app native directory for an app-owned process.
+cc_prebuilt_library_shared {
+    name: "libaios_llama_server",
+    arch: { arm64: { srcs: ["third_party/text-inference/arm64-v8a/libaios_llama_server.so"] } },
+    compile_multilib: "64",
+    system_ext_specific: true,
+    strip: { none: true },
+    check_elf_files: false,
+    stl: "none",
+}

@@ -1,0 +1,26 @@
+<resources>
+    <string name="optional_model_lfm">LFM2.5-350M Q4_K_M</string>
+    <string name="optional_model_speaker">CAM++ speaker identification</string>
+    <string name="optional_model_face">BlazeFace face detection</string>
+    <string name="optional_model_description">Optional download or local import. Only this exact model version is supported. No automatic download. Leaving this page cancels an active transfer.</string>
+    <string name="optional_model_license_pending">The license scope for these exact weights is still under review. The project license does not by itself establish permission for the weights. Import or download only if you have confirmed authorization for your use.</string>
+    <string name="optional_model_license_terms">This model uses its own license and conditions. Review the upstream terms for your intended use.</string>
+    <string name="optional_model_source">Official source</string>
+    <string name="optional_model_license">License reference</string>
+    <string name="optional_model_download">Download model</string>
+    <string name="optional_model_import">Import model file</string>
+    <string name="optional_model_continue">Continue</string>
+    <string name="optional_model_confirm">Download this model from its official source? Continue only after reviewing its license terms.</string>
+    <string name="optional_model_confirm_pending">Permission for these exact weights has not been confirmed by AIOS. Continue only if you have independently confirmed authorization for your use.</string>
+    <string name="optional_model_checking">Checking model…</string>
+    <string name="optional_model_ready">File verified. The next use will load it; face detection also requires device GPU validation.</string>
+    <string name="optional_model_missing">No verified optional model file installed.</string>
+    <string name="optional_model_working">Transferring and verifying… Keep this page open.</string>
+    <string name="optional_model_failed">Could not install the model. Check the network, free space, and exact file version, then retry. Existing model files are preserved if transfer or verification fails.</string>
+    <string name="optional_model_no_browser">No app can open this link. Install a browser first.</string>
+    <string name="optional_model_unknown_speaker">Unconfirmed speaker</string>
+    <string name="optional_model_speaker_number">Speaker %1$d</string>
+    <string name="optional_model_manage">Optional model files</string>
+    <string name="optional_model_face_unavailable">Face detection is unavailable until its model and device GPU validation are ready.</string>
+    <string name="optional_model_import_only">This runtime requires the converted dense model, not the sparse upstream download. Import the exact compatible file shown above; a direct download is unavailable. See the source documentation for offline conversion.</string>
+</resources>

@@ -1,0 +1,31 @@
+{
+  "runtime": {
+    "repository": "https://github.com/ggml-org/whisper.cpp",
+    "tag": "v1.9.5",
+    "commit": "d1be6fde11ac6e0407606b4e42fe72d34add8037",
+    "archive_sha256": "ff1a9053feb509ff9d7729703355541ae9690073a6b1c40eb692c962e0dc1720",
+    "selection": [
+      "include",
+      "src",
+      "ggml",
+      "cmake",
+      "CMakeLists.txt",
+      "LICENSE",
+      "README.md",
+      "AUTHORS"
+    ],
+    "modifications": "None; AIOS JNI adapter is outside this directory"
+  },
+  "weights": {
+    "repository": "https://huggingface.co/ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "file": "ggml-small-q5_1.bin",
+    "sha256": "ae85e4a935d7a567bd102fe55afc16bb595bdb618e11b2fc7591bc08120411bb",
+    "bytes": 190085487,
+    "license": "MIT"
+  },
+  "openai_license": {
+    "url": "https://raw.githubusercontent.com/openai/whisper/86098128c0b4f24f0e2aa2994de830614b474227/LICENSE",
+    "commit": "86098128c0b4f24f0e2aa2994de830614b474227"
+  }
+}

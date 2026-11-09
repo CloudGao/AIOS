@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="models_title">Model management</string>
+    <string name="models_description">Choose models for system capabilities. Specialized photo models retain their validated profiles.</string>
+    <string name="models_inherit">Use system default</string>
+    <string name="models_specialized">Specialized model profile</string>
+    <string name="models_loading">Reading model status…</string>
+    <string name="models_state_model_missing">Model not installed</string>
+    <string name="models_state_backend_missing">Runtime not installed</string>
+    <string name="models_state_unverified">Not verified</string>
+    <string name="models_state_available">Model integrity verified</string>
+    <string name="models_local_status">Local model: %1$s · %2$s</string>
+    <string name="models_photo_ready">Photo semantic models: verified</string>
+    <string name="models_photo_unverified">Photo models: verification incomplete</string>
+    <string name="models_read_failed">Could not read model status</string>
+    <string name="models_not_integrated">Not connected yet</string>
+    <string name="models_fallback">Failure fallback</string>
+    <string name="models_no_fallback">No fallback</string>
+    <string name="models_cloud_item">Cloud · %1$s · %2$s</string>
+    <string name="models_cloud_disclosure">This capability will send its input to the selected cloud provider when this model is used.</string>
+    <string name="models_save">Save</string>
+    <string name="models_save_failed">Could not save the model selection</string>
+    <string name="models_cap_text_default">Default text model</string>
+    <string name="models_cap_notification_filter">Notification filtering</string>
+    <string name="models_cap_notification_importance">Notification importance</string>
+    <string name="models_cap_notification_summary">Notification summaries</string>
+    <string name="models_cap_text_extract">Text extraction</string>
+    <string name="models_cap_text_summary">Text summaries</string>
+    <string name="models_cap_text_judge">Text decisions</string>
+    <string name="models_cap_photo_image_embedding">Photo image embeddings</string>
+    <string name="models_cap_photo_text_embedding">Photo search text embeddings</string>
+    <string name="models_cap_photo_face_detection">Face detection</string>
+    <string name="models_cap_photo_description">Photo descriptions</string>
+</resources>

@@ -1,0 +1,29 @@
+<exceptions>
+ <exception package="os.aios.agent">
+  <permission name="android.permission.POST_NOTIFICATIONS" fixed="false"/>
+  <permission name="android.permission.READ_CONTACTS" fixed="false"/>
+  <permission name="android.permission.WRITE_CONTACTS" fixed="false"/>
+  <permission name="android.permission.READ_CALENDAR" fixed="false"/>
+  <permission name="android.permission.WRITE_CALENDAR" fixed="false"/>
+  <permission name="android.permission.READ_MEDIA_IMAGES" fixed="false"/>
+  <permission name="android.permission.READ_MEDIA_VIDEO" fixed="false"/>
+  <permission name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" fixed="false"/>
+  <permission name="android.permission.CALL_PHONE" fixed="false"/>
+  <permission name="android.permission.READ_PHONE_STATE" fixed="false"/>
+  <permission name="android.permission.READ_SMS" fixed="false"/>
+  <permission name="android.permission.READ_CALL_LOG" fixed="false"/>
+  <permission name="android.permission.ACCESS_COARSE_LOCATION" fixed="false"/>
+  <permission name="android.permission.ACCESS_FINE_LOCATION" fixed="false"/>
+  <permission name="android.permission.BLUETOOTH_CONNECT" fixed="false"/>
+  <permission name="android.permission.BLUETOOTH_SCAN" fixed="false"/>
+  <permission name="android.permission.RECORD_AUDIO" fixed="false"/>
+  <permission name="android.permission.READ_MEDIA_AUDIO" fixed="false"/>
+  <permission name="android.permission.ACCESS_MEDIA_LOCATION" fixed="false"/>
+ </exception>
+ <exception package="os.aios.speech">
+  <permission name="android.permission.RECORD_AUDIO" fixed="false"/>
+  <permission name="android.permission.POST_NOTIFICATIONS" fixed="false"/>
+  <permission name="android.permission.READ_PHONE_STATE" fixed="false"/>
+  <permission name="android.permission.READ_CALL_LOG" fixed="false"/>
+ </exception>
+</exceptions>

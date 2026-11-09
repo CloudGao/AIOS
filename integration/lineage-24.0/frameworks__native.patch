@@ -1,0 +1,255 @@
+diff --git a/include/input/Input.h b/include/input/Input.h
+index c6ebdf2..813fd73 100644
+--- a/include/input/Input.h
++++ b/include/input/Input.h
+@@ -401,6 +401,9 @@ enum {
+     POLICY_FLAG_INJECTED_FROM_ACCESSIBILITY_TOOL =
+             android::os::IInputConstants::POLICY_FLAG_INJECTED_FROM_ACCESSIBILITY_TOOL,
+ 
++    POLICY_FLAG_AIOS_ASSISTANT_BYPASS =
++            android::os::IInputConstants::POLICY_FLAG_AIOS_ASSISTANT_BYPASS,
++
+     /* These flags are set by the input dispatcher. */
+ 
+     // Indicates that the input event was injected.
+diff --git a/libs/gui/include/gui/WindowInfo.h b/libs/gui/include/gui/WindowInfo.h
+index b2dff48..088c20a 100644
+--- a/libs/gui/include/gui/WindowInfo.h
++++ b/libs/gui/include/gui/WindowInfo.h
+@@ -182,6 +182,8 @@ struct WindowInfo : public Parcelable {
+                 static_cast<uint32_t>(os::InputConfig::DISPLAY_TOPOLOGY_AWARE),
+         DO_NOT_PILFER =
+                 static_cast<uint32_t>(os::InputConfig::DO_NOT_PILFER),
++        AIOS_ASSISTANT_OVERLAY =
++                static_cast<uint32_t>(os::InputConfig::AIOS_ASSISTANT_OVERLAY),
+         // clang-format on
+     };
+ 
+diff --git a/libs/input/android/os/IInputConstants.aidl b/libs/input/android/os/IInputConstants.aidl
+index c028d34..6eb5c64 100644
+--- a/libs/input/android/os/IInputConstants.aidl
++++ b/libs/input/android/os/IInputConstants.aidl
+@@ -70,6 +70,9 @@ interface IInputConstants
+      */
+     const int POLICY_FLAG_INJECTED_FROM_ACCESSIBILITY_TOOL = 0x80000;
+ 
++    /** Set only inside system_server after checking the AIOS service and user authorization. */
++    const int POLICY_FLAG_AIOS_ASSISTANT_BYPASS = 0x100000;
++
+     /**
+      * Common input event flag used for both motion and key events for a gesture or pointer being
+      * canceled.
+diff --git a/libs/input/android/os/InputConfig.aidl b/libs/input/android/os/InputConfig.aidl
+index 727f1d3..a55dc3d 100644
+--- a/libs/input/android/os/InputConfig.aidl
++++ b/libs/input/android/os/InputConfig.aidl
+@@ -182,4 +182,7 @@ enum InputConfig {
+      * all input streams, such as the PointerLocationView used for debugging.
+      */
+      DO_NOT_PILFER                = 1 << 20,
++
++    /** System-verified AIOS panel; ignored only for authorized AIOS injected gestures. */
++    AIOS_ASSISTANT_OVERLAY        = 1 << 21,
+ }
+diff --git a/services/inputflinger/dispatcher/InputDispatcher.cpp b/services/inputflinger/dispatcher/InputDispatcher.cpp
+index 162a544..9a9e818 100644
+--- a/services/inputflinger/dispatcher/InputDispatcher.cpp
++++ b/services/inputflinger/dispatcher/InputDispatcher.cpp
+@@ -21,6 +21,7 @@
+ #define LOG_NDEBUG 1
+ 
+ #include <android-base/chrono_utils.h>
++#include <android-base/scopeguard.h>
+ #include <android-base/logging.h>
+ #include <android-base/stringprintf.h>
+ #include <android/os/IInputConstants.h>
+@@ -2191,6 +2192,19 @@ bool InputDispatcher::dispatchMotionLocked(nsecs_t currentTime,
+         return true;
+     }
+ 
++    // The window registry is restored before releasing mLock or dispatching another event.
++    // All hit testing AND occlusion checks below see the same filtered view; user input never does.
++    std::optional<DispatcherWindowInfo> originalWindowInfos;
++    if (entry->displayId == ui::LogicalDisplayId::DEFAULT
++            && (entry->policyFlags & POLICY_FLAG_AIOS_ASSISTANT_BYPASS)
++            && (entry->policyFlags & POLICY_FLAG_INJECTED_FROM_ACCESSIBILITY)
++            && (entry->policyFlags & POLICY_FLAG_TRUSTED)) {
++        originalWindowInfos = mWindowInfos;
++        mWindowInfos.excludeAiosAssistantOverlays();
++    }
++    auto restoreWindowInfos = base::make_scope_guard([&]() REQUIRES(mLock) {
++        if (originalWindowInfos) mWindowInfos = std::move(*originalWindowInfos);
++    });
+     const bool isPointerEvent = isFromSource(entry->source, AINPUT_SOURCE_CLASS_POINTER);
+ 
+     // Identify targets.
+@@ -4963,6 +4977,9 @@ InputEventInjectionResult InputDispatcher::injectInputEvent(const InputEvent* ev
+             << "ms, policyFlags=0x" << std::hex << policyFlags << std::dec << ", event=" << *event;
+     nsecs_t endTime = now() + std::chrono::duration_cast<std::chrono::nanoseconds>(timeout).count();
+ 
++    if (!(policyFlags & POLICY_FLAG_FILTERED)) {
++        policyFlags &= ~POLICY_FLAG_AIOS_ASSISTANT_BYPASS;
++    }
+     policyFlags |= POLICY_FLAG_INJECTED | POLICY_FLAG_TRUSTED;
+ 
+     // For all injected events, set device id = VIRTUAL_KEYBOARD_ID. The only exception is events
+@@ -5399,6 +5416,16 @@ InputDispatcher::DispatcherWindowInfo::getWindowHandlesForDisplay(
+     return it != mWindowHandlesByDisplay.end() ? it->second : EMPTY_WINDOW_HANDLES;
+ }
+ 
++void InputDispatcher::DispatcherWindowInfo::excludeAiosAssistantOverlays() {
++    for (auto& [displayId, windows] : mWindowHandlesByDisplay) {
++        if (displayId != ui::LogicalDisplayId::DEFAULT) continue;
++        std::erase_if(windows, [](const sp<WindowInfoHandle>& window) {
++            return window->getInfo()->inputConfig.test(
++                    WindowInfo::InputConfig::AIOS_ASSISTANT_OVERLAY);
++        });
++    }
++}
++
+ void InputDispatcher::DispatcherWindowInfo::forEachWindowHandle(
+         std::function<void(const sp<android::gui::WindowInfoHandle>&)> f) const {
+     for (const auto& [_, windowHandles] : mWindowHandlesByDisplay) {
+diff --git a/services/inputflinger/dispatcher/InputDispatcher.h b/services/inputflinger/dispatcher/InputDispatcher.h
+index a53f492..d88af9c 100644
+--- a/services/inputflinger/dispatcher/InputDispatcher.h
++++ b/services/inputflinger/dispatcher/InputDispatcher.h
+@@ -302,6 +302,9 @@ private:
+ 
+         void setMaximumObscuringOpacityForTouch(float opacity);
+ 
++        // Called only on a scoped copy during authorized AIOS motion dispatch.
++        void excludeAiosAssistantOverlays();
++
+         void setDisplayTopology(const DisplayTopologyGraph& displayTopologyGraph);
+ 
+         // Get a reference to window handles by display, return an empty vector if not found.
+diff --git a/services/inputflinger/tests/FakeInputDispatcherPolicy.cpp b/services/inputflinger/tests/FakeInputDispatcherPolicy.cpp
+index 7949933..7a95c9b 100644
+--- a/services/inputflinger/tests/FakeInputDispatcherPolicy.cpp
++++ b/services/inputflinger/tests/FakeInputDispatcherPolicy.cpp
+@@ -566,7 +566,7 @@ void FakeInputDispatcherPolicy::notifySwitch(nsecs_t when, uint32_t switchValues
+ }
+ 
+ void FakeInputDispatcherPolicy::pokeUserActivity(nsecs_t eventTime, int32_t eventType,
+-                                                 ui::LogicalDisplayId displayId) {
++                                                 ui::LogicalDisplayId displayId, int32_t /*keyCode*/) {
+     std::scoped_lock lock(mLock);
+     mNotifyUserActivity.notify_all();
+     mUserActivityPokeEvents.push({eventTime, eventType, displayId});
+diff --git a/services/inputflinger/tests/FakeInputDispatcherPolicy.h b/services/inputflinger/tests/FakeInputDispatcherPolicy.h
+index 677e1f0..e53e450 100644
+--- a/services/inputflinger/tests/FakeInputDispatcherPolicy.h
++++ b/services/inputflinger/tests/FakeInputDispatcherPolicy.h
+@@ -235,7 +235,7 @@ private:
+     void notifySwitch(nsecs_t when, uint32_t switchValues, uint32_t switchMask,
+                       uint32_t policyFlags) override;
+     void pokeUserActivity(nsecs_t eventTime, int32_t eventType,
+-                          ui::LogicalDisplayId displayId) override;
++                          ui::LogicalDisplayId displayId, int32_t keyCode) override;
+     bool isStaleEvent(nsecs_t currentTime, nsecs_t eventTime) override;
+     void onPointerDownOutsideFocus(const sp<IBinder>& newToken) override;
+     void setPointerCapture(const PointerCaptureRequest& request) override;
+diff --git a/services/inputflinger/tests/InputDispatcher_test.cpp b/services/inputflinger/tests/InputDispatcher_test.cpp
+index f5ea1ca..8d535d2 100644
+--- a/services/inputflinger/tests/InputDispatcher_test.cpp
++++ b/services/inputflinger/tests/InputDispatcher_test.cpp
+@@ -703,6 +703,98 @@ TEST_F(InputDispatcherTest, SetInputWindow_SingleWindowTouch) {
+     window->consumeMotionDown(ui::LogicalDisplayId::DEFAULT);
+ }
+ 
++
++// The real overlay remains touchable. Only the system-owned filtered accessibility
++// injection policy may exclude it, including from obscured flags and drop checks.
++class AiosOverlayInputTest : public InputDispatcherTest {
++protected:
++    sp<FakeWindowHandle> app, panel;
++    void SetUp() override {
++        InputDispatcherTest::SetUp();
++        auto application = std::make_shared<FakeApplicationHandle>();
++        app = sp<FakeWindowHandle>::make(application, mDispatcher, "Target", ui::LogicalDisplayId::DEFAULT);
++        panel = sp<FakeWindowHandle>::make(application, mDispatcher, "Assistant", ui::LogicalDisplayId::DEFAULT);
++        app->setOwnerInfo(gui::Pid{100}, gui::Uid{10001});
++        panel->setOwnerInfo(gui::Pid{200}, gui::Uid{10002});
++        app->setDropInputIfObscured(true);
++        panel->setTouchOcclusionMode(gui::TouchOcclusionMode::BLOCK_UNTRUSTED);
++        auto info = *panel->getInfo();
++        info.inputConfig |= WindowInfo::InputConfig::AIOS_ASSISTANT_OVERLAY;
++        mDispatcher->onWindowInfosChanged({{info, *app->getInfo()}, {}, 0, 0});
++    }
++    InputEventInjectionResult send(int action, uint32_t policy) {
++        auto event = MotionEventBuilder(action, AINPUT_SOURCE_TOUCHSCREEN)
++                .displayId(ui::LogicalDisplayId::DEFAULT)
++                .pointer(PointerBuilder(0, ToolType::FINGER).x(100).y(200)).build();
++        return injectMotionEvent(*mDispatcher, event, INJECT_EVENT_TIMEOUT,
++                InputEventInjectionSync::WAIT_FOR_RESULT, {}, policy);
++    }
++    static constexpr uint32_t AIOS = DEFAULT_POLICY_FLAGS | POLICY_FLAG_FILTERED
++            | POLICY_FLAG_INJECTED_FROM_ACCESSIBILITY | POLICY_FLAG_AIOS_ASSISTANT_BYPASS;
++};
++
++TEST_F(AiosOverlayInputTest, AiosStrokeSkipsPanelAndOcclusionThenRestoresUserRouting) {
++    ASSERT_EQ(InputEventInjectionResult::SUCCEEDED, send(AMOTION_EVENT_ACTION_DOWN, AIOS));
++    app->consumeMotionDown(ui::LogicalDisplayId::DEFAULT, MotionFlag::IS_ACCESSIBILITY_EVENT);
++    ASSERT_EQ(InputEventInjectionResult::SUCCEEDED, send(AMOTION_EVENT_ACTION_MOVE, AIOS));
++    app->consumeMotionMove(ui::LogicalDisplayId::DEFAULT, MotionFlag::IS_ACCESSIBILITY_EVENT);
++    ASSERT_EQ(InputEventInjectionResult::SUCCEEDED, send(AMOTION_EVENT_ACTION_UP, AIOS));
++    app->consumeMotionUp(ui::LogicalDisplayId::DEFAULT, MotionFlag::IS_ACCESSIBILITY_EVENT);
++    panel->assertNoEvents();
++    ASSERT_EQ(InputEventInjectionResult::SUCCEEDED, send(AMOTION_EVENT_ACTION_DOWN, DEFAULT_POLICY_FLAGS));
++    panel->consumeMotionDown(ui::LogicalDisplayId::DEFAULT);
++    app->assertNoEvents();
++}
++
++TEST_F(AiosOverlayInputTest, PhysicalTouchStillHitsPanel) {
++    mDispatcher->notifyMotion(MotionArgsBuilder(AMOTION_EVENT_ACTION_DOWN, AINPUT_SOURCE_TOUCHSCREEN)
++            .deviceId(4).displayId(ui::LogicalDisplayId::DEFAULT)
++            .policyFlags(DEFAULT_POLICY_FLAGS)
++            .pointer(PointerBuilder(0, ToolType::FINGER).x(100).y(200)).build());
++    panel->consumeMotionDown(ui::LogicalDisplayId::DEFAULT);
++    app->assertNoEvents();
++}
++
++TEST_F(AiosOverlayInputTest, OtherAccessibilityServiceStillHitsPanel) {
++    ASSERT_EQ(InputEventInjectionResult::SUCCEEDED, send(AMOTION_EVENT_ACTION_DOWN,
++            DEFAULT_POLICY_FLAGS | POLICY_FLAG_FILTERED | POLICY_FLAG_INJECTED_FROM_ACCESSIBILITY));
++    panel->consumeMotionDown(ui::LogicalDisplayId::DEFAULT, MotionFlag::IS_ACCESSIBILITY_EVENT);
++    app->assertNoEvents();
++}
++
++TEST_F(AiosOverlayInputTest, UnfilteredInjectionCannotForgeBypass) {
++    ASSERT_EQ(InputEventInjectionResult::SUCCEEDED, send(AMOTION_EVENT_ACTION_DOWN, AIOS & ~POLICY_FLAG_FILTERED));
++    panel->consumeMotionDown(ui::LogicalDisplayId::DEFAULT, MotionFlag::IS_ACCESSIBILITY_EVENT);
++    app->assertNoEvents();
++}
++
++TEST_F(AiosOverlayInputTest, MissingAccessibilityOriginCannotBypass) {
++    ASSERT_EQ(InputEventInjectionResult::SUCCEEDED, send(AMOTION_EVENT_ACTION_DOWN, AIOS & ~POLICY_FLAG_INJECTED_FROM_ACCESSIBILITY));
++    panel->consumeMotionDown(ui::LogicalDisplayId::DEFAULT);
++    app->assertNoEvents();
++}
++
++TEST_F(AiosOverlayInputTest, UnmarkedOverlayIsNotSkipped) {
++    mDispatcher->onWindowInfosChanged({{*panel->getInfo(), *app->getInfo()}, {}, 0, 0});
++    ASSERT_EQ(InputEventInjectionResult::SUCCEEDED, send(AMOTION_EVENT_ACTION_DOWN, AIOS));
++    panel->consumeMotionDown(ui::LogicalDisplayId::DEFAULT, MotionFlag::IS_ACCESSIBILITY_EVENT);
++    app->assertNoEvents();
++}
++
++TEST_F(AiosOverlayInputTest, OtherOccludingWindowStillBlocksAios) {
++    auto other = sp<FakeWindowHandle>::make(std::make_shared<FakeApplicationHandle>(),
++            mDispatcher, "Other overlay", ui::LogicalDisplayId::DEFAULT);
++    other->setOwnerInfo(gui::Pid{300}, gui::Uid{10003});
++    other->setTouchable(false);
++    other->setTouchOcclusionMode(gui::TouchOcclusionMode::BLOCK_UNTRUSTED);
++    auto info = *panel->getInfo();
++    info.inputConfig |= WindowInfo::InputConfig::AIOS_ASSISTANT_OVERLAY;
++    mDispatcher->onWindowInfosChanged({{info, *other->getInfo(), *app->getInfo()}, {}, 0, 0});
++    ASSERT_EQ(InputEventInjectionResult::FAILED, send(AMOTION_EVENT_ACTION_DOWN, AIOS));
++    app->assertNoEvents();
++    panel->assertNoEvents();
++}
++
+ using InputDispatcherDeathTest = InputDispatcherTest;
+ 
+ /**

@@ -1,0 +1,14 @@
+[
+  {
+    "name": "webkit-1.13.0.aar",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/webkit/webkit/1.13.0/webkit-1.13.0.aar",
+    "sha256": "001c836ea612e835991288a7a66877f25288e4cf5ec89729ee7ae066e3491a35",
+    "bytes": 212088
+  },
+  {
+    "name": "webkit-1.13.0.pom",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/webkit/webkit/1.13.0/webkit-1.13.0.pom",
+    "sha256": "da4bf7351a6cde07ec0869959beafdd67d87718f203c498ab733bc2ca07d316e",
+    "bytes": 2534
+  }
+]

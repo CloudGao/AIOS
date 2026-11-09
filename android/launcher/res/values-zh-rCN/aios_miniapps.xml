@@ -1,0 +1,5 @@
+<resources>
+<string name="aios_mini_app">小程序</string>
+<string name="aios_phone_conversation">AIOS · 会话记录</string>
+<string name="aios_local_conversation">AIOS · 本地会话</string>
+</resources>

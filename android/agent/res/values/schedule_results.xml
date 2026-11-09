@@ -1,0 +1,5 @@
+<resources>
+<string name="schedule_results_channel">Automation results</string>
+<string name="schedule_result_success">Completed. Tap to view the result.</string>
+<string name="schedule_result_other">Execution ended. Tap to view the result.</string>
+</resources>

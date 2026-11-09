@@ -1,0 +1,18 @@
+diff --git a/src/com/android/phone/CarrierConfigLoader.java b/src/com/android/phone/CarrierConfigLoader.java
+index 4d77c79..e05e14e 100644
+--- a/src/com/android/phone/CarrierConfigLoader.java
++++ b/src/com/android/phone/CarrierConfigLoader.java
+@@ -1394,6 +1394,13 @@ public class CarrierConfigLoader extends ICarrierConfigLoader.Stub {
+             if (config != null) {
+                 retConfig.putAll(config);
+             }
++            // Pixel's default carrier package omits mainland China VoLTE availability.
++            // Apply a device/SIM-scoped baseline before carrier and user overrides.
++            String simOperator = mContext.getSystemService(TelephonyManager.class)
++                    .createForSubscriptionId(subscriptionId).getSimOperator();
++            if (ChinaVoltePolicy.applies(Build.DEVICE, simOperator)) {
++                retConfig.putBoolean(CarrierConfigManager.KEY_CARRIER_VOLTE_AVAILABLE_BOOL, true);
++            }
+             config = mConfigFromCarrierApp[phoneId];
+             if (config != null) {
+                 retConfig.putAll(config);

@@ -1,0 +1,14 @@
+{
+  "model": "LFM2.5-350M",
+  "quantization": "Q4_K_M",
+  "repository": "LiquidAI/LFM2.5-350M-GGUF",
+  "revision": "657e078c94084481950a2d555a941481f715536b",
+  "filename": "LFM2.5-350M-Q4_K_M.gguf",
+  "bytes": 229312224,
+  "sha256": "7e6f72643caafc9a68256686638c4d7916f2cec76d1df478d4c3ddcd95a6aed4",
+  "selection": "user-selected; no comparison or quality benchmark performed",
+  "runtime_archive": "https://codeload.github.com/ggml-org/llama.cpp/tar.gz/refs/heads/master",
+  "runtime_archive_sha256": "09d6da4cd201bb5b2422804061c4b5dc7aea9709ef490a99e50120e7284e4bc4",
+  "runtime_source": "third_party/llama",
+  "runtime_license": "third_party/llama/LICENSE"
+}

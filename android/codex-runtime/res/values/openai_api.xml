@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><string name="provider_saved_start_failed">The account was saved, but the runtime could not start. Reopen the account and retry; your key has been kept.</string></resources>

@@ -1,0 +1,17 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/asg017/sqlite-vec/v0.1.6/sqlite-vec.c",
+    "file": "sqlite-vec.c",
+    "sha256": "aea2ff1524ab80ccd1d51c698b09a74403c2d6ef00949d2a083661b4660881fe"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/asg017/sqlite-vec/v0.1.6/LICENSE-MIT",
+    "file": "LICENSE-MIT",
+    "sha256": "6ce72bbe12d975bd5286e5ab0a064c069693300c47bccbc57bec18485f1621ea"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/asg017/sqlite-vec/v0.1.6/LICENSE-APACHE",
+    "file": "LICENSE-APACHE",
+    "sha256": "a38070a94d4afd9cd710e3ce67bd1de78097cfe1784c1f0109ac95d3c196bfdc"
+  }
+]

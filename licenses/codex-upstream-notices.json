@@ -1,0 +1,632 @@
+[
+  {
+    "packages": [
+      "Inflector@0.11.4"
+    ],
+    "repository": "https://github.com/whatisinternet/inflector",
+    "revision": "a4a95eac75043f4bffb127c7c8ec886b5b106053",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/whatisinternet/inflector/a4a95eac75043f4bffb127c7c8ec886b5b106053/LICENSE.md",
+        "sha256": "03d1bd5bfbee8d44651e7f57faf9e5b4eda4233f0d4eda36a716f2f0533d230b",
+        "file": "licenses/codex-upstream-notices/03d1bd5bfbee8d44651e7f57faf9e5b4eda4233f0d4eda36a716f2f0533d230b"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "age-core@0.12.0"
+    ],
+    "repository": "https://github.com/str4d/rage",
+    "revision": "f6383f367e9aa514a3b5fbce7feede08a425d647",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/str4d/rage/f6383f367e9aa514a3b5fbce7feede08a425d647/LICENSE-MIT",
+        "sha256": "fe56c030c2d8c3404a37fe711cebb27ebea13d0aacf7e3524db4198335ad8cd1",
+        "file": "licenses/codex-upstream-notices/fe56c030c2d8c3404a37fe711cebb27ebea13d0aacf7e3524db4198335ad8cd1"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/str4d/rage/f6383f367e9aa514a3b5fbce7feede08a425d647/LICENSE-APACHE",
+        "sha256": "3708458dee7f359ac6c9c5558023ed481be87e5372c43ebd7f2ca7ad23c12026",
+        "file": "licenses/codex-upstream-notices/3708458dee7f359ac6c9c5558023ed481be87e5372c43ebd7f2ca7ad23c12026"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "age@0.12.1"
+    ],
+    "repository": "https://github.com/str4d/rage",
+    "revision": "7a854c9c8c02dab2ebea19e02e6693a5730a8b2a",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/str4d/rage/7a854c9c8c02dab2ebea19e02e6693a5730a8b2a/LICENSE-MIT",
+        "sha256": "fe56c030c2d8c3404a37fe711cebb27ebea13d0aacf7e3524db4198335ad8cd1",
+        "file": "licenses/codex-upstream-notices/fe56c030c2d8c3404a37fe711cebb27ebea13d0aacf7e3524db4198335ad8cd1"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/str4d/rage/7a854c9c8c02dab2ebea19e02e6693a5730a8b2a/LICENSE-APACHE",
+        "sha256": "3708458dee7f359ac6c9c5558023ed481be87e5372c43ebd7f2ca7ad23c12026",
+        "file": "licenses/codex-upstream-notices/3708458dee7f359ac6c9c5558023ed481be87e5372c43ebd7f2ca7ad23c12026"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "asn1-rs-impl@0.2.0"
+    ],
+    "repository": "https://github.com/rusticata/asn1-rs",
+    "revision": "a20e5f7319c896737ad0f2557037817b91ad854f",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/rusticata/asn1-rs/a20e5f7319c896737ad0f2557037817b91ad854f/LICENSE-MIT",
+        "sha256": "a5c61b93b6ee1d104af9920cf020ff3c7efe818e31fe562c72261847a728f513",
+        "file": "licenses/codex-upstream-notices/a5c61b93b6ee1d104af9920cf020ff3c7efe818e31fe562c72261847a728f513"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/rusticata/asn1-rs/a20e5f7319c896737ad0f2557037817b91ad854f/LICENSE-APACHE",
+        "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+        "file": "licenses/codex-upstream-notices/a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "base64-simd@0.8.0",
+      "vsimd@0.8.0"
+    ],
+    "repository": "https://github.com/Nugine/simd",
+    "revision": "d74c030d9dc4f3cae02146d1f497ff62726ef09a",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/Nugine/simd/d74c030d9dc4f3cae02146d1f497ff62726ef09a/LICENSE",
+        "sha256": "71674605ec4c087fe9eb534e3e4f9e26eb2e4aabcd76a29fd156c6a844d44b3d",
+        "file": "licenses/codex-upstream-notices/71674605ec4c087fe9eb534e3e4f9e26eb2e4aabcd76a29fd156c6a844d44b3d"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "cookie-factory@0.3.3"
+    ],
+    "repository": "https://github.com/rust-bakery/cookie-factory",
+    "revision": "d36b805dbd7dd65f2df947235c5bcc573afe2c76",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/rust-bakery/cookie-factory/d36b805dbd7dd65f2df947235c5bcc573afe2c76/.reuse/dep5",
+        "sha256": "fac95e33eb175ff151cde39e3f7ad52292e6acf83db22bef30d3bfad417a8846",
+        "file": "licenses/codex-upstream-notices/fac95e33eb175ff151cde39e3f7ad52292e6acf83db22bef30d3bfad417a8846"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/rust-bakery/cookie-factory/d36b805dbd7dd65f2df947235c5bcc573afe2c76/LICENSES/MIT.txt",
+        "sha256": "d09216dc1ea5f273997667935a8d6514d80f00b89fb6954ecc3a43e0a6e360de",
+        "file": "licenses/codex-upstream-notices/d09216dc1ea5f273997667935a8d6514d80f00b89fb6954ecc3a43e0a6e360de"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; LICENSES and REUSE attribution inspected; candidate inclusion is not proof of binary linkage"
+  },
+  {
+    "packages": [
+      "crc-catalog@2.4.0"
+    ],
+    "repository": "https://github.com/akhilles/crc-catalog",
+    "revision": "b500ea693c552f8d946e290722a7b3ee8b9a7ee2",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/akhilles/crc-catalog/b500ea693c552f8d946e290722a7b3ee8b9a7ee2/LICENSES/Apache-2.0.txt",
+        "sha256": "d3cdb764b98283ee7c3a3cea8d374e2a2957322374378d1f3263f4d512741fc3",
+        "file": "licenses/codex-upstream-notices/d3cdb764b98283ee7c3a3cea8d374e2a2957322374378d1f3263f4d512741fc3"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/akhilles/crc-catalog/b500ea693c552f8d946e290722a7b3ee8b9a7ee2/LICENSES/MIT.txt",
+        "sha256": "5ef8fcfb6cccec8fcae043c834099a60c8b7406408db576e026d2b7e67dc5cf5",
+        "file": "licenses/codex-upstream-notices/5ef8fcfb6cccec8fcae043c834099a60c8b7406408db576e026d2b7e67dc5cf5"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; LICENSES and REUSE attribution inspected; candidate inclusion is not proof of binary linkage"
+  },
+  {
+    "packages": [
+      "debugserver-types@0.5.0"
+    ],
+    "repository": "https://github.com/Marwes/debugserver-types",
+    "revision": "d444f163123af5b4fbce7375d1afead7e9b8a224",
+    "files": [],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "eventsource-stream@0.2.3"
+    ],
+    "repository": "https://github.com/jpopesculian/eventsource-stream",
+    "revision": "3d46f1c758f9ee4681e9da0427556d24c53f9c01",
+    "files": [],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "fax@0.2.6",
+      "fax_derive@0.2.0"
+    ],
+    "repository": "https://github.com/pdf-rs/fax",
+    "revision": "40b226eb97b391355e971fd95a8dd532a4c127a0",
+    "files": [],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "fluent-langneg@0.13.1"
+    ],
+    "repository": "https://github.com/projectfluent/fluent-langneg-rs",
+    "revision": "7fdc590466ea63ca2367ac10fb1b881fe561f1a8",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/projectfluent/fluent-langneg-rs/7fdc590466ea63ca2367ac10fb1b881fe561f1a8/LICENSE-MIT",
+        "sha256": "016fcc02048817d628b04b140c54db290fd9d29a5e8a55b77871194e810716ac",
+        "file": "licenses/codex-upstream-notices/016fcc02048817d628b04b140c54db290fd9d29a5e8a55b77871194e810716ac"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/projectfluent/fluent-langneg-rs/7fdc590466ea63ca2367ac10fb1b881fe561f1a8/LICENSE-APACHE",
+        "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+        "file": "licenses/codex-upstream-notices/b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "include_dir@0.7.4",
+      "include_dir_macros@0.7.4"
+    ],
+    "repository": "https://github.com/Michael-F-Bryan/include_dir",
+    "revision": "d742c6fffce99ee89da91b934e7ce6fb2a82680c",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/Michael-F-Bryan/include_dir/d742c6fffce99ee89da91b934e7ce6fb2a82680c/LICENSE",
+        "sha256": "9369f62987b3a116111f2edfdc4cc72633e44ddc94d5d0c68659cf537b76a31f",
+        "file": "licenses/codex-upstream-notices/9369f62987b3a116111f2edfdc4cc72633e44ddc94d5d0c68659cf537b76a31f"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "intl_pluralrules@7.0.2"
+    ],
+    "repository": "https://github.com/zbraniecki/pluralrules",
+    "revision": "d0715d5b7cca72e228d6e6c4de154bd30dfdd06a",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/zbraniecki/pluralrules/d0715d5b7cca72e228d6e6c4de154bd30dfdd06a/intl_pluralrules/LICENSE-APACHE",
+        "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+        "file": "licenses/codex-upstream-notices/62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+        "scope_review_required": true
+      },
+      {
+        "url": "https://raw.githubusercontent.com/zbraniecki/pluralrules/d0715d5b7cca72e228d6e6c4de154bd30dfdd06a/intl_pluralrules/LICENSE-MIT",
+        "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+        "file": "licenses/codex-upstream-notices/23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+        "scope_review_required": true
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "io_tee@0.1.1"
+    ],
+    "repository": "https://github.com/TheOnlyMrCat/io_tee",
+    "revision": "8a7adecebf3429cbc58a0368751d1851dfaf58ed",
+    "files": [],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "jni-macros@0.22.4"
+    ],
+    "repository": "https://github.com/jni-rs/jni-rs",
+    "revision": "33045a124105c939d1e2cbdcb5a39e5d868ffa03",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/jni-rs/jni-rs/33045a124105c939d1e2cbdcb5a39e5d868ffa03/LICENSE-MIT",
+        "sha256": "fea1d5bf3dd71605ce5d7d2ff695c1837e914c77195e523a86b5391716477960",
+        "file": "licenses/codex-upstream-notices/fea1d5bf3dd71605ce5d7d2ff695c1837e914c77195e523a86b5391716477960"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/jni-rs/jni-rs/33045a124105c939d1e2cbdcb5a39e5d868ffa03/LICENSE-APACHE",
+        "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+        "file": "licenses/codex-upstream-notices/a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "jni-sys-macros@0.4.1"
+    ],
+    "repository": "https://github.com/jni-rs/jni-sys",
+    "revision": "64d77b7a5f119d7b55b4e2c169a4668067ff59e6",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/jni-rs/jni-sys/64d77b7a5f119d7b55b4e2c169a4668067ff59e6/LICENSE-MIT",
+        "sha256": "1d85bd754b04ceec93e98e890edd1fa3c6a22e81bcb32135806beeccefa51cd1",
+        "file": "licenses/codex-upstream-notices/1d85bd754b04ceec93e98e890edd1fa3c6a22e81bcb32135806beeccefa51cd1"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/jni-rs/jni-sys/64d77b7a5f119d7b55b4e2c169a4668067ff59e6/LICENSE-APACHE",
+        "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+        "file": "licenses/codex-upstream-notices/c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "jni@0.22.4"
+    ],
+    "repository": "https://github.com/jni-rs/jni-rs",
+    "revision": "5ae9458a4ec44c5318f37ddc7569c1d4ae8a69e7",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/jni-rs/jni-rs/5ae9458a4ec44c5318f37ddc7569c1d4ae8a69e7/LICENSE-MIT",
+        "sha256": "fea1d5bf3dd71605ce5d7d2ff695c1837e914c77195e523a86b5391716477960",
+        "file": "licenses/codex-upstream-notices/fea1d5bf3dd71605ce5d7d2ff695c1837e914c77195e523a86b5391716477960"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/jni-rs/jni-rs/5ae9458a4ec44c5318f37ddc7569c1d4ae8a69e7/LICENSE-APACHE",
+        "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+        "file": "licenses/codex-upstream-notices/a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "ndk-context@0.1.1"
+    ],
+    "repository": "https://github.com/rust-windowing/android-ndk-rs",
+    "revision": "10f2ba388fca20f7349996ebae26ccda7a6fda5c",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/rust-windowing/android-ndk-rs/10f2ba388fca20f7349996ebae26ccda7a6fda5c/LICENSE-MIT",
+        "sha256": "508a77d2e7b51d98adeed32648ad124b7b30241a8e70b2e72c99f92d8e5874d1",
+        "file": "licenses/codex-upstream-notices/508a77d2e7b51d98adeed32648ad124b7b30241a8e70b2e72c99f92d8e5874d1"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/rust-windowing/android-ndk-rs/10f2ba388fca20f7349996ebae26ccda7a6fda5c/LICENSE-APACHE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "file": "licenses/codex-upstream-notices/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "opentelemetry-appender-tracing@0.31.1"
+    ],
+    "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-appender-tracing",
+    "revision": "00f97c948e95beb7b2c966fcdb5f946c2a89baeb",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/open-telemetry/opentelemetry-rust/00f97c948e95beb7b2c966fcdb5f946c2a89baeb/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "file": "licenses/codex-upstream-notices/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "opentelemetry-http@0.31.0"
+    ],
+    "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-http",
+    "revision": "285dc925f98403ff426acc70968f104dc820d4f2",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/open-telemetry/opentelemetry-rust/285dc925f98403ff426acc70968f104dc820d4f2/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "file": "licenses/codex-upstream-notices/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "opentelemetry-otlp@0.31.0"
+    ],
+    "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-otlp",
+    "revision": "285dc925f98403ff426acc70968f104dc820d4f2",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/open-telemetry/opentelemetry-rust/285dc925f98403ff426acc70968f104dc820d4f2/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "file": "licenses/codex-upstream-notices/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "opentelemetry-proto@0.31.0"
+    ],
+    "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-proto",
+    "revision": "285dc925f98403ff426acc70968f104dc820d4f2",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/open-telemetry/opentelemetry-rust/285dc925f98403ff426acc70968f104dc820d4f2/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "file": "licenses/codex-upstream-notices/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "opentelemetry-semantic-conventions@0.31.0"
+    ],
+    "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-semantic-conventions",
+    "revision": "285dc925f98403ff426acc70968f104dc820d4f2",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/open-telemetry/opentelemetry-rust/285dc925f98403ff426acc70968f104dc820d4f2/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "file": "licenses/codex-upstream-notices/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "opentelemetry@0.31.0"
+    ],
+    "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry",
+    "revision": "285dc925f98403ff426acc70968f104dc820d4f2",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/open-telemetry/opentelemetry-rust/285dc925f98403ff426acc70968f104dc820d4f2/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "file": "licenses/codex-upstream-notices/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "opentelemetry_sdk@0.31.0"
+    ],
+    "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-sdk",
+    "revision": "285dc925f98403ff426acc70968f104dc820d4f2",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/open-telemetry/opentelemetry-rust/285dc925f98403ff426acc70968f104dc820d4f2/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "file": "licenses/codex-upstream-notices/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "pagable@0.4.1"
+    ],
+    "repository": "https://github.com/facebook/starlark-rust",
+    "revision": "8978f3cd91b2908e1e61f6b58f84293097abf8f1",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/facebook/starlark-rust/8978f3cd91b2908e1e61f6b58f84293097abf8f1/LICENSE",
+        "sha256": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
+        "file": "licenses/codex-upstream-notices/50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "protoc-bin-vendored-linux-aarch_64@3.2.0",
+      "protoc-bin-vendored-linux-ppcle_64@3.2.0",
+      "protoc-bin-vendored-linux-s390_64@3.2.0",
+      "protoc-bin-vendored-linux-x86_32@3.2.0",
+      "protoc-bin-vendored-linux-x86_64@3.2.0",
+      "protoc-bin-vendored-macos-aarch_64@3.2.0",
+      "protoc-bin-vendored-macos-x86_64@3.2.0",
+      "protoc-bin-vendored-win32@3.2.0",
+      "protoc-bin-vendored@3.2.0"
+    ],
+    "repository": "https://github.com/stepancheg/rust-protoc-bin-vendored/",
+    "revision": "895c0433c3727a552970ce961e398e20e52d6353",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/stepancheg/rust-protoc-bin-vendored/895c0433c3727a552970ce961e398e20e52d6353/LICENSE.txt",
+        "sha256": "97647e63047ef75a82ee2928b335df94f45c87e08777dc033393c73294f3a57a",
+        "file": "licenses/codex-upstream-notices/97647e63047ef75a82ee2928b335df94f45c87e08777dc033393c73294f3a57a"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "rama-core@0.3.0-alpha.4",
+      "rama-dns@0.3.0-alpha.4",
+      "rama-error@0.3.0-alpha.4",
+      "rama-http-backend@0.3.0-alpha.4",
+      "rama-http-core@0.3.0-alpha.4",
+      "rama-http-headers@0.3.0-alpha.4",
+      "rama-http-types@0.3.0-alpha.4",
+      "rama-http@0.3.0-alpha.4",
+      "rama-macros@0.3.0-alpha.4",
+      "rama-net@0.3.0-alpha.4",
+      "rama-socks5@0.3.0-alpha.4",
+      "rama-tcp@0.3.0-alpha.4",
+      "rama-tls-rustls@0.3.0-alpha.4",
+      "rama-udp@0.3.0-alpha.4",
+      "rama-unix@0.3.0-alpha.4",
+      "rama-utils@0.3.0-alpha.4"
+    ],
+    "repository": "https://github.com/plabayo/rama",
+    "revision": "4733273a10a791762e2b7727850032b0c9b8536d",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/plabayo/rama/4733273a10a791762e2b7727850032b0c9b8536d/LICENSE-APACHE",
+        "sha256": "95bd3988beee069fa2848f648dab43cc6e0b2add2ad6bcb17360caf749802bcc",
+        "file": "licenses/codex-upstream-notices/95bd3988beee069fa2848f648dab43cc6e0b2add2ad6bcb17360caf749802bcc"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "schemafy_core@0.5.2",
+      "schemafy_lib@0.5.2"
+    ],
+    "repository": "https://github.com/Marwes/schemafy",
+    "revision": "5f835025d16d691f168315dda93efc52ae1e4e5e",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/Marwes/schemafy/5f835025d16d691f168315dda93efc52ae1e4e5e/LICENSE",
+        "sha256": "a11232911aa0d746688b560af367728021184084eeb6328a1922d60925c5eda0",
+        "file": "licenses/codex-upstream-notices/a11232911aa0d746688b560af367728021184084eeb6328a1922d60925c5eda0"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "sorted_vector_map@0.2.1"
+    ],
+    "repository": "https://github.com/facebookexperimental/rust-shed",
+    "revision": "756ae7daba100d194aa0260131937b7d96672549",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/facebookexperimental/rust-shed/756ae7daba100d194aa0260131937b7d96672549/LICENSE-MIT",
+        "sha256": "52412d7bc7ce4157ea628bbaacb8829e0a9cb3c58f57f99176126bc8cf2bfc85",
+        "file": "licenses/codex-upstream-notices/52412d7bc7ce4157ea628bbaacb8829e0a9cb3c58f57f99176126bc8cf2bfc85"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/facebookexperimental/rust-shed/756ae7daba100d194aa0260131937b7d96672549/LICENSE-APACHE",
+        "sha256": "bb28c48e3e078166e91cfc2b6db7ffebb8a0973b9e23b3df060561292d8d69ec",
+        "file": "licenses/codex-upstream-notices/bb28c48e3e078166e91cfc2b6db7ffebb8a0973b9e23b3df060561292d8d69ec"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "starlark@0.14.2",
+      "starlark_derive@0.14.2",
+      "starlark_map@0.14.2",
+      "starlark_syntax@0.14.2"
+    ],
+    "repository": "https://github.com/facebook/starlark-rust",
+    "revision": "0c8d107ab963362ba47ee3ab9e0173bc39bd101d",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/facebook/starlark-rust/0c8d107ab963362ba47ee3ab9e0173bc39bd101d/LICENSE",
+        "sha256": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
+        "file": "licenses/codex-upstream-notices/50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "tonic-prost-build@0.14.3",
+      "tonic-prost@0.14.3"
+    ],
+    "repository": "https://github.com/hyperium/tonic",
+    "revision": "ed4bafc35af7a284357cf4e77e26b9c3eb0266ca",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/hyperium/tonic/ed4bafc35af7a284357cf4e77e26b9c3eb0266ca/LICENSE",
+        "sha256": "e24a56698aa6feaf3a02272b3624f9dc255d982970c5ed97ac4525a95056a5b3",
+        "file": "licenses/codex-upstream-notices/e24a56698aa6feaf3a02272b3624f9dc255d982970c5ed97ac4525a95056a5b3"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "tree-sitter@0.25.10"
+    ],
+    "repository": "https://github.com/tree-sitter/tree-sitter",
+    "revision": "da6fe9beb4f7f67beb75914ca8e0d48ae48d6406",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter/da6fe9beb4f7f67beb75914ca8e0d48ae48d6406/LICENSE",
+        "sha256": "5f9cf9fb6acb1972b35ae29119ce563bb60ec097656bc4b69b9bac2d04c7a147",
+        "file": "licenses/codex-upstream-notices/5f9cf9fb6acb1972b35ae29119ce563bb60ec097656bc4b69b9bac2d04c7a147"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "ts-rs-macros@11.1.0",
+      "ts-rs@11.1.0"
+    ],
+    "repository": "https://github.com/Aleph-Alpha/ts-rs",
+    "revision": "1dce5297090804082e9639d2b7d851ba815aa359",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/Aleph-Alpha/ts-rs/1dce5297090804082e9639d2b7d851ba815aa359/LICENSE",
+        "sha256": "db7f7f8e7236a2d0b41b855b2501b7b913caebbcda6ce498637a304ad1706ce1",
+        "file": "licenses/codex-upstream-notices/db7f7f8e7236a2d0b41b855b2501b7b913caebbcda6ce498637a304ad1706ce1"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "zune-jpeg@0.4.21"
+    ],
+    "repository": "https://github.com/etemesi254/zune-image/tree/dev/crates/zune-jpeg",
+    "revision": "fa2c767a01d7d9373911d0bf63e0588553d67e0e",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/etemesi254/zune-image/fa2c767a01d7d9373911d0bf63e0588553d67e0e/LICENSE.md",
+        "sha256": "c6dff146a9f31848ac296faa5a08a4253caf2c384c86f906dc99e7fc0a39cc8c",
+        "file": "licenses/codex-upstream-notices/c6dff146a9f31848ac296faa5a08a4253caf2c384c86f906dc99e7fc0a39cc8c"
+      }
+    ],
+    "scope": "Exact packaged VCS revision; repository-level license applicability still needs review"
+  },
+  {
+    "packages": [
+      "pagable_derive@0.4.1"
+    ],
+    "repository": "https://github.com/facebook/starlark-rust",
+    "revision": "8978f3cd91b2908e1e61f6b58f84293097abf8f1",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/facebook/starlark-rust/8978f3cd91b2908e1e61f6b58f84293097abf8f1/LICENSE",
+        "sha256": "50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a",
+        "file": "licenses/codex-upstream-notices/50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a"
+      }
+    ],
+    "scope": "Exact package VCS revision recovered from .cargo_vcs_info.json; repository license text retained; not exact linked SBOM"
+  },
+  {
+    "packages": [
+      "zune-core@0.4.12"
+    ],
+    "repository": "https://github.com/etemesi254/zune-image",
+    "revision": "f8fbb123d5ed04441e8324a555bfcda0cb1bd28f",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/etemesi254/zune-image/f8fbb123d5ed04441e8324a555bfcda0cb1bd28f/LICENSE.md",
+        "sha256": "c6dff146a9f31848ac296faa5a08a4253caf2c384c86f906dc99e7fc0a39cc8c",
+        "file": "licenses/codex-upstream-notices/c6dff146a9f31848ac296faa5a08a4253caf2c384c86f906dc99e7fc0a39cc8c"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/etemesi254/zune-image/f8fbb123d5ed04441e8324a555bfcda0cb1bd28f/LICENSE-ZLIB",
+        "sha256": "7fa429541e55b1509909e058f2d21a37467e4958ec713b357f6e0cf9dc4ee352",
+        "file": "licenses/codex-upstream-notices/7fa429541e55b1509909e058f2d21a37467e4958ec713b357f6e0cf9dc4ee352"
+      }
+    ],
+    "scope": "Exact package VCS revision recovered from .cargo_vcs_info.json; repository license text retained; not exact linked SBOM"
+  }
+]

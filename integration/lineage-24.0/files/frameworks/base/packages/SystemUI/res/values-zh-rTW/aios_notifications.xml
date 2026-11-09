@@ -1,0 +1,9 @@
+<resources>
+<string name="aios_notification_clear">清除</string>
+<string name="aios_notification_block">封鎖</string>
+<string name="aios_notification_pin">置頂</string>
+<string name="aios_notification_unpin">取消置頂</string>
+<string name="aios_notification_block_app">封鎖應用程式</string>
+<string name="aios_summary_uncovered">新增 %1$d 則</string>
+<string name="aios_notification_action_failed">通知操作失敗，請再試。</string>
+</resources>

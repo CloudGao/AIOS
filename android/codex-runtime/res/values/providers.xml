@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="provider_http">"Model service returned HTTP %1$d. Check the key, plan, model and quota."</string>
+    <string name="provider_authentication">"Model connection authentication failed. Restart the assistant."</string>
+    <string name="provider_unsupported">"This model connection cannot handle this request type. Choose a compatible model connection."</string>
+    <string name="provider_limit">"The model request or response exceeds the connection limit."</string>
+    <string name="provider_truncated">"The model response was truncated. Incomplete tool calls were not executed."</string>
+    <string name="provider_refused">"The model service declined this request."</string>
+    <string name="provider_timeout">"The model connection timed out. Check the current task before retrying."</string>
+    <string name="provider_disconnected">"The model connection ended before a complete response was received."</string>
+    <string name="provider_upstream">"The model service reported an error. Check the account and try again."</string>
+    <string name="provider_protocol">"The model returned an invalid response. No incomplete tool calls were executed."</string>
+    <string name="provider_save">"Could not save model settings."</string>
+    <string name="provider_remove">"Could not remove this account."</string>
+    <string name="provider_web_login">"Use website authorization for ChatGPT."</string>
+    <string name="provider_url">"Enter an HTTPS API base URL without credentials, query parameters or fragments."</string>
+    <string name="provider_kimi_url">"Use https://api.kimi.com/coding/v1 or https://api.kimi.ai/coding/v1 with a Kimi Code key."</string>
+    <string name="provider_model">"Enter a valid model ID."</string>
+    <string name="provider_key_required">"Enter an API key."</string>
+    <string name="provider_key_changed">"Enter the key again when changing the API endpoint."</string>
+    <string name="provider_key_invalid">"The API key format is invalid."</string>
+    <string name="provider_unknown">"Unknown model provider."</string>
+</resources>

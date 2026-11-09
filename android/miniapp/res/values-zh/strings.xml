@@ -1,0 +1,24 @@
+<resources>
+ <string name="app_name">小程序</string>
+ <string name="mini_app">小程序</string>
+ <string name="back">返回</string>
+ <string name="version">版本 %1$d</string>
+ <string name="unavailable">此小程序入口已失效，请从程序页打开当前入口。</string>
+ <string name="deleting">卸载尚未完成，点击卸载重试。</string>
+ <string name="open">打开</string>
+ <string name="permissions">权限</string>
+ <string name="no_permissions">未申请任何能力权限。</string>
+ <string name="clear_data">清除数据</string>
+ <string name="clear_message">删除此小程序的本地数据和授权？已安装的程序代码会保留。</string>
+ <string name="uninstall">卸载</string>
+ <string name="uninstall_title">卸载“%1$s”？</string>
+ <string name="uninstall_message">这会删除此小程序的本地数据、版本、授权和通知。其他应用和已导出的文件会保留。</string>
+ <string name="notifications">发送通知</string>
+ <string name="cancel_notifications">移除本小程序的通知</string>
+ <string name="calendar">打开日历编辑器</string>
+ <string name="sms">打开短信编辑器</string>
+ <string name="read_file">读取你选择的文件</string>
+ <string name="save_file">导出文本文件</string>
+ <string name="cleanup_unavailable">浏览数据清理暂不可用。</string>
+ <string name="data_cleared">数据已清除</string>
+</resources>

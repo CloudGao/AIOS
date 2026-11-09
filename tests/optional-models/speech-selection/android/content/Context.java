@@ -1,0 +1,2 @@
+package android.content;
+public final class Context {public final android.content.pm.PackageManager manager=new android.content.pm.PackageManager();private final SharedPreferences preferences=new SharedPreferences();public String getPackageName(){return "os.aios.app";}public SharedPreferences getSharedPreferences(String n,int m){return preferences;}public android.content.pm.PackageManager getPackageManager(){return manager;}public android.content.res.Resources getResources(){return new android.content.res.Resources();}public String getString(int id){return "resource";}}

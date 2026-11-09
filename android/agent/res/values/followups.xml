@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="followup_count">Pending messages (%1$d)</string>
+    <string name="followup_queued">Queued for the next turn</string>
+    <string name="followup_steer">Guide now</string>
+    <string name="followup_remove">Remove</string>
+    <string name="followup_continue">Continue queued messages</string>
+    <string name="followup_sending">Sending guidance…</string>
+    <string name="followup_unknown">Delivery is unconfirmed. Check the conversation before sending again.</string>
+    <string name="followup_limit">You can queue up to 20 messages.</string>
+</resources>

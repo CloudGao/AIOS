@@ -1,0 +1,1 @@
+package os.aios.installfixture; public class MainActivity extends android.app.Activity { public void onCreate(android.os.Bundle b){super.onCreate(b);android.widget.TextView t=new android.widget.TextView(this);t.setText("AIOS installation verification");setContentView(t);} }

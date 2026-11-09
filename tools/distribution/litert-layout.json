@@ -1,0 +1,686 @@
+{
+  "schema": 1,
+  "sources": {
+    "android/core-services/third_party/litert/litert/classes.jar": "0c95900ba8e9c853987b39b10b56d8d232ffbb4a965693e827011f575df8e4d9",
+    "android/core-services/third_party/litert/litert-api/classes.jar": "8827b8d383d397fe4efa992331fecaabbfc5595fa3db4205148182ed34aebfe5",
+    "android/core-services/third_party/litert/litert-gpu/classes.jar": "5250efd06bdf9819a5d42ded11a2df8edc3effdf81c7bc88b550df77e63f0113"
+  },
+  "output_sha256": "c7c9c45fa0581323b4760861ba3395100c5217833cdf85806ac4858575bba003",
+  "entries": [
+    {
+      "path": "com/google/ai/edge/litert/",
+      "source": null,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 1107099664,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/Accelerator$Companion.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "cee5fd20fa37212a147f741ce9c728c0fc8a1d01d7c8699e90a0c4bd960ea974",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/Accelerator.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "d23aeb94d92664d8622d6e35689aaab2c6f5e510bb69f836858157369d94f673",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/BuiltinNpuAcceleratorProvider.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "e494592e33e3a6ea8a74903ae7bacf649a14184b62c319caa4883fc19d35f022",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$Companion.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "23697fa54d7574aca475b893b86596ffcdd10d50f715e1533c8cd181238d64b0",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$CpuOptions$Key.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "4e6a6a3b9b73ba9dc098b961e97faa743ad82e6a1ec15c34dfb0fc56183d3207",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$CpuOptions.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "08e1c2553df0488ec2c6022bf6fb8d2324cfb2bf650973915da2e596a6dd24fc",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$GpuOptions$Backend.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "9aacfa121e69f650a393929a7f2b19f6638c76bdffc5e0ee6c1b0ff6e0a821d1",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$GpuOptions$BufferStorageType.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "18fe81e214705a237d98ed0aafceecbb936ff6a58cb924359d4f90b22c6be6c9",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$GpuOptions$Key.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "3e9c2cf069affe6170b87b2cc141acfa68b4c1e31a3c8311123effeb20090c30",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$GpuOptions$Precision.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "3f9e99ba3641a2da2cca9c1cbd0480e0be2c2db4e13bbe8e5f59d45517316972",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$GpuOptions$Priority.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "15e25fac656de26dcbfb3e7fe1ac3ad942b5741d9bf4c030592dffeecb424284",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$GpuOptions.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "a574d7eb75c84a45540e91e810c083b90600d5a3b5cedc5b07fc2ac0c03a5f15",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$Options$Companion.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "752f0e5136f769c97636f196bbcc4d51d8f25870928d92766fff9c215136f1a9",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$Options.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "8596f7c6c1209248e29d2e87e3f23b1372bfdd2ddc41ce4c929c55e4864ef0a1",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$QualcommOptions$HtpPerformanceMode.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "aa2711993134ff6b4b951da7dd060f5e19de3d19ed3520e7f8339ed8a809953a",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$QualcommOptions$Key.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "3449c8c49a1fa3012ad0233bbc6fbc074e61e2245da5ea091499932d5d5a3e43",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$QualcommOptions$LogLevel.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "6432102f55ea6341b598438fe08e9a2f6c88747e5e73759234ffe98186cdfc1f",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$QualcommOptions$OptimizationLevel.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "9873ba9a9757976f4a9c98bcfe5e24a62545d300dfa976e0633c37bb24770312",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$QualcommOptions$Profiling.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "4551a380a54fe1cc761df0db2b62f1d205d1aa99594b642a8dd69b4354816de0",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel$QualcommOptions.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "284f7f01030f8f0377693b5c1f0bd3588817c096099f886fa511be816528fd2c",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/CompiledModel.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "b6f313942fac6cdd3cdfe53aeecf8117417897604402c49dee3abfd231f6334a",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/Environment$Companion.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "e991b8e49ffa7a54708fa58447b9f9f77158ae650b450185398736e8711dfb33",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/Environment$Option.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "fb944c28d73f4f7e0ca54f5cab21ae47adbb5b252d423d534dd9fe452dd6e45b",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/Environment.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "5a41fb74c21d5e84e7aa2891fd468a8d23ab6623abe162c84b4cce82fad6eb4a",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/JniHandle.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "c867d323ef4c6acba162661b7d88a67ceed49269e121790a9e91bfa7f136f776",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/LiteRtException.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "17b3657bbcc52363c1f65665d75ecec2382a75a2c08f3d731709fb4e993469df",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/NpuAcceleratorProvider.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "0011ad55d40b782ce3f0a803973ec77137b285a0965f9578be9e869d967be9ef",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/NpuCompatibilityChecker$Companion$Default$1.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "e9294476dc0bc1370a3e314b073627f6cee87f0003dfd51c0471b4b6932f8e68",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/NpuCompatibilityChecker$Companion$GoogleTensor$1.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "f02bcdbe1794a54b2c1dc878ccaee9f404f65cdbd3927636c8755c574ec3cb62",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/NpuCompatibilityChecker$Companion$Mediatek$1.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "9ea73017c19629ac543bfc29162f9b41e0a14ed9023684989e151e05427da6fc",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/NpuCompatibilityChecker$Companion$Qualcomm$1.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "fe8995ef118dc18ed5bbd115874633d67bf0731ea21a0edbde520f12dbc9f14e",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/NpuCompatibilityChecker$Companion$Samsung$1.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "70bbac23b478bb2770089251d7f3dc31bf6776a184202d4f50c91894c9fd2d7e",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/NpuCompatibilityChecker$Companion.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "dea36f4db89d75e309b4c860dc39907b62cca3f1229178e73e46f3f343c1fbb7",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/NpuCompatibilityChecker.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "fc16086d36aee22f551b2ab8fc99a351f97a8c4241a2664a06447255ca8daa0a",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/Status$Companion.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "17324d4ee943c67132ebd0419e7f59a5a0f5b89ac00c49a8f89c88ce746209b4",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/Status.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "ed43d6a5fcf1d021dd78215cbd50ace618c8c9a17a1bd454b6cba93e95289baf",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/TensorBuffer$Companion.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "38f8b538eaf8fe1176f88e287da0ba1044aa40c75aa09ed468296642173e1340",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/TensorBuffer.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "aee8fc5fc6558aa81feb05de29bfdc7d426afec710061ef9f2c2e0d4e9e257be",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/TensorBufferRequirements.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "8f66e11f3585cc45fe5c12cdba7e7288cd8ead2be92a826cf191326e9e8d9c3d",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/TensorBufferType$Companion.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "57da1e418516a1538637447cc3b2def466d9f495e8fdf18e0ca066e84f612e5e",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/TensorBufferType.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "13e42b1fb5f746d8283b30f98e18ce351b281973dfcb6b42fdcfee4f3c822cfe",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/TensorType$ElementType.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "142ff32acb2e1aa044905dc7c072d8f7dd6359d774429a1e888bc15f34851ac9",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/TensorType$Layout.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "86e1673c9566b855fc676301d6998e120de49198e75123885d28ca73470f250e",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    },
+    {
+      "path": "com/google/ai/edge/litert/TensorType.class",
+      "source": "android/core-services/third_party/litert/litert-api/classes.jar",
+      "sha256": "531f4ade15f84bb837d8dd3e61efbdc3fde059ceed9c8fdce73e4aa1f1bd93b3",
+      "date_time": [
+        2026,
+        10,
+        25,
+        21,
+        55,
+        44
+      ],
+      "external_attr": 25165824,
+      "create_system": 3
+    }
+  ]
+}

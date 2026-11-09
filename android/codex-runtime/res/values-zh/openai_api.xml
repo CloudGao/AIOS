@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><string name="provider_saved_start_failed">账号已保存，但运行时启动失败。请重新打开账号重试，密钥已保留。</string></resources>

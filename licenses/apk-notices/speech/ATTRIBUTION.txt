@@ -1,0 +1,5 @@
+Whisper Small Q5_1: OpenAI Whisper MIT; ggerganov/whisper.cpp model revision 5359861c739e955e79d9a303bcbc70fb988958b1.
+Whisper runtime: whisper.cpp v1.9.5, MIT; exact vendored sources and build recipe included.
+Silero VAD and sherpa-onnx remain for voice activity detection; preserve their notices and ONNX Runtime third-party notices.
+SenseVoice weights and tokens are not packaged.
+See whisper-openai-LICENSE and whisper-cpp-LICENSE.

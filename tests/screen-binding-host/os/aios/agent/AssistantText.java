@@ -1,0 +1,1 @@
+package os.aios.agent;class AssistantText {static String lastSentence(String t){return t;}}

@@ -1,0 +1,40 @@
+android_app {
+    name: "AIOSCodexRuntime",
+    srcs: ["*.java", ":aios-host-runtime-sources", ":aios-core-client-sources"],
+    static_libs: ["AIOSHostBindings", "AIOSCapabilityContracts"],
+    sdk_version: "current",
+    min_sdk_version: "28",
+    jni_libs: ["libaios_node", "libaios_cli_launcher"],
+    use_embedded_native_libs: false,
+    updatable: true, // Package compressed JNI payloads for PackageManager extraction on APK updates.
+    compile_multilib: "64",
+    certificate: "platform",
+    system_ext_specific: true,
+    asset_dirs: ["assets"],
+    optimize: { enabled: false },
+    required: ["aios-codex-app-server"],
+}
+
+cc_prebuilt_binary {
+    name: "aios-codex-app-server",
+    enabled: false,
+    arch: { arm64: { enabled: true, srcs: ["aios-codex-app-server"] } },
+    compile_multilib: "64",
+    system_ext_specific: true,
+    strip: { none: true },
+    shared_libs: ["libdl", "libm", "libc"],
+}
+
+// PIE command executables transported as JNI payloads so Android owns executable installation.
+cc_prebuilt_library_shared {
+ name: "libaios_node", srcs: ["native/libaios_node.so"],
+ compile_multilib: "64", arch: { arm: { enabled: false }, x86: { enabled: false }, x86_64: { enabled: false } },
+ sdk_version: "current", min_sdk_version: "28", stl: "none",
+ check_elf_files: false, strip: { none: true }, system_ext_specific: true,
+}
+cc_prebuilt_library_shared {
+ name: "libaios_cli_launcher", srcs: ["native/libaios_cli_launcher.so"],
+ compile_multilib: "64", arch: { arm: { enabled: false }, x86: { enabled: false }, x86_64: { enabled: false } },
+ sdk_version: "current", min_sdk_version: "28", stl: "none",
+ check_elf_files: false, strip: { none: true }, system_ext_specific: true,
+}

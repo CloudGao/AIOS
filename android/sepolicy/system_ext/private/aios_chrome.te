@@ -1,0 +1,10 @@
+type aios_chrome, domain;
+app_domain(aios_chrome)
+untrusted_app_domain(aios_chrome)
+net_domain(aios_chrome)
+bluetooth_domain(aios_chrome)
+typeattribute aios_chrome coredomain;
+
+# Chromium authorizes the Android shell uid at the CDP protocol boundary.
+# Keep SELinux access narrower than the generic untrusted-app domain.
+allow shell aios_chrome:unix_stream_socket connectto;

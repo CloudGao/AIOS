@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_title">Set up AIOS</string>
+    <string name="setup_intro">Connect to a network, add your own model account, and choose the permissions you need. You can return here from Settings.</string>
+    <string name="setup_network">Network</string>
+    <string name="setup_online">Android reports internet access; provider access still needs a real request.</string>
+    <string name="setup_offline">Internet access is not verified. Open network settings.</string>
+    <string name="setup_account">Sign in or configure an API key. No account is included in the ROM.</string>
+    <string name="setup_control">Device control</string>
+    <string name="setup_permissions">Review the control consent and Android permissions.</string>
+    <string name="setup_accessibility">Foreground accessibility control</string>
+    <string name="setup_optional">Enable only if you want AIOS to operate the foreground screen.</string>
+    <string name="setup_models">Photo models are bundled for offline initialization. Semantic search stays unavailable until GPU validation for this device and ROM passes.</string>
+    <string name="setup_models_missing">Photo model files are missing. Install a complete AIOS release to enable initialization.</string>
+    <string name="setup_continue">Continue to AIOS</string>
+    <string name="setup_resume">Network, accounts and permissions</string>
+    <string name="setup_unavailable">This settings page is unavailable on this system.</string>
+</resources>

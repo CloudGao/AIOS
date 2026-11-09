@@ -1,0 +1,4 @@
+<resources>
+    <!-- Pixel vendor points at an unavailable Google package in a GSI. -->
+    <string name="platform_carrier_config_package" translatable="false">com.android.carrierconfig</string>
+</resources>

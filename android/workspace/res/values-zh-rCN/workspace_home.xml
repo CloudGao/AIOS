@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="workspace_tasks">任务</string>
+    <string name="workspace_sessions">会话</string>
+    <string name="workspace_automation">自动化</string>
+    <string name="workspace_skills">技能</string>
+    <string name="workspace_settings">设置</string>
+    <string name="workspace_new_task">新建任务</string>
+    <string name="workspace_all">全部</string>
+    <string name="workspace_doing">进行中</string>
+    <string name="workspace_todo">待办</string>
+    <string name="workspace_done">已完成</string>
+    <string name="workspace_note">待整理</string>
+    <string name="workspace_attention">需要处理</string>
+    <string name="workspace_empty_goal">创建一个长期目标</string>
+    <string name="workspace_empty_goal_body">描述想达成的结果，让小助手持续管理计划与进度。</string>
+    <string name="workspace_empty_tasks">这里暂时没有任务</string>
+    <string name="workspace_empty_tasks_body">换个分类看看，或创建一个需要持续推进的目标。</string>
+    <string name="workspace_search">搜索本机资料</string>
+    <string name="workspace_running">运行中</string>
+    <string name="workspace_paused">暂停中</string>
+    <string name="workspace_stopped">已停止</string>
+    <string name="workspace_due">截止 %1$s</string>
+    <string name="workspace_expand">展开 %1$s</string>
+    <string name="workspace_collapse">折叠 %1$s</string>
+    <string name="workspace_task_description">任务：%1$s，%2$s</string>
+    <string name="workspace_state_reason">%1$s · %2$s</string>
+</resources>

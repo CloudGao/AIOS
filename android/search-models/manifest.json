@@ -1,0 +1,39 @@
+{
+  "model_id": "openclip-vit-b16-datacomp-xl",
+  "license": "MIT",
+  "checkpoint_revision": "d110532e8d4ff91c574ee60a342323f28468b287",
+  "checkpoint_sha256": "80905176486d952914c1deb3b753b8e653ab54aa4ffb14208bc5007cf7643a16",
+  "dimension": 512,
+  "metric": "l2",
+  "preprocessor": "rgb-bicubic-shortest224-centercrop-nchw-clip-normalized-v1",
+  "tokenizer_sha256": "46e6c94b00bcbac8517e133f33c6f7abf3f843176f7b30c21f0a1818d49a967e",
+  "graph_revision": "openclip-fp16-explicit-head-mask-v4",
+  "runtime": "LiteRT 2.3.0",
+  "compiler": "0.10.0",
+  "input_size": 224,
+  "image": {
+    "file": "image.tflite",
+    "sha256": "a810c23746c0990964eb0a445172d6307f3ba74ac8c6b207e27273e31410adce",
+    "bytes": 173108128
+  },
+  "text": {
+    "file": "text.tflite",
+    "sha256": "d633b6c65c1632316889a0994aeaae4b40081bcdf3757a12ffb7d1f0a6ee4d20",
+    "bytes": 76545472,
+    "pooling_input": "explicit-eot-mask-f32-77"
+  },
+  "face": {
+    "file": "face.tflite",
+    "sha256": "3e82b513e65d00b56c35b572f964a594fdbd6e56717361bc0b64cbaf9e140a4d",
+    "preprocessor": "letterbox192-nhwc-minus1to1-v1",
+    "decoder": "blazeface-full-range-2304-v1"
+  },
+  "token_embeddings": {
+    "file": "token-embeddings.fp16",
+    "sha256": "735c4bb3d104ff84416a33b494905f1364caf9f7118b0b06f4097ac7f3686b40",
+    "bytes": 50593792,
+    "rows": 49408,
+    "columns": 512
+  },
+  "space_id": "8ed01eecfe60e1b80340b9dcf6b11f864742d0125788f9a6977e98b07391aa99"
+}

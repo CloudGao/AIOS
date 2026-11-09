@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "device": "frankel",
+  "product": "lineage_frankel",
+  "branch": "lineage-24.0",
+  "arch": "arm64",
+  "release": "trunk_staging",
+  "out_dir": "out",
+  "product_makefile": "device/google/muzel/lineage_frankel.mk",
+  "board_config": "device/google/muzel/frankel/BoardConfig.mk",
+  "platform_certificate": "build/make/target/product/security/platform.x509.pem",
+  "launcher_certificate": "build/make/target/product/security/testkey.x509.pem",
+  "device_integrations": [
+    "frankel"
+  ],
+  "legacy_policy": true,
+  "acceptance": "pending_after_refactor"
+}

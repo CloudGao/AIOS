@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dream_status_never">尚未執行回顧</string>
+    <string name="dream_status_schedule_error">回顧排程登記失敗，將自動重試</string>
+    <string name="dream_status_authorization">等待開啟 AIOS 授權</string>
+    <string name="dream_status_disabled">回顧已關閉</string>
+    <string name="dream_status_preempted">回顧已讓出資源，來源證據保留</string>
+    <string name="dream_status_foreground">等待前景助手結束執行</string>
+    <string name="dream_status_power_save">等待退出省電模式</string>
+    <string name="dream_status_thermal">等待裝置降溫</string>
+    <string name="dream_status_screen">等待螢幕關閉</string>
+    <string name="dream_status_audio">等待通話或音訊工作階段結束</string>
+    <string name="dream_status_recording">等待錄音結束</string>
+    <string name="dream_status_capacity">等待背景助手執行名額</string>
+    <string name="dream_status_no_material">沒有新增來源，未呼叫模型</string>
+    <string name="dream_status_context_capacity">回顧上下文超出容量，來源保留</string>
+    <string name="dream_status_busy">其他回顧正在執行，稍後重試</string>
+    <string name="dream_status_window_used">本回顧時段已使用</string>
+    <string name="dream_status_daily_budget">自動回顧已達到當日批次限額</string>
+    <string name="dream_status_preparing">正在準備回顧來源和模型</string>
+    <string name="dream_status_submitted">回顧已提交，等待模型結果</string>
+    <string name="dream_status_complete_empty">回顧完成，沒有提出新變更</string>
+    <string name="dream_status_complete_changes">回顧完成；技能發布情況及待確認建議請查看記錄</string>
+    <string name="dream_status_prepare_failed">回顧準備失敗，將有限重試；來源保留</string>
+    <string name="dream_status_result_failed">回顧失敗或結果未通過驗證；來源保留，不重複提交</string>
+    <string name="dream_status_model_unavailable">請選擇可用且支援低推理強度的回顧模型</string>
+    <string name="dream_policy_explanation">自動回顧等待充電、連線和螢幕關閉。經驗證的技能自動發布；記憶與事項仍需確認。</string>
+    <string name="dream_schedule_diagnostics">排程登記：%1$s\n最近派發：%2$s\n最近執行檢查：%3$s</string>
+    <string name="dream_diagnostics_unavailable">暫時無法讀取排程診斷</string>
+    <string name="dream_time_none">尚無記錄</string>
+    <string name="dream_state_publish_pending">等待技能發布</string>
+    <string name="dream_state_publish_retry">技能發布待重試</string>
+    <string name="dream_state_unverified">技能證據待驗證</string>
+    <string name="dream_status_validation_failed">模型已回覆，但回顧結果未通過驗證；來源保留</string>
+</resources>

@@ -1,0 +1,11 @@
+AIOS
+
+Original AIOS code is licensed under GNU GPL version 3 only
+(SPDX-License-Identifier: GPL-3.0-only). See LICENSE and docs/LICENSING.md.
+
+Third-party and upstream-derived files retain their existing copyright,
+license and NOTICE statements. The AIOS license does not replace those
+component licenses or grant rights in separately distributed model weights.
+See docs/THIRD_PARTY.md and licenses/third-party-files.json.
+
+No affiliation or endorsement by the upstream projects is asserted.

@@ -1,0 +1,6 @@
+java_library {
+    name: "AIOSCapabilityContracts",
+    srcs: ["src/**/*.java"],
+    sdk_version: "current",
+    min_sdk_version: "28",
+}

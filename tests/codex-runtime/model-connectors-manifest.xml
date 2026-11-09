@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="os.aios.connectors.acceptance">
+    <uses-sdk android:minSdkVersion="35" android:targetSdkVersion="35"/>
+    <application android:hasCode="true"/>
+    <instrumentation android:name="os.aios.codex.AccountContractTest" android:targetPackage="os.aios.codex"/>
+    <instrumentation android:name="os.aios.codex.ProviderProtocolContractTest" android:targetPackage="os.aios.codex"/>
+</manifest>

@@ -1,0 +1,235 @@
+diff --git a/AndroidManifest-common.xml b/AndroidManifest-common.xml
+index 384a217..7ed505a 100644
+--- a/AndroidManifest-common.xml
++++ b/AndroidManifest-common.xml
+@@ -58,6 +58,7 @@
+ 
+     <uses-permission android:name="${applicationId}.permission.GRID_CONTROL" />
+ 
++    <uses-permission android:name="os.aios.permission.READ_MINIAPP_LAUNCHER"/>
+     <application
+         android:backupAgent="com.android.launcher3.LauncherBackupAgent"
+         android:name="com.android.launcher3.LauncherApplication"
+diff --git a/quickstep/src/com/android/launcher3/appprediction/PredictionRowView.java b/quickstep/src/com/android/launcher3/appprediction/PredictionRowView.java
+index 43b4056..06264dc 100644
+--- a/quickstep/src/com/android/launcher3/appprediction/PredictionRowView.java
++++ b/quickstep/src/com/android/launcher3/appprediction/PredictionRowView.java
+@@ -193,7 +193,7 @@ public class PredictionRowView<T extends Context & ActivityContext>
+     private void applyPredictedApps(List<ItemInfo> items) {
+         mPredictedApps.clear();
+         mPredictedApps.addAll(items.stream()
+-                .filter(itemInfo -> itemInfo instanceof WorkspaceItemInfo)
++                .filter(itemInfo -> itemInfo instanceof WorkspaceItemInfo && !com.android.launcher3.aios.MiniApps.isLibrary(itemInfo))
+                 .map(itemInfo -> (WorkspaceItemInfo) itemInfo).collect(Collectors.toList()));
+         applyPredictionApps();
+     }
+diff --git a/quickstep/src/com/android/launcher3/uioverrides/QuickstepLauncher.java b/quickstep/src/com/android/launcher3/uioverrides/QuickstepLauncher.java
+index ea1949b..b315ff0 100644
+--- a/quickstep/src/com/android/launcher3/uioverrides/QuickstepLauncher.java
++++ b/quickstep/src/com/android/launcher3/uioverrides/QuickstepLauncher.java
+@@ -329,7 +329,7 @@ public class QuickstepLauncher extends Launcher implements RecentsViewContainer,
+ 
+     @Override
+     protected LauncherOverlayManager getDefaultOverlay() {
+-        return new OverlayCallbackImpl(this);
++        return new com.android.launcher3.aios.AiosOverlay(this);
+     }
+ 
+     @Override
+@@ -523,6 +523,7 @@ public class QuickstepLauncher extends Launcher implements RecentsViewContainer,
+ 
+     @Override
+     public Stream<SystemShortcut.Factory> getSupportedShortcuts(ItemInfo itemInfo) {
++        if (com.android.launcher3.aios.MiniApps.isMini(itemInfo)) return com.android.launcher3.aios.MiniApps.shortcuts(itemInfo);
+         // Order matters as it affects order of appearance in popup container
+         List<SystemShortcut.Factory> shortcuts = new ArrayList(Arrays.asList(
+                 APP_INFO, WellbeingModel.SHORTCUT_FACTORY, mHotseatPredictionController));
+diff --git a/src/com/android/launcher3/Launcher.java b/src/com/android/launcher3/Launcher.java
+index 9d3341a..65c6185 100644
+--- a/src/com/android/launcher3/Launcher.java
++++ b/src/com/android/launcher3/Launcher.java
+@@ -1946,6 +1946,11 @@ public class Launcher extends StatefulActivity<LauncherState>
+     }
+ 
+     protected void onStateBack() {
++        if (mOverlayManager instanceof com.android.launcher3.aios.AiosOverlay
++                && ((com.android.launcher3.aios.AiosOverlay) mOverlayManager).isVisible()) {
++            mOverlayManager.hideOverlay(true);
++            return;
++        }
+         mStateManager.getState().onBackInvoked(this);
+     }
+ 
+@@ -2803,6 +2808,7 @@ public class Launcher extends StatefulActivity<LauncherState>
+      * @return a stream of supported system shortcuts.
+      */
+     public Stream<SystemShortcut.Factory> getSupportedShortcuts(ItemInfo itemInfo) {
++        if (com.android.launcher3.aios.MiniApps.isMini(itemInfo)) return com.android.launcher3.aios.MiniApps.shortcuts(itemInfo);
+         int container = itemInfo.container;
+         if (container == CONTAINER_DESKTOP || container == CONTAINER_HOTSEAT) {
+             return Stream.of(APP_INFO, WIDGETS, INSTALL, REMOVE);
+diff --git a/src/com/android/launcher3/allapps/AllAppsStore.java b/src/com/android/launcher3/allapps/AllAppsStore.java
+index caa8b4b..380f1d7 100644
+--- a/src/com/android/launcher3/allapps/AllAppsStore.java
++++ b/src/com/android/launcher3/allapps/AllAppsStore.java
+@@ -73,6 +73,11 @@ public class AllAppsStore {
+     private AppInfo mTempInfo = new AppInfo();
+ 
+     private @NonNull AppInfo[] mApps = EMPTY_ARRAY;
++    private AppInfo[] mNativeApps = EMPTY_ARRAY;
++    public void refreshMiniApps() {
++        mApps = com.android.launcher3.aios.MiniApps.merge(mActivityContext.asContext(), mNativeApps);
++        notifyUpdate();
++    }
+ 
+     private final List<OnUpdateListener> mUpdateListeners = new CopyOnWriteArrayList<>();
+     private final ArrayList<ViewGroup> mIconContainers = new ArrayList<>();
+@@ -90,6 +95,7 @@ public class AllAppsStore {
+     @Inject
+     AllAppsStore(AppsListRepository repo, ActivityContext context) {
+         mActivityContext = context;
++        com.android.launcher3.aios.MiniApps.attach(this, context);
+         if (useModelRepositoryBinding()) {
+             context.closeOnDestroy(repo.getAppsListStateRef()
+                     .forEach(context.getUiExecutor(), this::setAppsListData));
+@@ -112,7 +118,8 @@ public class AllAppsStore {
+      * in order to enable binary search on the mApps store
+      */
+     public void setApps(@Nullable AppInfo[] apps, int flags, Map<PackageUserKey, Integer> map) {
+-        mApps = apps == null ? EMPTY_ARRAY : apps;
++        mNativeApps = apps == null ? EMPTY_ARRAY : apps;
++        mApps = com.android.launcher3.aios.MiniApps.merge(mActivityContext.asContext(), mNativeApps);
+         Log.d(TAG, "setApps: apps.length=" + mApps.length);
+         mModelFlags = flags;
+         notifyUpdate();
+diff --git a/src/com/android/launcher3/allapps/search/DefaultAppSearchAlgorithm.java b/src/com/android/launcher3/allapps/search/DefaultAppSearchAlgorithm.java
+index c45f1e0..fc27f37 100644
+--- a/src/com/android/launcher3/allapps/search/DefaultAppSearchAlgorithm.java
++++ b/src/com/android/launcher3/allapps/search/DefaultAppSearchAlgorithm.java
+@@ -92,6 +92,7 @@ public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
+             String query) {
+         // Do an intersection of the words in the query and each title, and filter out all the
+         // apps that don't match all of the words in the query.
++        apps = java.util.Arrays.asList(com.android.launcher3.aios.MiniApps.merge(context, apps.toArray(new AppInfo[0])));
+         final String queryTextLower = query.toLowerCase();
+         final ArrayList<AdapterItem> result = new ArrayList<>();
+         StringMatcherUtility.StringMatcher matcher =
+diff --git a/src/com/android/launcher3/dragndrop/DragView.java b/src/com/android/launcher3/dragndrop/DragView.java
+index 73d6772..000375f 100644
+--- a/src/com/android/launcher3/dragndrop/DragView.java
++++ b/src/com/android/launcher3/dragndrop/DragView.java
+@@ -266,7 +266,7 @@ public class DragView extends FrameLayout {
+     @TargetApi(Build.VERSION_CODES.O)
+     public void setItemInfo(final ItemInfo info) {
+         mItemType = info.itemType;
+-        if (!mAllowSpringDrawable) {
++        if (!mAllowSpringDrawable || com.android.launcher3.aios.MiniApps.isMini(info)) {
+             return;
+         }
+ 
+diff --git a/src/com/android/launcher3/icons/IconCache.kt b/src/com/android/launcher3/icons/IconCache.kt
+index d867171..be2bc2d 100644
+--- a/src/com/android/launcher3/icons/IconCache.kt
++++ b/src/com/android/launcher3/icons/IconCache.kt
+@@ -323,6 +323,13 @@ constructor(
+      */
+     @Synchronized
+     fun getTitleAndIcon(info: ItemInfoWithIcon, lookupFlag: CacheLookupFlag) {
++        if (com.android.launcher3.aios.MiniApps.isMini(info)) {
++            try {
++                val mini = com.android.launcher3.aios.MiniApps.find(context, info.intent)
++                if (mini != null) com.android.launcher3.aios.MiniApps.decorate(context, info, mini)
++            } catch (e: Exception) { Log.w(TAG, "Mini app icon refresh deferred", e) }
++            return
++        }
+         if (info.isFileSystemItem()) {
+             val hsf = info.homeScreenFile
+             if (hsf == null) {
+@@ -383,6 +390,10 @@ constructor(
+         lookupFlag: CacheLookupFlag,
+         activityInfoProvider: Supplier<LauncherActivityInfo?>,
+     ) {
++        if (com.android.launcher3.aios.MiniApps.isMini(infoInOut)) {
++            getTitleAndIcon(infoInOut, lookupFlag)
++            return
++        }
+         val entry =
+             cacheLocked(
+                 requireNotNull(infoInOut.targetComponent) { "Component can't be null" },
+@@ -429,7 +440,10 @@ constructor(
+ 
+         iconRequestInfos
+             .filter {
+-                if (it.itemInfo.targetComponent == null) {
++                if (com.android.launcher3.aios.MiniApps.isMini(it.itemInfo)) {
++                    getTitleAndIcon(it.itemInfo, it.lookupFlag)
++                    false
++                } else if (it.itemInfo.targetComponent == null) {
+                     Log.i(TAG, "Skipping Item info with null component name: ${it.itemInfo}")
+                     it.itemInfo.bitmap = getDefaultIcon(it.itemInfo.user)
+                     false
+diff --git a/src/com/android/launcher3/model/WorkspaceItemProcessor.kt b/src/com/android/launcher3/model/WorkspaceItemProcessor.kt
+index d10f8d1..806fe1c 100644
+--- a/src/com/android/launcher3/model/WorkspaceItemProcessor.kt
++++ b/src/com/android/launcher3/model/WorkspaceItemProcessor.kt
+@@ -161,6 +161,24 @@ class WorkspaceItemProcessor(
+             c.markDeleted("Null intent from db for item id=${c.id}", RestoreError.APP_NO_DB_INTENT)
+             return
+         }
++        if (com.android.launcher3.aios.MiniApps.isIntent(intent) && c.user == android.os.Process.myUserHandle()) {
++            val mini = c.loadSimpleWorkspaceItem()
++            mini.intent = intent
++            try {
++                val entry = com.android.launcher3.aios.MiniApps.find(context, intent)
++                if (entry == null) {
++                    c.markDeleted("Mini app removed", RestoreError.APP_NOT_INSTALLED_EXTERNAL_MEDIA)
++                    return
++                }
++                com.android.launcher3.aios.MiniApps.decorate(context, mini, entry)
++            } catch (e: Exception) {
++                Log.w(TAG, "Mini app directory unavailable; retaining entry", e)
++            }
++            c.applyCommonProperties(mini)
++            c.markRestored()
++            c.checkAndAddItem(mini, loadedItems, memoryLogger)
++            return
++        }
+         var disabledState =
+             if (userManagerState.isUserQuiet(c.serialNumber))
+                 WorkspaceItemInfo.FLAG_DISABLED_QUIET_USER
+diff --git a/src/com/android/launcher3/model/tasks/PackageUpdatedTask.java b/src/com/android/launcher3/model/tasks/PackageUpdatedTask.java
+index a3d36e6..b4445ee 100644
+--- a/src/com/android/launcher3/model/tasks/PackageUpdatedTask.java
++++ b/src/com/android/launcher3/model/tasks/PackageUpdatedTask.java
+@@ -117,6 +117,15 @@ public class PackageUpdatedTask implements ModelUpdateTask {
+                     if (cn == null) return false;
+                     String packageName = cn.getPackageName();
+                     if (!mPackages.contains(packageName)) return false;
++                    if (com.android.launcher3.aios.MiniApps.isMini(itemInfo)) {
++                        // The host has one launcher activity; do not rewrite an individual
++                        // MiniApp intent to that shared library during host APK updates.
++                        iconCache.getTitleAndIcon(itemInfo, itemInfo.getMatchingLookupFlag());
++                        if (itemInfo.id != ItemInfo.NO_ID) {
++                            taskController.getModelWriter().updateItemInDatabase(itemInfo);
++                        }
++                        return true;
++                    }
+ 
+                     if (itemInfo.itemType != ITEM_TYPE_APPLICATION
+                             && itemInfo.itemType != ITEM_TYPE_DEEP_SHORTCUT) {
+diff --git a/src/com/android/launcher3/touch/ItemClickHandler.java b/src/com/android/launcher3/touch/ItemClickHandler.java
+index 9d7c2de..d2087a4 100644
+--- a/src/com/android/launcher3/touch/ItemClickHandler.java
++++ b/src/com/android/launcher3/touch/ItemClickHandler.java
+@@ -388,6 +388,11 @@ public class ItemClickHandler {
+         TestLogging.recordEvent(
+                 TestProtocol.SEQUENCE_MAIN, "start: startAppShortcutOrInfoActivity");
+         Intent intent = item.getIntent();
++        if (com.android.launcher3.aios.MiniApps.isMini(item)) {
++            try { launcher.startActivity(new Intent(intent)); }
++            catch (Exception e) { Toast.makeText(launcher, R.string.activity_not_available, Toast.LENGTH_SHORT).show(); }
++            return;
++        }
+         if (item instanceof ItemInfoWithIcon itemInfoWithIcon) {
+             if ((itemInfoWithIcon.runtimeStatusFlags
+                     & ItemInfoWithIcon.FLAG_INSTALL_SESSION_ACTIVE) != 0) {

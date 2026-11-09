@@ -1,0 +1,5 @@
+// Compiled into the existing Agent process. No new service or state owner.
+filegroup {
+    name: "aios-device-rom-sources",
+    srcs: ["src/**/*.java"],
+}

@@ -1,0 +1,678 @@
+diff --git a/README.md b/README.md
+index e7f3532..3397aa8 100644
+--- a/README.md
++++ b/README.md
+@@ -2051,3 +2051,9 @@ Apache-2.0
+ ## Obscura (experimental)
+
+ Use `--engine obscura --executable-path /path/to/obscura` to launch a local Obscura binary. Obscura v0.2.2 has accessibility, iframe, and rendering limitations; use Chrome when fidelity matters. See the [engine documentation](https://agent-browser.dev/engines/obscura) for setup, configuration, and MCP usage, and the [contributor guide](AGENTS.md#obscura-adapter) for source-build testing.
++
++## AIOS local CDP transport (development)
++
++On Unix hosts, `--cdp unix:/absolute/socket/path` discovers and connects to a browser through a filesystem Unix socket. Linux and Android additionally accept `--cdp abstract:chrome_devtools_remote`. The process must already have OS permission to connect. This option does not grant privileges, launch Chrome, use ADB, or fall back to TCP. Discovery ignores the advertised host and keeps the connection on the selected socket. HTTP discovery and WebSocket handshakes have five-second deadlines; discovery is capped at 64 KiB and requires an uncompressed, non-chunked HTTP response. Local WebSocket messages are capped at 32 MiB. Custom CDP headers are not accepted on this transport.
++
++This downstream transport is under development and has not been validated on Android Chrome. Existing `connect` and `--cdp` command parsing is reused. AIOS uses its own Binder interface, not the upstream MCP server. The upstream MCP wrapper inherits this endpoint through the same CLI configuration; it has no separate local-socket tool or permission bypass.
+\ No newline at end of file
+diff --git a/cli/src/connection.rs b/cli/src/connection.rs
+index ac07151..1c7c9a2 100644
+--- a/cli/src/connection.rs
++++ b/cli/src/connection.rs
+@@ -404,8 +404,7 @@ pub fn resolve_port(session: &str) -> u16 {
+ pub fn daemon_ready(session: &str) -> bool {
+     #[cfg(unix)]
+     {
+-        let socket_path = get_socket_path(session);
+-        UnixStream::connect(&socket_path).is_ok()
++        crate::native::daemon_socket::connect(session).is_ok()
+     }
+     #[cfg(windows)]
+     {
+@@ -833,9 +832,9 @@ pub fn ensure_daemon(session: &str, opts: &DaemonOptions) -> Result<DaemonResult
+             .map_err(|e| format!("Failed to create socket directory: {}", e))?;
+     }
+
+-    // Pre-flight check: Validate socket path length (Unix limit is 104 bytes including null terminator)
++    // Pre-flight check: Validate filesystem socket path length.
+     #[cfg(unix)]
+-    {
++    if !crate::native::daemon_socket::abstract_enabled() {
+         let socket_path = get_socket_path(session);
+         let path_len = socket_path.as_os_str().len();
+         if path_len > 103 {
+@@ -996,8 +995,7 @@ pub fn ensure_daemon(session: &str, opts: &DaemonOptions) -> Result<DaemonResult
+ fn connect(session: &str) -> Result<Connection, String> {
+     #[cfg(unix)]
+     {
+-        let socket_path = get_socket_path(session);
+-        UnixStream::connect(&socket_path)
++        crate::native::daemon_socket::connect(session)
+             .map(Connection::Unix)
+             .map_err(|e| format!("Failed to connect: {}", e))
+     }
+diff --git a/cli/src/main.rs b/cli/src/main.rs
+index 08418db..44f3cee 100644
+--- a/cli/src/main.rs
++++ b/cli/src/main.rs
+@@ -1882,6 +1882,7 @@ fn main() {
+             || cdp_value.starts_with("wss://")
+             || cdp_value.starts_with("http://")
+             || cdp_value.starts_with("https://")
++            || native::cdp::local::is_local(cdp_value)
+         {
+             // It's a URL - use cdpUrl field
+             json!({
+diff --git a/cli/src/mcp.rs b/cli/src/mcp.rs
+index 8119973..32ed871 100644
+--- a/cli/src/mcp.rs
++++ b/cli/src/mcp.rs
+@@ -1,3 +1,5 @@
++//! AIOS local Unix CDP endpoints use the canonical CLI configuration and permission checks.
++//! No dedicated socket tool is exposed: this is a transport, not a browser command.
+ //! Stdio MCP server for exposing agent-browser to MCP clients.
+ //!
+ //! The server keeps stdout exclusively for newline-delimited JSON-RPC
+@@ -4217,6 +4219,14 @@ fn write_json_line(stdout: &mut io::Stdout, value: &Value) -> io::Result<()> {
+
+ #[cfg(test)]
+ mod tests {
++    #[test]
++    fn local_cdp_transport_uses_canonical_cli_configuration() {
++        for endpoint in ["unix:/tmp/aios-cdp", "abstract:chrome_devtools_remote"] {
++            let args = vec!["--cdp".to_string(), endpoint.to_string(), "snapshot".to_string()];
++            let flags = crate::flags::parse_flags(&args);
++            assert_eq!(flags.cdp.as_deref(), Some(endpoint));
++        }
++    }
+     #[test]
+     fn recording_timeline_options_use_cli_parser() {
+         for operation in ["start", "restart"] {
+diff --git a/cli/src/native/browser.rs b/cli/src/native/browser.rs
+index f0589a9..1126992 100644
+--- a/cli/src/native/browser.rs
++++ b/cli/src/native/browser.rs
+@@ -2594,6 +2594,10 @@ fn obscura_target_init_timeout(last_error: Option<&str>) -> String {
+ }
+
+ async fn resolve_cdp_url(input: &str) -> Result<String, String> {
++    #[cfg(unix)]
++    if super::cdp::local::is_local(input) {
++        return super::cdp::local::resolve(input).await;
++    }
+     if input.starts_with("ws://") || input.starts_with("wss://") {
+         return Ok(input.to_string());
+     }
+diff --git a/cli/src/native/cdp/chrome.rs b/cli/src/native/cdp/chrome.rs
+index 2755e7a..4deea8c 100644
+--- a/cli/src/native/cdp/chrome.rs
++++ b/cli/src/native/cdp/chrome.rs
+@@ -1813,6 +1813,11 @@ fn build_playwright_binary_path(chromium_dir: &Path) -> PathBuf {
+     chromium_dir.join("chrome-win/chrome.exe")
+ }
+
++#[cfg(not(any(target_os = "macos", target_os = "linux", target_os = "windows")))]
++fn build_playwright_binary_path(chromium_dir: &Path) -> PathBuf {
++    chromium_dir.join("chrome")
++}
++
+ fn expand_tilde(path: &str) -> String {
+     if let Some(rest) = path.strip_prefix('~') {
+         if let Some(home) = dirs::home_dir() {
+diff --git a/cli/src/native/cdp/client.rs b/cli/src/native/cdp/client.rs
+index d347239..99952b3 100644
+--- a/cli/src/native/cdp/client.rs
++++ b/cli/src/native/cdp/client.rs
+@@ -20,16 +20,7 @@ use tokio_tungstenite::Connector;
+ use super::types::{CdpCommand, CdpError, CdpEvent, CdpMessage};
+
+ type PendingMap = Arc<Mutex<HashMap<u64, oneshot::Sender<CdpMessage>>>>;
+-type WsTx = Arc<
+-    Mutex<
+-        futures_util::stream::SplitSink<
+-            tokio_tungstenite::WebSocketStream<
+-                tokio_tungstenite::MaybeTlsStream<tokio::net::TcpStream>,
+-            >,
+-            Message,
+-        >,
+-    >,
+->;
++type WsTx = Arc<Mutex<std::pin::Pin<Box<dyn futures_util::Sink<Message, Error = tokio_tungstenite::tungstenite::Error> + Send>>>>;
+
+ /// Sessions whose events go to one private receiver instead of the broadcast.
+ type PrivateSessions = Arc<std::sync::Mutex<HashMap<String, mpsc::Sender<CdpEvent>>>>;
+@@ -206,6 +197,15 @@ impl CdpClient {
+         url: &str,
+         headers: Option<Vec<(String, String)>>,
+     ) -> Result<Self, String> {
++        #[cfg(unix)]
++        if super::local::is_local(url) {
++            if headers.as_ref().is_some_and(|h| !h.is_empty()) {
++                return Err("Custom headers are not supported for local CDP sockets".into());
++            }
++            let resolved = super::local::resolve(url).await?;
++            let (stream, socket) = super::local::websocket(&resolved).await?;
++            return Self::from_stream(stream, socket).await;
++        }
+         let normalized_url = normalize_websocket_root_path(url);
+         let mut request = normalized_url
+             .as_str()
+@@ -254,8 +254,19 @@ impl CdpClient {
+             .try_clone()
+             .map_err(|error| format!("Failed to duplicate CDP socket: {}", error))?;
+
++        Self::from_stream(ws_stream, socket).await
++    }
++
++    /// Shared command/event engine for TCP/TLS and host-authorized Unix sockets.
++    async fn from_stream<S>(
++        ws_stream: tokio_tungstenite::WebSocketStream<S>,
++        socket: socket2::Socket,
++    ) -> Result<Self, String>
++    where
++        S: tokio::io::AsyncRead + tokio::io::AsyncWrite + Unpin + Send + 'static,
++    {
+         let (ws_tx, mut ws_rx) = ws_stream.split();
+-        let ws_tx = Arc::new(Mutex::new(ws_tx));
++        let ws_tx: WsTx = Arc::new(Mutex::new(Box::pin(ws_tx)));
+
+         let pending: PendingMap = Arc::new(Mutex::new(HashMap::new()));
+         let (event_tx, _) = broadcast::channel(4096);
+diff --git a/cli/src/native/cdp/local.rs b/cli/src/native/cdp/local.rs
+new file mode 100644
+index 0000000..c370fc8
+--- /dev/null
++++ b/cli/src/native/cdp/local.rs
+@@ -0,0 +1,223 @@
++//! Local CDP transport. Socket access is granted by the host OS, never by this URL.
++//! Discovery and WebSocket use separate connections to the same local endpoint.
++use std::time::Duration;
++use tokio::io::{AsyncReadExt, AsyncWriteExt};
++use tokio::net::UnixStream;
++
++const LIMIT: usize = 64 * 1024;
++const DEADLINE: Duration = Duration::from_secs(5);
++
++pub fn is_local(value: &str) -> bool {
++    value.starts_with("unix:") || value.starts_with("abstract:")
++}
++
++fn parts(value: &str) -> Result<(&str, Option<&str>), String> {
++    let (endpoint, target) = value.split_once('#').map_or((value, None), |(a,b)| (a, Some(b)));
++    if endpoint.bytes().any(|b| b < 32 || b == 127) {
++        return Err("Control character in local CDP endpoint".into());
++    }
++    if let Some(path) = endpoint.strip_prefix("unix:") {
++        if !path.starts_with('/') || path.len() > 100 || path.contains('#') {
++            return Err("Local CDP socket must be an absolute path of at most 100 bytes".into());
++        }
++    } else if let Some(name) = endpoint.strip_prefix("abstract:") {
++        if name.is_empty() || name.len() > 100 || !name.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_' || b == b'-' || b == b'.') {
++            return Err("Invalid abstract CDP socket name".into());
++        }
++    } else {
++        return Err("Expected unix: or abstract: CDP endpoint".into());
++    }
++    if let Some(target) = target { validate_target(target)?; }
++    Ok((endpoint, target))
++}
++
++fn validate_target(target: &str) -> Result<(), String> {
++    if !(target == "/devtools/browser" || target.starts_with("/devtools/browser/"))
++        || target.bytes().any(|b| b <= 32 || b >= 127 || matches!(b, b'#' | b'?' | b'\\'))
++        || target.contains("..") || target.len() > 2048 {
++        return Err("Expected a browser-level /devtools/browser path".into());
++    }
++    Ok(())
++}
++
++async fn open(endpoint: &str) -> Result<UnixStream, String> {
++    if let Some(path) = endpoint.strip_prefix("unix:") {
++        return UnixStream::connect(path).await.map_err(|e| format!("Local CDP connect: {e}"));
++    }
++    #[cfg(any(target_os = "linux", target_os = "android"))]
++    {
++        let name = endpoint.strip_prefix("abstract:").ok_or("Invalid local endpoint")?;
++        // Nonblocking connect avoids blocking the runtime on a full listener backlog.
++        let socket = socket2::Socket::new(socket2::Domain::UNIX, socket2::Type::STREAM, None).map_err(|e| e.to_string())?;
++        socket.set_nonblocking(true).map_err(|e| e.to_string())?;
++        use std::os::fd::{FromRawFd, IntoRawFd};
++        let raw = socket.into_raw_fd();
++        // SAFETY: raw has one owner, transferred from socket above.
++        let stream = unsafe { std::os::unix::net::UnixStream::from_raw_fd(raw) };
++        // std connect_addr creates its own blocking socket; use libc connect on ours.
++        use std::os::fd::AsRawFd;
++
++
++        let mut native: libc::sockaddr_un = unsafe { std::mem::zeroed() };
++        native.sun_family = libc::AF_UNIX as libc::sa_family_t;
++        for (i, byte) in name.bytes().enumerate() { native.sun_path[i + 1] = byte as libc::c_char; }
++        let length = (std::mem::offset_of!(libc::sockaddr_un, sun_path) + 1 + name.len()) as libc::socklen_t;
++        let result = unsafe { libc::connect(stream.as_raw_fd(), &native as *const _ as *const libc::sockaddr, length) };
++        if result < 0 {
++            let error = std::io::Error::last_os_error();
++            if error.raw_os_error() != Some(libc::EINPROGRESS) {
++                return Err(format!("Abstract CDP connect: {error}"));
++            }
++        }
++        let stream = UnixStream::from_std(stream).map_err(|e| e.to_string())?;
++        stream.writable().await.map_err(|e| e.to_string())?;
++        if let Some(error) = stream.take_error().map_err(|e| e.to_string())? { return Err(error.to_string()); }
++
++        Ok(stream)
++    }
++    #[cfg(not(any(target_os = "linux", target_os = "android")))]
++    Err("Abstract sockets require Linux or Android".into())
++}
++
++fn body(response: &[u8]) -> Result<Vec<u8>, String> {
++    let split = response.windows(4).position(|w| w == b"\r\n\r\n").ok_or("Incomplete CDP HTTP headers")?;
++    let head = std::str::from_utf8(&response[..split]).map_err(|_| "Invalid CDP HTTP headers")?;
++    let mut lines = head.split("\r\n");
++    let status = lines.next().unwrap_or("");
++    if !(status.starts_with("HTTP/1.0 ") || status.starts_with("HTTP/1.1 ")) || !matches!(status.split_whitespace().nth(1), Some("200")) { return Err(format!("CDP discovery HTTP error: {status}")); }
++    let mut length = None;
++    for line in lines {
++        let (name, value) = line.split_once(':').ok_or("Malformed CDP HTTP header")?;
++        if name.eq_ignore_ascii_case("transfer-encoding") {
++            // HTTP/1.0 request below requires a non-chunked response. Fail explicitly.
++            return Err("Unsupported CDP transfer encoding".into());
++        }
++        if name.eq_ignore_ascii_case("content-length") {
++            if length.is_some() { return Err("Duplicate CDP content length".into()); }
++            length = Some(value.trim().parse::<usize>().map_err(|_| "Invalid CDP content length")?);
++        }
++    }
++    let body = &response[split + 4..];
++    if length.is_some_and(|n| n != body.len()) { return Err("Incomplete or excess CDP HTTP body".into()); }
++    Ok(body.to_vec())
++}
++
++pub async fn resolve(input: &str) -> Result<String, String> {
++    let (endpoint, target) = parts(input)?;
++    if target.is_some() { return Ok(input.to_owned()); }
++    tokio::time::timeout(DEADLINE, async {
++        let mut stream = open(endpoint).await?;
++        stream.write_all(b"GET /json/version HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n").await.map_err(|e| e.to_string())?;
++        let mut response = Vec::new();
++        loop {
++            let mut buffer = [0u8; 4096];
++            let count = stream.read(&mut buffer).await.map_err(|e| e.to_string())?;
++            if count == 0 { break; }
++            response.extend_from_slice(&buffer[..count]);
++            if response.len() > LIMIT { return Err("CDP discovery exceeds 64 KiB".into()); }
++            if let Some(split) = response.windows(4).position(|w| w == b"\r\n\r\n") {
++                let head = std::str::from_utf8(&response[..split]).map_err(|_| "Invalid CDP HTTP headers")?;
++                let mut lengths = Vec::new();
++                for line in head.split("\r\n").skip(1) {
++                    if let Some((name, value)) = line.split_once(':') {
++                        if name.eq_ignore_ascii_case("transfer-encoding") { return Err("Unsupported CDP transfer encoding".into()); }
++                        if name.eq_ignore_ascii_case("content-length") {
++                            lengths.push(value.trim().parse::<usize>().map_err(|_| "Invalid CDP content length")?);
++                        }
++                    }
++                }
++                if lengths.len() > 1 { return Err("Duplicate CDP content length".into()); }
++                if let Some(length) = lengths.first() {
++                    let total = (split + 4).checked_add(*length).ok_or("CDP content length overflow")?;
++                    if total > LIMIT { return Err("CDP discovery exceeds 64 KiB".into()); }
++                    if response.len() >= total { break; }
++                }
++            }
++        }
++        if response.len() > LIMIT { return Err("CDP discovery exceeds 64 KiB".into()); }
++        let info: serde_json::Value = serde_json::from_slice(&body(&response)?).map_err(|e| format!("Invalid CDP discovery JSON: {e}"))?;
++        let url = info.get("webSocketDebuggerUrl").and_then(|v| v.as_str()).ok_or("Missing browser WebSocket endpoint")?;
++        let url = url::Url::parse(url).map_err(|e| e.to_string())?;
++        if url.scheme() != "ws" || url.query().is_some() || url.fragment().is_some() || !url.username().is_empty() || url.password().is_some() {
++            return Err("Invalid local browser WebSocket URL".into());
++        }
++        validate_target(url.path())?;
++        // Ignore discovery host/port: never leave the selected local socket.
++        Ok(format!("{endpoint}#{}", url.path()))
++    }).await.map_err(|_| "Local CDP discovery timed out".to_string())?
++}
++
++pub async fn websocket(input: &str) -> Result<(tokio_tungstenite::WebSocketStream<UnixStream>, socket2::Socket), String> {
++    let (endpoint, path) = parts(input)?;
++    let path = path.ok_or("Local CDP endpoint must be resolved first")?;
++    tokio::time::timeout(DEADLINE, async {
++        let stream = open(endpoint).await?;
++        let socket = socket2::SockRef::from(&stream).try_clone().map_err(|e| e.to_string())?;
++        let config = tokio_tungstenite::tungstenite::protocol::WebSocketConfig {
++            max_message_size: Some(32 * 1024 * 1024), max_frame_size: Some(32 * 1024 * 1024), ..Default::default()
++        };
++        let (ws, _) = tokio_tungstenite::client_async_with_config(format!("ws://localhost{path}"), stream, Some(config))
++            .await.map_err(|e| format!("Local CDP WebSocket handshake: {e}"))?;
++        Ok((ws, socket))
++    }).await.map_err(|_| "Local CDP handshake timed out".to_string())?
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++    #[test]
++    fn rejects_unsafe_endpoints() {
++        for value in ["unix:relative", "abstract:", "abstract:bad/name", "unix:/tmp/a\r\nHost: x", "unix:/tmp/a#/devtools/page/x", "unix:/tmp/a#/devtools/browser/../x"] {
++            assert!(parts(value).is_err(), "{value}");
++        }
++        assert!(parts("abstract:chrome_devtools_remote").is_ok());
++        assert!(parts("unix:/tmp/cdp#/devtools/browser/abc").is_ok());
++    }
++    #[test]
++    fn http_fails_closed() {
++        assert_eq!(body(b"HTTP/1.0 200 OK\r\nContent-Length: 2\r\n\r\n{}").unwrap(), b"{}");
++        for data in [b"HTTP/1.0 403 Nope\r\n\r\n".as_slice(), b"HTTP/1.0 200 OK\r\nContent-Length: 3\r\n\r\n{}", b"HTTP/1.0 200 OK\r\nTransfer-Encoding: chunked\r\n\r\n"] {
++            assert!(body(data).is_err());
++        }
++    }
++    #[tokio::test]
++    async fn discovery_stays_on_selected_socket() {
++        let dir = tempfile::tempdir().unwrap();
++        let path = dir.path().join("cdp");
++        let server = tokio::net::UnixListener::bind(&path).unwrap();
++        let task = tokio::spawn(async move {
++            let (mut stream, _) = server.accept().await.unwrap();
++            let mut request = [0u8; 256];
++            stream.read(&mut request).await.unwrap();
++            let body = r#"{"webSocketDebuggerUrl":"ws://untrusted.example:9999/devtools/browser/test"}"#;
++            let reply = format!("HTTP/1.0 200 OK\r\nContent-Length: {}\r\n\r\n{body}", body.len());
++            for part in reply.as_bytes().chunks(7) { stream.write_all(part).await.unwrap(); }
++        });
++        let endpoint = format!("unix:{}", path.display());
++        assert_eq!(resolve(&endpoint).await.unwrap(), format!("{endpoint}#/devtools/browser/test"));
++        task.await.unwrap();
++    }
++    #[tokio::test]
++    async fn websocket_uses_shared_command_engine() {
++        use futures_util::{SinkExt, StreamExt};
++        let dir = tempfile::tempdir().unwrap();
++        let path = dir.path().join("cdp-ws");
++        let server = tokio::net::UnixListener::bind(&path).unwrap();
++        let task = tokio::spawn(async move {
++            let (stream, _) = server.accept().await.unwrap();
++            let mut ws = tokio_tungstenite::accept_async(stream).await.unwrap();
++            while let Some(Ok(message)) = ws.next().await {
++                if let tokio_tungstenite::tungstenite::Message::Text(text) = message {
++                    let command: serde_json::Value = serde_json::from_str(&text).unwrap();
++                    let reply = serde_json::json!({"id": command["id"], "result": {"product": "fixture"}});
++                    ws.send(tokio_tungstenite::tungstenite::Message::Text(reply.to_string())).await.unwrap();
++                    break;
++                }
++            }
++        });
++        let endpoint = format!("unix:{}#/devtools/browser/test", path.display());
++        let client = super::super::client::CdpClient::connect(&endpoint).await.unwrap();
++        let reply = client.send_command("Browser.getVersion", None, None).await.unwrap();
++        assert_eq!(reply["product"], "fixture");
++        task.await.unwrap();
++    }}
+diff --git a/cli/src/native/cdp/mod.rs b/cli/src/native/cdp/mod.rs
+index 912860a..61a2159 100644
+--- a/cli/src/native/cdp/mod.rs
++++ b/cli/src/native/cdp/mod.rs
+@@ -6,3 +6,6 @@ pub mod obscura;
+ pub mod types;
+ #[cfg(windows)]
+ mod windows_process;
++
++#[cfg(unix)]
++pub mod local;
+diff --git a/cli/src/native/daemon.rs b/cli/src/native/daemon.rs
+index 123c2f7..417c3a7 100644
+--- a/cli/src/native/daemon.rs
++++ b/cli/src/native/daemon.rs
+@@ -104,23 +104,25 @@ pub async fn run_daemon(session: &str) {
+         .ok()
+         .and_then(|s| s.parse::<u16>().ok())
+         .unwrap_or(0);
+-    match StreamServer::start_without_client(
+-        preferred_port,
+-        session.to_string(),
+-        true,
+-        idle_activity.clone(),
+-    )
+-    .await
+-    {
+-        Ok((stream_server, client_slot)) => {
+-            stream_client = Some(client_slot.clone());
+-            if let Err(e) = fs::write(&stream_path, stream_server.port().to_string()) {
+-                let _ = writeln!(std::io::stderr(), "Failed to write .stream file: {}", e);
++    if env::var("AGENT_BROWSER_DISABLE_STREAM").as_deref() != Ok("1") {
++        match StreamServer::start_without_client(
++            preferred_port,
++            session.to_string(),
++            true,
++            idle_activity.clone(),
++        )
++        .await
++        {
++            Ok((stream_server, client_slot)) => {
++                stream_client = Some(client_slot.clone());
++                if let Err(e) = fs::write(&stream_path, stream_server.port().to_string()) {
++                    let _ = writeln!(std::io::stderr(), "Failed to write .stream file: {}", e);
++                }
++                stream_server_instance = Some(Arc::new(stream_server));
++            }
++            Err(e) => {
++                let _ = writeln!(std::io::stderr(), "Stream server failed to start: {}", e);
+             }
+-            stream_server_instance = Some(Arc::new(stream_server));
+-        }
+-        Err(e) => {
+-            let _ = writeln!(std::io::stderr(), "Stream server failed to start: {}", e);
+         }
+     }
+
+@@ -226,12 +228,10 @@ async fn run_socket_server(
+     idle_timeout: Option<IdleTimeout>,
+     autosave_interval_ms: u64,
+ ) -> Result<(), String> {
+-    use tokio::net::UnixListener;
+-
+     let idle_timeout_ms = idle_timeout.map(|t| t.ms);
+
+-    let listener =
+-        UnixListener::bind(socket_path).map_err(|e| format!("Failed to bind socket: {}", e))?;
++    let listener = super::daemon_socket::bind(socket_path, session)
++        .map_err(|e| format!("Failed to bind socket: {}", e))?;
+
+     let stream_file: Option<PathBuf> = if stream_server.is_some() {
+         let dir = socket_path.parent().unwrap_or(std::path::Path::new("."));
+@@ -263,6 +263,10 @@ async fn run_socket_server(
+             accept_result = listener.accept() => {
+                 match accept_result {
+                     Ok((stream, _)) => {
++                        if !super::daemon_socket::peer_is_same_uid(&stream) {
++                            let _ = writeln!(std::io::stderr(), "Rejected daemon client with a different uid");
++                            continue;
++                        }
+                         let state = state.clone();
+                         let idle_activity = idle_activity.clone();
+                         let sf = stream_file.clone();
+diff --git a/cli/src/native/daemon_socket.rs b/cli/src/native/daemon_socket.rs
+new file mode 100644
+index 0000000..c0303c0
+--- /dev/null
++++ b/cli/src/native/daemon_socket.rs
+@@ -0,0 +1,117 @@
++#[cfg(unix)]
++use std::os::fd::{AsRawFd, FromRawFd, IntoRawFd};
++
++pub(crate) fn abstract_enabled() -> bool {
++    std::env::var("AGENT_BROWSER_DAEMON_ABSTRACT").as_deref() == Ok("1")
++}
++
++#[cfg(any(target_os = "linux", target_os = "android"))]
++fn abstract_name(session: &str) -> String {
++    use std::hash::{Hash, Hasher};
++    let mut hash = std::collections::hash_map::DefaultHasher::new();
++    crate::connection::get_socket_dir().hash(&mut hash);
++    session.hash(&mut hash);
++    format!("agent_browser_{:016x}", hash.finish())
++}
++
++#[cfg(any(target_os = "linux", target_os = "android"))]
++fn abstract_address(name: &str) -> (libc::sockaddr_un, libc::socklen_t) {
++    let mut address: libc::sockaddr_un = unsafe { std::mem::zeroed() };
++    address.sun_family = libc::AF_UNIX as libc::sa_family_t;
++    for (index, byte) in name.bytes().enumerate() {
++        address.sun_path[index + 1] = byte as libc::c_char;
++    }
++    let length = std::mem::offset_of!(libc::sockaddr_un, sun_path) + 1 + name.len();
++    (address, length as libc::socklen_t)
++}
++
++#[cfg(unix)]
++pub(crate) fn connect(session: &str) -> std::io::Result<std::os::unix::net::UnixStream> {
++    if !abstract_enabled() {
++        return std::os::unix::net::UnixStream::connect(
++            crate::connection::get_socket_dir().join(format!("{session}.sock")),
++        );
++    }
++    #[cfg(any(target_os = "linux", target_os = "android"))]
++    {
++        let socket = socket2::Socket::new(socket2::Domain::UNIX, socket2::Type::STREAM, None)?;
++        let stream = unsafe {
++            std::os::unix::net::UnixStream::from_raw_fd(socket.into_raw_fd())
++        };
++        let (address, length) = abstract_address(&abstract_name(session));
++        let result = unsafe {
++            libc::connect(
++                stream.as_raw_fd(),
++                &address as *const _ as *const libc::sockaddr,
++                length,
++            )
++        };
++        if result != 0 {
++            return Err(std::io::Error::last_os_error());
++        }
++        return Ok(stream);
++    }
++    #[cfg(not(any(target_os = "linux", target_os = "android")))]
++    Err(std::io::Error::new(
++        std::io::ErrorKind::Unsupported,
++        "abstract Unix sockets require Linux or Android",
++    ))
++}
++
++#[cfg(unix)]
++pub(crate) fn bind(
++    path: &std::path::Path,
++    session: &str,
++) -> std::io::Result<tokio::net::UnixListener> {
++    if !abstract_enabled() {
++        return tokio::net::UnixListener::bind(path);
++    }
++    #[cfg(any(target_os = "linux", target_os = "android"))]
++    {
++        let socket = socket2::Socket::new(socket2::Domain::UNIX, socket2::Type::STREAM, None)?;
++        socket.set_nonblocking(true)?;
++        let (address, length) = abstract_address(&abstract_name(session));
++        let bind_result = unsafe {
++            libc::bind(
++                socket.as_raw_fd(),
++                &address as *const _ as *const libc::sockaddr,
++                length,
++            )
++        };
++        if bind_result != 0 {
++            return Err(std::io::Error::last_os_error());
++        }
++        socket.listen(16)?;
++        let listener = unsafe {
++            std::os::unix::net::UnixListener::from_raw_fd(socket.into_raw_fd())
++        };
++        return tokio::net::UnixListener::from_std(listener);
++    }
++    #[cfg(not(any(target_os = "linux", target_os = "android")))]
++    Err(std::io::Error::new(
++        std::io::ErrorKind::Unsupported,
++        "abstract Unix sockets require Linux or Android",
++    ))
++}
++
++#[cfg(any(target_os = "linux", target_os = "android"))]
++pub(crate) fn peer_is_same_uid(stream: &tokio::net::UnixStream) -> bool {
++    let mut credentials: libc::ucred = unsafe { std::mem::zeroed() };
++    let mut length = std::mem::size_of::<libc::ucred>() as libc::socklen_t;
++    let result = unsafe {
++        libc::getsockopt(
++            stream.as_raw_fd(),
++            libc::SOL_SOCKET,
++            libc::SO_PEERCRED,
++            &mut credentials as *mut _ as *mut libc::c_void,
++            &mut length,
++        )
++    };
++    result == 0 && credentials.uid == unsafe { libc::geteuid() }
++}
++
++#[cfg(all(unix, not(any(target_os = "linux", target_os = "android"))))]
++pub(crate) fn peer_is_same_uid(_stream: &tokio::net::UnixStream) -> bool {
++    true
++}
++
+diff --git a/cli/src/native/mod.rs b/cli/src/native/mod.rs
+index abdc7ef..ffcae19 100644
+--- a/cli/src/native/mod.rs
++++ b/cli/src/native/mod.rs
+@@ -12,6 +12,7 @@ pub mod cdp;
+ pub mod cookies;
+ #[allow(dead_code)]
+ pub mod daemon;
++pub(crate) mod daemon_socket;
+ #[allow(dead_code)]
+ pub mod diff;
+ #[allow(dead_code)]
+diff --git a/cli/src/output.rs b/cli/src/output.rs
+index 72303dd..5ed3a07 100644
+--- a/cli/src/output.rs
++++ b/cli/src/output.rs
+@@ -4066,7 +4066,7 @@ Options:
+   --webgpu                   Enable WebGPU; uses SwiftShader software Vulkan on Linux, no GPU required (or AGENT_BROWSER_WEBGPU env)
+   --no-webmcp                Disable default experimental WebMCP support for locally launched Chrome
+                              (or AGENT_BROWSER_NO_WEBMCP env)
+-  --cdp <port|url>           Connect via CDP; root WebSocket query slash is optional
++  --cdp <port|url>           CDP: TCP/WS, unix:/path, abstract:name (Linux/Android)
+   --pin-tab                  Pin the session to its bound tab (or AGENT_BROWSER_PIN_TAB env)
+                              Commands fail with a tab_gone error instead of falling back
+                              to another tab when the bound tab is closed. JSON includes
+diff --git a/docs/content/docs/cdp-mode.mdx b/docs/content/docs/cdp-mode.mdx
+index 6fa3220..b02b36b 100644
+--- a/docs/content/docs/cdp-mode.mdx
++++ b/docs/content/docs/cdp-mode.mdx
+@@ -153,3 +153,9 @@ agent-browser -p browserbase open https://example.com
+ ```
+
+ See the [Providers](/providers/browser-use) section for setup and configuration of each built-in provider: [Browser Use](/providers/browser-use), [Browserbase](/providers/browserbase), [Browserless](/providers/browserless), [Kernel](/providers/kernel), and [AgentCore](/providers/agentcore).
++
++## AIOS local CDP transport (development)
++
++On Unix hosts, `--cdp unix:/absolute/socket/path` discovers and connects to a browser through a filesystem Unix socket. Linux and Android additionally accept `--cdp abstract:chrome_devtools_remote`. The process must already have OS permission to connect. This option does not grant privileges, launch Chrome, use ADB, or fall back to TCP. Discovery ignores the advertised host and keeps the connection on the selected socket. HTTP discovery and WebSocket handshakes have five-second deadlines; discovery is capped at 64 KiB and requires an uncompressed, non-chunked HTTP response. Local WebSocket messages are capped at 32 MiB. Custom CDP headers are not accepted on this transport.
++
++This downstream transport is under development and has not been validated on Android Chrome. Existing `connect` and `--cdp` command parsing is reused. AIOS uses its own Binder interface, not the upstream MCP server. The upstream MCP wrapper inherits this endpoint through the same CLI configuration; it has no separate local-socket tool or permission bypass.
+\ No newline at end of file
+diff --git a/skill-data/core/SKILL.md b/skill-data/core/SKILL.md
+index 569e809..cbe576d 100644
+--- a/skill-data/core/SKILL.md
++++ b/skill-data/core/SKILL.md
+@@ -582,3 +582,5 @@ That pulls in:
+ - `references/proxy-support.md`: proxy configuration and CA certificates for HTTPS interception proxies
+ - `references/webgpu.md` — screenshots/video of WebGPU pages (three.js, Babylon.js), Linux/CI setup
+ - `templates/*` — starter shell scripts for auth, capture, form automation
++
++AIOS downstream builds also accept host-authorized local Unix CDP sockets; see references/commands.md. This does not bypass Chrome connection permissions.
+diff --git a/skill-data/core/references/commands.md b/skill-data/core/references/commands.md
+index a0a3137..7c1a44d 100644
+--- a/skill-data/core/references/commands.md
++++ b/skill-data/core/references/commands.md
+@@ -569,3 +569,9 @@ AGENT_BROWSER_PLUGINS='[{"name":"vault","command":"agent-browser-plugin-vault","
+ ```
+
+ Browser Use Cloud lifecycle: setup is bounded to 18s plus up to 4s for timeout cleanup (10s create, 8s CDP attach, 4s stop). `close` succeeds only after the Cloud session acknowledges it stopped; a failed stop returns an error, keeps the session id for retrying `close`, and blocks a new launch until released. If create fails before an id arrives, the outcome is unknown; inspect the Browser Use Cloud dashboard before retrying. If the daemon exits before a successful stop, inspect and stop the browser in Cloud.
++
++## AIOS local CDP transport (development)
++
++On Unix hosts, `--cdp unix:/absolute/socket/path` discovers and connects to a browser through a filesystem Unix socket. Linux and Android additionally accept `--cdp abstract:chrome_devtools_remote`. The process must already have OS permission to connect. This option does not grant privileges, launch Chrome, use ADB, or fall back to TCP. Discovery ignores the advertised host and keeps the connection on the selected socket. HTTP discovery and WebSocket handshakes have five-second deadlines; discovery is capped at 64 KiB and requires an uncompressed, non-chunked HTTP response. Local WebSocket messages are capped at 32 MiB. Custom CDP headers are not accepted on this transport.
++
++This downstream transport is under development and has not been validated on Android Chrome. Existing `connect` and `--cdp` command parsing is reused. AIOS uses its own Binder interface, not the upstream MCP server. The upstream MCP wrapper inherits this endpoint through the same CLI configuration; it has no separate local-socket tool or permission bypass.
+\ No newline at end of file

@@ -1,0 +1,30 @@
+--- a/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlAllowlistController.java
++++ b/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlAllowlistController.java
+@@ -452,7 +452,14 @@
+      * Returns whether the given {@param agentUid} and {@param agentPackageName} have consent to
+      * automate the {@param targetPackage}
+      */
+-
++    boolean isAiosBackgroundExecutionAllowed(int uid, String packageName) {
++        if (!"os.aios.agent".equals(packageName)) return false;
++        final PackageManager pm = getPackageManagerForUser(UserHandle.getUserId(uid));
++        final ApplicationInfo info = getApplicationInfo(packageName, pm);
++        return info != null && info.uid == uid
++                && isConfiguredSignedAgent(packageName, getSigningDetails(packageName, pm))
++                && mGlobalUiConsentEnabled.test(UserHandle.getUserId(uid));
++    }
+ 
+     boolean doesAgentHaveConsentToAutomateTargetApp(int agentUid, @Nullable String agentPackageName,
+             @Nullable String targetPackage) {
+--- a/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionProcessor.java
++++ b/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionProcessor.java
+@@ -542,7 +542,8 @@
+         boolean isDeviceLocked =
+                 Binder.withCleanCallingIdentity(
+                         () -> mKeyguardManager.isDeviceLocked(request.ownerUserId(), deviceId));
+-        if (isDeviceLocked) {
++        if (isDeviceLocked && !mAllowlistController.isAiosBackgroundExecutionAllowed(
++                request.ownerUid(), request.ownerPackageName())) {
+             dispatchSessionCreationFailed(request, ComputerControlSession.ERROR_DEVICE_LOCKED);
+             return false;
+         }

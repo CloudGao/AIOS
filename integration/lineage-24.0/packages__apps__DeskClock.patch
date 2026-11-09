@@ -1,0 +1,32 @@
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index c2d1927..ff1763f 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -317,5 +317,6 @@
+                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+             </intent-filter>
+         </activity>
++        <provider android:name=".provider.AiosClockProvider" android:authorities="com.android.deskclock.aios" android:exported="true" android:permission="android.permission.SET_TIME" />
+     </application>
+ </manifest>
+diff --git a/src/com/android/deskclock/data/DataModel.java b/src/com/android/deskclock/data/DataModel.java
+index 855420a..c755465 100644
+--- a/src/com/android/deskclock/data/DataModel.java
++++ b/src/com/android/deskclock/data/DataModel.java
+@@ -573,6 +573,16 @@ public final class DataModel {
+      * @param timer the timer to which the new {@code label} belongs
+      * @param label the new label to store for the {@code timer}
+      */
++    /** Change a stopped timer's duration without changing its stable ID. */
++    public void updateAiosTimer(Timer timer, long length, String label) {
++        enforceMainLooper();
++        if (timer.isRunning()) throw new IllegalArgumentException("Pause timer before changing duration");
++        if (length < 1000 || length > 86400000 || label == null || label.length() > 200)
++            throw new IllegalArgumentException("Invalid timer values");
++        mTimerModel.updateTimer(new Timer(timer.getId(), Timer.State.RESET, length, length,
++                Timer.UNUSED, Timer.UNUSED, length, label, timer.getDeleteAfterUse()));
++    }
++
+     public void setTimerLabel(Timer timer, String label) {
+         enforceMainLooper();
+         mTimerModel.updateTimer(timer.setLabel(label));

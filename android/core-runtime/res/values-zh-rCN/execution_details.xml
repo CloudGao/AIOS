@@ -1,0 +1,11 @@
+<resources>
+  <string name="execution_details">执行细节</string>
+  <string name="execution_details_hide">收起执行细节</string>
+  <string name="history_loading">正在读取会话…</string>
+  <string name="history_load_failed">暂时无法读取会话历史，请重试。</string>
+  <string name="history_native_caption">会话历史</string>
+  <string name="history_load_older">加载更早的消息</string>
+  <string name="history_refresh">刷新会话</string>
+  <string name="history_load_steps">加载本轮更早的执行过程</string>
+  <string name="history_saved_fallback">会话历史刷新失败，当前已保存的内容可能不完整。</string>
+</resources>

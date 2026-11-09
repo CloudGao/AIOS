@@ -1,0 +1,30 @@
+<resources>
+    <style name="AiosSystemTheme" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:buttonStyle">@style/AiosActionButton</item>
+        <item name="android:colorAccent">@android:color/system_primary_dark</item>
+        <item name="android:colorBackground">@android:color/system_surface_dark</item>
+        <item name="android:windowBackground">@android:color/system_surface_dark</item>
+        <item name="android:colorControlNormal">@android:color/system_on_surface_variant_dark</item>
+        <item name="android:colorControlActivated">@android:color/system_primary_dark</item>
+        <item name="android:textColorPrimary">@android:color/system_on_surface_dark</item>
+        <item name="android:textColorSecondary">@android:color/system_on_surface_variant_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:statusBarColor">@android:color/system_surface_dark</item>
+        <item name="android:navigationBarColor">@android:color/system_surface_dark</item>
+        <item name="android:alertDialogTheme">@style/AiosDialogTheme</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+    <style name="AiosDialogTheme" parent="android:style/Theme.Material.Dialog.Alert">
+        <item name="android:colorAccent">@android:color/system_primary_dark</item>
+        <item name="android:colorBackground">@android:color/system_surface_container_dark</item>
+        <item name="android:textColorPrimary">@android:color/system_on_surface_dark</item>
+        <item name="android:textColorSecondary">@android:color/system_on_surface_variant_dark</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+        <item name="android:windowBackground">@drawable/aios_dialog_background</item>
+        <item name="android:dialogCornerRadius">28dp</item>
+        <item name="android:buttonBarButtonStyle">@style/AiosActionButton</item>
+    </style>
+</resources>

@@ -1,0 +1,7 @@
+{
+  "archive_sha256": "83864d13f93c2d80b9049ae782791d37f1e975747aa69ab3f341085af68b0f94",
+  "member": "mj_pdf_reader-V3.1.0/app/build.gradle",
+  "member_sha256": "71d0ddfb7f4fa25ab1793e9c71dc024b728f71f988411a8636318557523366a2",
+  "declared_license": "GPL-3.0-or-later",
+  "scope": "Main app header; embedded Pdfium/AndroidPdfViewer and other dependencies retain their own terms. Binary/source correspondence not established by this header."
+}

@@ -1,0 +1,21 @@
+android_library {
+    name: "AIOSCoreRuntime",
+    static_libs: ["aios-commonmark", "AIOSHostBindings", "AIOSCapabilityContracts"],
+    srcs: ["src/**/*.java"],
+    manifest: "AndroidManifest.xml",
+    sdk_version: "current",
+    min_sdk_version: "30",
+}
+
+java_import {
+    name: "aios-commonmark",
+    jars: ["third_party/commonmark/*.jar"],
+    sdk_version: "current",
+    min_sdk_version: "30",
+}
+
+// Shared file IO and Core IPC client without the runtime UI library.
+filegroup {
+    name: "aios-core-client-sources",
+    srcs: ["src/os/aios/core/CompatFiles.java", "src/os/aios/runtime/CoreRuntimeClient.java"],
+}

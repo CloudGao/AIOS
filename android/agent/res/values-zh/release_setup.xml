@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_title">设置 AIOS</string>
+    <string name="setup_intro">连接网络，添加你自己的模型账号，并选择需要的权限。稍后可从设置返回此页。</string>
+    <string name="setup_network">网络</string>
+    <string name="setup_online">Android 已确认可联网；模型服务仍需实际请求验证。</string>
+    <string name="setup_offline">尚未确认可联网，打开网络设置。</string>
+    <string name="setup_account">登录或配置 API Key。ROM 不包含任何账号。</string>
+    <string name="setup_control">设备控制</string>
+    <string name="setup_permissions">查看设备控制总授权及 Android 权限。</string>
+    <string name="setup_accessibility">前台无障碍控制</string>
+    <string name="setup_optional">需要 AIOS 操作前台屏幕时再开启。</string>
+    <string name="setup_models">照片模型已随系统提供，可离线初始化。此设备和 ROM 的 GPU 验证通过前，语义检索保持不可用。</string>
+    <string name="setup_models_missing">缺少照片模型文件，请安装完整 AIOS 发布包后初始化。</string>
+    <string name="setup_continue">继续使用 AIOS</string>
+    <string name="setup_resume">网络、账号与权限</string>
+    <string name="setup_unavailable">当前系统无法打开此设置页面。</string>
+</resources>

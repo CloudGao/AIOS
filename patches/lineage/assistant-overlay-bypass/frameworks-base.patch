@@ -1,0 +1,245 @@
+diff --git a/services/accessibility/java/com/android/server/accessibility/AbstractAccessibilityServiceConnection.java b/services/accessibility/java/com/android/server/accessibility/AbstractAccessibilityServiceConnection.java
+index b488eecde..575eb2b5a 100644
+--- a/services/accessibility/java/com/android/server/accessibility/AbstractAccessibilityServiceConnection.java
++++ b/services/accessibility/java/com/android/server/accessibility/AbstractAccessibilityServiceConnection.java
+@@ -1581,12 +1581,17 @@ abstract class AbstractAccessibilityServiceConnection extends IAccessibilityServ
+             final int secureContentPolicy =
+                     canCaptureSecureLayers() ? ScreenCaptureParams.SECURE_CONTENT_POLICY_CAPTURE
+                             : ScreenCaptureParams.SECURE_CONTENT_POLICY_REDACT;
+-            mWindowManagerService.captureDisplay(
+-                    displayId,
+-                    new ScreenCaptureInternal.CaptureArgs.Builder<>()
+-                            .setSecureContentPolicy(secureContentPolicy)
+-                            .build(),
+-                    screenCaptureListener);
++            ScreenCaptureInternal.CaptureArgs args = new ScreenCaptureInternal.CaptureArgs.Builder<>()
++                    .setSecureContentPolicy(secureContentPolicy).build();
++            if (displayId == android.view.Display.DEFAULT_DISPLAY
++                    && com.android.server.AiosAssistantPolicy.mayBypassService(mContext, mComponentName,
++                            mAccessibilityServiceInfo.getResolveInfo() == null ? null
++                                                    : mAccessibilityServiceInfo.getResolveInfo().serviceInfo,
++                            mSystemSupport.getCurrentUserIdLocked())) {
++                mWindowManagerService.captureDisplayForAios(displayId, args, screenCaptureListener);
++            } else {
++                mWindowManagerService.captureDisplay(displayId, args, screenCaptureListener);
++            }
+         } catch (Exception e) {
+             sendScreenshotFailure(AccessibilityService.ERROR_TAKE_SCREENSHOT_INVALID_DISPLAY,
+                     callback);
+diff --git a/services/accessibility/java/com/android/server/accessibility/AccessibilityServiceConnection.java b/services/accessibility/java/com/android/server/accessibility/AccessibilityServiceConnection.java
+index dad897984..066e08f70 100644
+--- a/services/accessibility/java/com/android/server/accessibility/AccessibilityServiceConnection.java
++++ b/services/accessibility/java/com/android/server/accessibility/AccessibilityServiceConnection.java
+@@ -611,7 +611,13 @@ class AccessibilityServiceConnection extends AbstractAccessibilityServiceConnect
+                             && mWindowManagerService.isTouchOrFaketouchDevice()) {
+                         motionEventInjector.injectEvents(
+                                 gestureSteps.getList(), mClient, sequence, displayId,
+-                                mAccessibilityServiceInfo.isAccessibilityTool());
++                                mAccessibilityServiceInfo.isAccessibilityTool(),
++                                displayId == android.view.Display.DEFAULT_DISPLAY
++                                        && com.android.server.AiosAssistantPolicy.mayBypassService(
++                                                mContext, mComponentName,
++                                                mAccessibilityServiceInfo.getResolveInfo() == null ? null
++                                                    : mAccessibilityServiceInfo.getResolveInfo().serviceInfo,
++                                                mSystemSupport.getCurrentUserIdLocked()));
+                     } else {
+                         try {
+                             if (svcClientTracingEnabled()) {
+diff --git a/services/accessibility/java/com/android/server/accessibility/MotionEventInjector.java b/services/accessibility/java/com/android/server/accessibility/MotionEventInjector.java
+index 98819257b..052e05ba6 100644
+--- a/services/accessibility/java/com/android/server/accessibility/MotionEventInjector.java
++++ b/services/accessibility/java/com/android/server/accessibility/MotionEventInjector.java
+@@ -107,7 +107,14 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+     public void injectEvents(List<GestureStep> gestureSteps,
+             IAccessibilityServiceClient serviceInterface, int sequence, int displayId,
+             boolean fromAccessibilityTool) {
++        injectEvents(gestureSteps, serviceInterface, sequence, displayId, fromAccessibilityTool, false);
++    }
++
++    public void injectEvents(List<GestureStep> gestureSteps,
++            IAccessibilityServiceClient serviceInterface, int sequence, int displayId,
++            boolean fromAccessibilityTool, boolean aiosBypass) {
+         SomeArgs args = SomeArgs.obtain();
++        args.argi4 = aiosBypass ? 1 : 0;
+         args.arg1 = gestureSteps;
+         args.arg2 = serviceInterface;
+         args.argi1 = sequence;
+@@ -126,6 +133,14 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+                     AccessibilityTrace.FLAGS_INPUT_FILTER | AccessibilityTrace.FLAGS_GESTURE,
+                     "event=" + event + ";rawEvent=" + rawEvent + ";policyFlags=" + policyFlags);
+         }
++        // AIOS must yield even when multi-device streams are enabled. Cancel its scheduled
++        // stream before forwarding the real touch; other accessibility services are unchanged.
++        if (mCurrentGestureAios && event.getDeviceId() >= 0
++                && event.getDisplayId() == android.view.Display.DEFAULT_DISPLAY
++                && (event.getActionMasked() == MotionEvent.ACTION_DOWN
++                        || event.getActionMasked() == MotionEvent.ACTION_SCROLL)) {
++            cancelAnyPendingInjectedEvents();
++        }
+         // InputDispatcher cancels an injected touch gesture if another MotionEvent arrives on this
+         // display from another device or source, like a real touch or a real mouse pointer.
+         // For user using an external device to control the pointer movement, it becomes difficult
+@@ -170,7 +185,7 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+                     /*serviceInterface=*/(IAccessibilityServiceClient) args.arg2,
+                     /*sequence=*/args.argi1,
+                     /*displayId=*/args.argi2,
+-                    /*fromAccessibilityTool=*/args.argi3 == 1);
++                    /*fromAccessibilityTool=*/args.argi3 == 1, args.argi4 == 1);
+             args.recycle();
+             return true;
+         }
+@@ -181,7 +196,10 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+         MotionEvent motionEvent = (MotionEvent) message.obj;
+         int policyFlags = WindowManagerPolicyConstants.FLAG_PASS_TO_USER
+                 | WindowManagerPolicyConstants.FLAG_INJECTED_FROM_ACCESSIBILITY;
+-        boolean fromAccessibilityTool = message.arg2 == 1;
++        boolean fromAccessibilityTool = (message.arg2 & 1) != 0;
++        if ((message.arg2 & 2) != 0) {
++            policyFlags |= android.os.IInputConstants.POLICY_FLAG_AIOS_ASSISTANT_BYPASS;
++        }
+         if (fromAccessibilityTool) {
+             policyFlags |= WindowManagerPolicyConstants.FLAG_INJECTED_FROM_ACCESSIBILITY_TOOL;
+         }
+@@ -196,7 +214,7 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+ 
+     private void injectEventsMainThread(List<GestureStep> gestureSteps,
+             IAccessibilityServiceClient serviceInterface, int sequence, int displayId,
+-            boolean fromAccessibilityTool) {
++            boolean fromAccessibilityTool, boolean aiosBypass) {
+         if (mIsDestroyed) {
+             try {
+                 serviceInterface.onPerformGestureResult(sequence, false);
+@@ -226,6 +244,7 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+             cancelAnyPendingInjectedEvents();
+         }
+         mServiceInterfaceForCurrentGesture = serviceInterface;
++        mCurrentGestureAios = aiosBypass;
+ 
+         long currentTime = SystemClock.uptimeMillis();
+         List<MotionEvent> events = getMotionEventsFromGestureSteps(gestureSteps,
+@@ -242,7 +261,7 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+             int isEndOfSequence = (i == events.size() - 1) ? 1 : 0;
+             Message message = mHandler.obtainMessage(
+                     MESSAGE_SEND_MOTION_EVENT, isEndOfSequence,
+-                    fromAccessibilityTool ? 1 : 0, event);
++                    (fromAccessibilityTool ? 1 : 0) | (aiosBypass ? 2 : 0), event);
+             mLastScheduledEventTime = event.getEventTime();
+             mHandler.sendMessageDelayed(message, Math.max(0, event.getEventTime() - currentTime));
+         }
+@@ -317,6 +336,9 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+         return numContinuedStrokes == 0;
+     }
+ 
++    private int mOpenGestureAiosPolicy;
++    private boolean mCurrentGestureAios;
++
+     private void sendMotionEventToNext(MotionEvent event, MotionEvent rawEvent,
+             int policyFlags) {
+         if (getNext() != null) {
+@@ -324,6 +346,8 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+             if (event.getSource() == EVENT_SOURCE) {
+                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                     mOpenTouchGestureInProgress = true;
++                    mOpenGestureAiosPolicy = policyFlags
++                            & android.os.IInputConstants.POLICY_FLAG_AIOS_ASSISTANT_BYPASS;
+                 }
+                 if ((event.getActionMasked() == MotionEvent.ACTION_UP)
+                         || (event.getActionMasked() == MotionEvent.ACTION_CANCEL)) {
+@@ -343,7 +367,8 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+             // ACTION_CANCEL events are internal system details for event stream state
+             // management and not used for performing new actions, so always treat them as
+             // originating from an accessibility tool.
+-            policyFlags |= WindowManagerPolicyConstants.FLAG_INJECTED_FROM_ACCESSIBILITY_TOOL;
++            policyFlags |= WindowManagerPolicyConstants.FLAG_INJECTED_FROM_ACCESSIBILITY_TOOL
++                    | mOpenGestureAiosPolicy;
+             sendMotionEventToNext(cancelEvent, cancelEvent, policyFlags);
+             mOpenTouchGestureInProgress = false;
+         }
+@@ -363,6 +388,7 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+             cancelInjectedGestureInProgress();
+         }
+         mNumLastTouchPoints = 0;
++        mCurrentGestureAios = false;
+         mStrokeIdToPointerId.clear();
+     }
+ 
+diff --git a/services/core/Android.bp b/services/core/Android.bp
+index 7ce5d205b..16b685af1 100644
+--- a/services/core/Android.bp
++++ b/services/core/Android.bp
+@@ -364,3 +364,9 @@ cc_library {
+     ],
+     min_sdk_version: "29",
+ }
++
++filegroup {
++    name: "aios-overlay-policy-source",
++    srcs: ["java/com/android/server/AiosAssistantPolicy.java"],
++    visibility: ["//vendor:__subpackages__"],
++}
+diff --git a/services/core/java/com/android/server/wm/InputMonitor.java b/services/core/java/com/android/server/wm/InputMonitor.java
+index 303e6e436..98b335dd3 100644
+--- a/services/core/java/com/android/server/wm/InputMonitor.java
++++ b/services/core/java/com/android/server/wm/InputMonitor.java
+@@ -271,6 +271,10 @@ final class InputMonitor {
+             flags = flags | FLAG_NOT_TOUCH_MODAL;
+         }
+         inputWindowHandle.setLayoutParamsFlags(flags);
++        inputWindowHandle.setInputConfigMasked(
++                com.android.server.AiosAssistantPolicy.isPanel(mService.mContext,
++                        w.mOwnerUid, w.mAttrs) ? android.os.InputConfig.AIOS_ASSISTANT_OVERLAY : 0,
++                android.os.InputConfig.AIOS_ASSISTANT_OVERLAY);
+         if (inputWindowHandle.setInputConfigMasked(
+                 InputConfigAdapter.getInputConfigFromWindowParams(
+                         w.mAttrs.type, flags, w.mAttrs.inputFeatures),
+diff --git a/services/core/java/com/android/server/wm/WindowManagerInternal.java b/services/core/java/com/android/server/wm/WindowManagerInternal.java
+index 4fdf64379..c3b52a9eb 100644
+--- a/services/core/java/com/android/server/wm/WindowManagerInternal.java
++++ b/services/core/java/com/android/server/wm/WindowManagerInternal.java
+@@ -1164,6 +1164,11 @@ public abstract class WindowManagerInternal {
+      */
+     public abstract boolean hasNavigationBar(int displayId);
+ 
++    /** Internal entry used only after the accessibility service identity has been verified. */
++    public abstract void captureDisplayForAios(int displayId,
++            ScreenCaptureInternal.CaptureArgs captureArgs,
++            ScreenCaptureInternal.ScreenCaptureListener listener);
++
+     /**
+      * Controls whether the app-requested screen orientation is always respected.
+      *
+diff --git a/services/core/java/com/android/server/wm/WindowManagerService.java b/services/core/java/com/android/server/wm/WindowManagerService.java
+index 700c1d1cc..e34d78ab0 100644
+--- a/services/core/java/com/android/server/wm/WindowManagerService.java
++++ b/services/core/java/com/android/server/wm/WindowManagerService.java
+@@ -9440,6 +9440,30 @@ public class WindowManagerService extends IWindowManager.Stub
+             WindowManagerService.this.captureDisplay(displayId, captureArgs, listener);
+         }
+ 
++        @Override
++        public void captureDisplayForAios(int displayId,
++                ScreenCaptureInternal.CaptureArgs captureArgs,
++                ScreenCaptureInternal.ScreenCaptureListener listener) {
++            synchronized (mGlobalLock) {
++                DisplayContent dc = mRoot.getDisplayContent(displayId);
++                if (dc == null) throw new IllegalArgumentException("Invalid display");
++                java.util.ArrayList<SurfaceControl> excluded = new java.util.ArrayList<>();
++                dc.forAllWindows(w -> {
++                    if (com.android.server.AiosAssistantPolicy.isPanel(mContext, w.mOwnerUid,
++                            w.mAttrs) && w.getSurfaceControl() != null) {
++                        excluded.add(w.getSurfaceControl());
++                    }
++                }, true);
++                ScreenCaptureInternal.LayerCaptureArgs args =
++                        new ScreenCaptureInternal.LayerCaptureArgs.Builder(
++                                dc.getSurfaceControl(), captureArgs)
++                                .setSourceCrop(new Rect(0, 0, dc.getBounds().width(),
++                                        dc.getBounds().height()))
++                                .setExcludeLayers(excluded.toArray(new SurfaceControl[0])).build();
++                ScreenCaptureInternal.captureLayers(args, listener);
++            }
++        }
++
+         @Override
+         public boolean hasNavigationBar(int displayId) {
+             return WindowManagerService.this.hasNavigationBar(displayId);

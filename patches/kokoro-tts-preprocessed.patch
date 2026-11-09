@@ -1,0 +1,9 @@
+diff --git a/vendor/aios/tts/Android.bp b/vendor/aios/tts/Android.bp
+--- a/vendor/aios/tts/Android.bp
++++ b/vendor/aios/tts/Android.bp
+@@
+     presigned: true,
+     preprocessed: true,
++    skip_preprocessed_apk_checks: true,
+     system_ext_specific: true,
+ }

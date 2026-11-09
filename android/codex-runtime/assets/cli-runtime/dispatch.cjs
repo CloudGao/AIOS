@@ -1,0 +1,13 @@
+const fs=require('node:fs'),path=require('node:path');
+const name=path.basename(process.argv[2]);const root=process.env.AIOS_CLI_ROOT;
+let entry;
+if(name==='npm'||name==='npx')entry=path.join(root,'npm/bin',name==='npm'?'npm-cli.js':'npx-cli.js');
+else entry=JSON.parse(fs.readFileSync(path.join(root,'commands.json'),'utf8'))[name];
+if(!entry)throw new Error('CLI command is no longer installed');
+const config=typeof entry==='string'?{path:entry,runtime:'node'}:entry;
+const exe=config.runtime==='executable'?config.path:config.runtime==='shell'?'/system/bin/sh':process.execPath;
+const args=config.runtime==='executable'?process.argv.slice(3):[config.path,...process.argv.slice(3)];
+const child=require('node:child_process').spawn(exe,args,{stdio:'inherit'});
+for(const signal of ['SIGINT','SIGTERM'])process.on(signal,()=>child.kill(signal));
+child.on('error',e=>{console.error(e.message);process.exitCode=126});
+child.on('exit',(code,signal)=>{process.exitCode=code==null?1:code});

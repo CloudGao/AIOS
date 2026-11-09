@@ -1,0 +1,1 @@
+package os.aios.agent;class Authorization {static boolean enabled(android.content.Context c){return true;}}

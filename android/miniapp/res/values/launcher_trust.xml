@@ -1,0 +1,6 @@
+<resources>
+ <!-- Update with the ROM Launcher signing certificate when rotating release keys. -->
+ <string-array name="miniapp_launcher_known_certs" translatable="false">
+  <item>A40DA80A59D170CAA950CF15C18C454D47A39B26989D8B640ECD745BA71BF5DC</item>
+ </string-array>
+</resources>

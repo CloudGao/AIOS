@@ -1,0 +1,8 @@
+cc_prebuilt_binary {
+    name: "agent-browser",
+    srcs: ["agent-browser"],
+    stem: "agent-browser",
+    system_ext_specific: true,
+    strip: { none: true },
+    check_elf_files: false,
+}

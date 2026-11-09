@@ -1,0 +1,36 @@
+package os.aios.agent;
+import android.app.*;import android.os.*;import android.content.*;import android.view.*;import android.widget.*;import org.json.*;import os.aios.core.*;
+public final class DynamicExperienceTests extends Instrumentation {
+ int checks;void check(boolean ok,String why){if(!ok)throw new AssertionError(why);checks++;}
+ public void onCreate(Bundle p){super.onCreate(p);start();}
+ public void onStart(){Bundle out=new Bundle();try{
+  Context c=getTargetContext();android.content.pm.PackageManager pm=c.getPackageManager();
+  for(String action:new String[]{Intent.ACTION_SEND,Intent.ACTION_SEND_MULTIPLE})for(String type:new String[]{"text/plain","image/jpeg","video/mp4","application/pdf"}){
+   Intent intent=new Intent(action).setType(type).setPackage(c.getPackageName());check(pm.queryIntentActivities(intent,0).stream().anyMatch(r->r.activityInfo.name.equals(ShareToAssistantActivity.class.getName())),"share handler "+action+" "+type);
+  }
+  String[] keys={"share_target_label","share_instruction","share_default_instruction","share_title","share_target","share_internal","share_send","share_empty","share_ready","share_failed","share_saved","share_note","share_limit","share_prompt","share_missing","mail_source","mail_search","mail_handoff","mail_missing"};
+  for(String tag:new String[]{"en","zh-CN","zh-TW","fr","ar"}){android.content.res.Configuration config=new android.content.res.Configuration(c.getResources().getConfiguration());config.setLocale(java.util.Locale.forLanguageTag(tag));Context local=c.createConfigurationContext(config);for(String key:keys){int id=local.getResources().getIdentifier(key,"string",c.getPackageName());check(id!=0&&!local.getString(id).isBlank(),tag+" "+key);}check(local.getString(local.getResources().getIdentifier("share_prompt","string",c.getPackageName()),"note-1","target").contains("note-1"),"format "+tag);}
+  runOnMainSync(()->{ChatScrollFollow follow=new ChatScrollFollow();ScrollView scroll=new ScrollView(c);TextView text=new TextView(c);text.setMinHeight(2000);scroll.addView(text);scroll.measure(View.MeasureSpec.makeMeasureSpec(400,View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(400,View.MeasureSpec.EXACTLY));scroll.layout(0,0,400,400);follow.attach(scroll);check(follow.following(),"initial follows newest");long now=SystemClock.uptimeMillis();scroll.dispatchTouchEvent(MotionEvent.obtain(now,now,MotionEvent.ACTION_DOWN,100,200,0));check(!follow.following(),"finger owns viewport");scroll.dispatchTouchEvent(MotionEvent.obtain(now,now+20,MotionEvent.ACTION_MOVE,100,300,0));scroll.dispatchTouchEvent(MotionEvent.obtain(now,now+40,MotionEvent.ACTION_UP,100,300,0));check(!follow.following(),"old content remains while reading");follow.reset();check(follow.following(),"new conversation resets follow");
+   EditText input=AssistantTextInput.create(c,"draft survives");check(input.getText().toString().equals("draft survives"),"shared composer draft");});
+  JSONObject mail=new DeviceSearchAdapter(c).call("query",new JSONObject().put("source","email").put("query","AIOS mail probe"),new CancellationSignal());check(mail.getString("state").equals("handoff"),"mail is handoff, not false content hits");check(mail.getJSONArray("items").getJSONObject(0).getString("query").equals("AIOS mail probe"),"mail query retained");
+  JSONObject filtered=new DeviceSearchAdapter(c).call("query",new JSONObject().put("source","email").put("query","probe").put("filters",new JSONObject().put("from_ms",1)),new CancellationSignal());check(filtered.getString("state").equals("unsupported_filter"),"mail handoff cannot silently drop filters");
+  try(os.aios.workspace.WorkspaceStore store=new os.aios.workspace.WorkspaceStore(c)){String key="acceptance-"+java.util.UUID.randomUUID();JSONObject args=new JSONObject().put("share_key",key).put("title","AIOS share idempotency acceptance").put("status","note").put("content_md","Original text");JSONObject first=store.call("task.create",args).getJSONObject("data"),second=store.call("task.create",args).getJSONObject("data");check(first.getString("id").equals(second.getString("id")),"share retry creates one note");store.call("task.delete",new JSONObject().put("id",first.getString("id")).put("expected_revision",second.getLong("revision")));}
+  String noteId="acceptance-"+java.util.UUID.randomUUID();JSONObject document=null;
+  try(os.aios.workspace.WorkspaceStore store=new os.aios.workspace.WorkspaceStore(c)){
+   int before=store.call("task.list",new JSONObject()).getJSONObject("data").getJSONArray("items").length();
+   c.getSharedPreferences("share_jobs",0).edit().putString(noteId,new JSONObject().put("body","Original notebook source").put("instruction","Summarize only").put("copied",new JSONArray()).put("target","net.gsantner.markor").toString()).commit();
+   JSONObject source=ShareNotes.call(c,"source",new JSONObject().put("id",noteId));check(source.getString("instruction").equals("Summarize only"),"user instruction separate from source");check(!new JSONObject(c.getSharedPreferences("share_jobs",0).getString(noteId,"{}")).has("document"),"reading share creates no note");
+   document=ShareNotes.call(c,"create",new JSONObject().put("id",noteId).put("markdown","Original notebook source")).getJSONObject("document");
+   check(ShareNotes.call(c,"create",new JSONObject().put("id",noteId).put("markdown","retry")).getJSONObject("document").getString("uri").equals(document.getString("uri")),"AI note creation is idempotent");
+   check(document.getString("path").contains("Documents/AIOS Notes/"),"independent notebook document location");
+   check(ShareNotes.create(c,noteId,"retry",new JSONArray()).getString("uri").equals(document.getString("uri")),"document checkpoint retry is idempotent");
+   c.getSharedPreferences("share_jobs",0).edit().putString(noteId,new JSONObject().put("body","Original notebook source").put("document",document).put("copied",new JSONArray()).put("target","net.gsantner.markor").toString()).commit();
+   JSONObject first=ShareNotes.call(c,"get",new JSONObject().put("id",noteId));check(first.getString("markdown").contains("Original notebook source"),"retry preserves saved contents");
+   JSONObject updated=ShareNotes.call(c,"update",new JSONObject().put("id",noteId).put("expected_sha256",first.getString("sha256")).put("markdown","Organized independent note"));
+   check(updated.getString("markdown").contains("Organized independent note"),"organized document saved");check(updated.getString("markdown").contains("<!-- AIOS sources -->"),"source references retained");
+   boolean stale=false;try{ShareNotes.call(c,"update",new JSONObject().put("id",noteId).put("expected_sha256",first.getString("sha256")).put("markdown","stale"));}catch(IllegalStateException expected){stale=true;}check(stale,"concurrent human changes protected");
+   check(store.call("task.list",new JSONObject()).getJSONObject("data").getJSONArray("items").length()==before,"notes never create workspace tasks");
+  }finally{if(document!=null)AssistantAttachments.delete(c,android.net.Uri.parse(document.getString("uri")));c.getSharedPreferences("share_jobs",0).edit().remove(noteId).commit();}
+  out.putString("result","PASS "+checks+" checks");finish(Activity.RESULT_OK,out);
+ }catch(Throwable e){out.putString("error",android.util.Log.getStackTraceString(e));finish(Activity.RESULT_CANCELED,out);}}
+}

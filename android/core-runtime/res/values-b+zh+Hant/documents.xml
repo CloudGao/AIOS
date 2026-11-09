@@ -1,0 +1,14 @@
+<resources>
+  <string name="document_files">檔案</string>
+  <string name="document_content_mode">文件內文（按需）</string>
+  <string name="document_directory">文件目錄，例如 Download/</string>
+  <string name="document_extension">副檔名，例如 pdf</string>
+  <string name="document_time_modified">檔案修改時間</string>
+  <string name="document_time_added">媒體庫收錄時間</string>
+  <string name="document_scope_required">內文檢索請選擇檔案來源，並填寫目錄或副檔名。</string>
+  <string name="document_scan_page">本批完成 %1$d 個檔案，略過 %2$d 個；繼續可查詢剩餘候選。</string>
+  <string name="document_metadata_coverage">檔案範圍為主儲存媒體庫可見記錄，其他位置可能未收錄。</string>
+  <string name="document_operation_failed">文件操作未完成，請檢查錯誤碼及支援的操作。</string>
+  <string name="document_save_unknown">儲存結果尚不確定，請先查詢該請求回執，不要重複儲存。</string>
+  <string name="document_open_failed">無法使用已安裝應用程式開啟文件。</string>
+</resources>

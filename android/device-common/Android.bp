@@ -1,0 +1,8 @@
+// Public Android mechanisms shared by device backends. No Agent/Core implementation dependency.
+java_library {
+    name: "AIOSDeviceCommon",
+    srcs: ["src/**/*.java"],
+    sdk_version: "current",
+    min_sdk_version: "30",
+    static_libs: ["AIOSDeviceApi"],
+}

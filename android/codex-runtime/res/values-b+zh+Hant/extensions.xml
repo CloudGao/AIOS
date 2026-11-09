@@ -1,0 +1,26 @@
+<resources>
+ <string name="extension_error_node_missing">手機 Node 執行環境無法使用</string>
+ <string name="extension_error_delete_scope">無法刪除 CLI 安裝目錄以外的檔案</string>
+ <string name="extension_error_cancel_first">請先取消進行中的安裝</string>
+ <string name="extension_error_command_conflict">此命令名稱已由其他擴充功能使用</string>
+ <string name="extension_error_command_missing">手機執行環境無法存取此命令路徑</string>
+ <string name="extension_error_save_failed">無法儲存 CLI 安裝狀態</string>
+ <string name="extension_error_budget">安裝超過時間或記錄大小限制</string>
+ <string name="extension_error_space">可用空間不足，無法安裝 CLI</string>
+ <string name="extension_error_invalid_id">CLI 識別碼無效</string>
+ <string name="extension_error_invalid_runtime">命令名稱或執行環境無效</string>
+ <string name="extension_error_reserved">命令名稱無效或屬於保留名稱</string>
+ <string name="extension_error_invalid_binary">套件的命令進入點無效</string>
+ <string name="extension_error_invalid_entry">執行環境檔案路徑無效</string>
+ <string name="extension_error_owner_removed">安裝期間關聯應用程式已解除安裝</string>
+ <string name="extension_error_no_commands">此套件未提供 CLI 命令</string>
+ <string name="extension_error_package_version">請使用套件名稱@版本指定安裝目標</string>
+ <string name="extension_error_unknown_action">未知的 CLI 操作</string>
+ <string name="extension_error_provider_missing">無法讀取已設定 MCP 服務的狀態</string>
+ <string name="extension_error_invalid_command">命令無效</string>
+ <string name="extension_error_invalid_provider">MCP 服務識別碼無效</string>
+ <string name="extension_error_https">MCP 位址必須使用 HTTPS，且不可內嵌憑證</string>
+ <string name="extension_error_config_size">MCP 設定超過大小限制</string>
+ <string name="extension_error_transport">請指定命令或遠端位址其中一項</string>
+ <string name="extension_error_config_field">不支援此 MCP 設定欄位</string>
+</resources>

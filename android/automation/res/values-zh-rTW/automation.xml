@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="automation_category_scheduled">定時程式</string>
+    <string name="automation_category_assistant">自動化</string>
+    <string name="automation_category_empty">尚無自動化規則</string>
+    <string name="automation_category_hint">從上方原有入口建立，或讓小助手設定。</string>
+    <string name="automation_category_enabled">已啟用</string>
+    <string name="automation_category_paused">已暫停</string>
+</resources>

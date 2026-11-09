@@ -1,0 +1,200 @@
+[
+  {
+    "file": "commonmark/LICENSE.txt",
+    "sha256": "db0ca9fbe898f07ba8a637e6f7b53ce7f8669c67673a8edcf30562e62935e8bb",
+    "source": "android/core-runtime/third_party/commonmark/LICENSE.txt",
+    "note": null
+  },
+  {
+    "file": "androidx-webkit/LICENSE",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "source": "android/miniapp/third_party/LICENSE",
+    "note": null
+  },
+  {
+    "file": "spake2/LGPL-3.0.txt",
+    "sha256": "a5681bf9b05db14d86776930017c647ad9e6e56ff6bbcfdf21e5848288dfaf1b",
+    "source": "android/host-apk/third_party/spake2/LICENSE",
+    "note": null
+  },
+  {
+    "file": "Apache-2.0.txt",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "source": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+    "note": null
+  },
+  {
+    "file": "spake2/GPL-3.0.txt",
+    "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "source": "https://www.gnu.org/licenses/gpl-3.0.txt",
+    "note": null
+  },
+  {
+    "file": "libadb/COPYING",
+    "sha256": "dd5314a7504dc2c80aba35db43a8db2f9362bd5768af07e94539a3e2b6fc3275",
+    "source": "https://github.com/MuntashirAkon/libadb-android/blob/c849886ebc6d48e7b46d967e78a6bb65c90c3b74/COPYING",
+    "note": null
+  },
+  {
+    "file": "libadb/Apache-2.0.txt",
+    "sha256": "4557de501c3a82094c239a4d74e2e29993c188f6ebb28b668fedf942938e44f1",
+    "source": "https://github.com/MuntashirAkon/libadb-android/blob/c849886ebc6d48e7b46d967e78a6bb65c90c3b74/LICENSES/Apache-2.0",
+    "note": null
+  },
+  {
+    "file": "libadb/BSD-3-Clause.txt",
+    "sha256": "8a094def3661adcb92d2e9f462052fe2bd6365ecf659f229ae9703bd4c412024",
+    "source": "https://github.com/MuntashirAkon/libadb-android/blob/c849886ebc6d48e7b46d967e78a6bb65c90c3b74/LICENSES/BSD-3-Clause",
+    "note": null
+  },
+  {
+    "file": "libadb/MIT.txt",
+    "sha256": "57a5669100695db12465be9fb3995322e87da6aa64d06cccdbccbb53b1839821",
+    "source": "https://github.com/MuntashirAkon/libadb-android/blob/c849886ebc6d48e7b46d967e78a6bb65c90c3b74/LICENSES/MIT",
+    "note": null
+  },
+  {
+    "file": "speech/sherpa-LICENSE",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "source": "https://github.com/k2-fsa/sherpa-onnx/blob/v1.13.8/LICENSE",
+    "note": null
+  },
+  {
+    "file": "speech/onnxruntime-LICENSE",
+    "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c",
+    "source": "https://github.com/microsoft/onnxruntime/blob/v1.28.2/LICENSE",
+    "note": null
+  },
+  {
+    "file": "speech/onnxruntime-ThirdPartyNotices.txt",
+    "sha256": "0e07b95f3a8d6230037707c5c4a2b554d12c4cb67369669ac255635528ffcee2",
+    "source": "https://github.com/microsoft/onnxruntime/blob/v1.28.2/ThirdPartyNotices.txt",
+    "note": null
+  },
+  {
+    "file": "speech/silero-LICENSE",
+    "sha256": "2e63e9a38b6e8fc0c7bc37ce174caca1862870856c6daf5697cfb785e925520b",
+    "source": "https://github.com/snakers4/silero-vad/blob/master/LICENSE",
+    "note": "Fetched 2026-11-07; mutable upstream text is a snapshot, not proof of historical model terms"
+  },
+  {
+    "file": "speech/FunASR-MODEL_LICENSE",
+    "sha256": "7dba975a2069691db4992b0592d70828b330d2f8a30a71450f4e152a554e84f8",
+    "source": "https://github.com/modelscope/FunASR/blob/main/MODEL_LICENSE",
+    "note": "Fetched 2026-11-07; mutable upstream text is a snapshot, not proof of historical model terms"
+  },
+  {
+    "file": "codex/NOTICE",
+    "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+    "source": "https://github.com/openai/codex/blob/092d3acd6bec3e3a14bdc7e7a2810ab628ab759d/NOTICE",
+    "note": null
+  },
+  {
+    "file": "npm/@npmcli__agent-3.0.0/README.md",
+    "sha256": "838746c5f90e2560312ec35c4a83928027d94fe5bcdf8a80451eb9d73ed95ebe",
+    "source": "https://registry.npmjs.org/@npmcli/agent/3.0.0",
+    "note": "Exact registry tarball verified using dist.integrity; README restored as attribution evidence, not complete clearance"
+  },
+  {
+    "file": "npm/@sigstore__verify-2.1.1/README.md",
+    "sha256": "e88c6655d2c60ebad51a2ba9cf8139fb70936ca6018e37ea88791853fa46ba91",
+    "source": "https://registry.npmjs.org/@sigstore/verify/2.1.1",
+    "note": "Exact registry tarball verified using dist.integrity; README restored as attribution evidence, not complete clearance"
+  },
+  {
+    "file": "npm/eastasianwidth-0.2.0/README.md",
+    "sha256": "5a20e0a3c5f1a6b449dd3fee8e3f0c7dc0a6e508c93fa5703d7c8823d35aed54",
+    "source": "https://registry.npmjs.org/eastasianwidth/0.2.0",
+    "note": "Exact registry tarball verified using dist.integrity; README restored as attribution evidence, not complete clearance"
+  },
+  {
+    "file": "npm/err-code-2.0.3/README.md",
+    "sha256": "2d89bcf41bb06b2eddbe129a75abd418ef92a5f633accec609fd22a4843a5a93",
+    "source": "https://registry.npmjs.org/err-code/2.0.3",
+    "note": "Exact registry tarball verified using dist.integrity; README restored as attribution evidence, not complete clearance"
+  },
+  {
+    "file": "npm/imurmurhash-0.1.4/README.md",
+    "sha256": "4491517f7deb68d0b2a3bb590e785e276a60f12448447a9650d0bd50161a101c",
+    "source": "https://registry.npmjs.org/imurmurhash/0.1.4",
+    "note": "Exact registry tarball verified using dist.integrity; README restored as attribution evidence, not complete clearance"
+  },
+  {
+    "file": "npm/spdx-exceptions-2.5.0/README.md",
+    "sha256": "554b19eee11d2964e9f7b244e47944c08d52ca75539260a04f3227e6c0144513",
+    "source": "https://registry.npmjs.org/spdx-exceptions/2.5.0",
+    "note": "Exact registry tarball verified using dist.integrity; README restored as attribution evidence, not complete clearance"
+  },
+  {
+    "file": "npm/spdx-license-ids-3.0.23/README.md",
+    "sha256": "b4807793db6058c819f76c023362b7d522b3d19c9b41563fcc01c2b2c5b1ccd3",
+    "source": "https://registry.npmjs.org/spdx-license-ids/3.0.23",
+    "note": "Exact registry tarball verified using dist.integrity; README restored as attribution evidence, not complete clearance"
+  },
+  {
+    "file": "npm/@sigstore__verify-2.1.1/LICENSE",
+    "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0",
+    "source": "https://raw.githubusercontent.com/sigstore/sigstore-js/b5af5ac566fd569b3585fd5133acee2eb2083dba/LICENSE",
+    "note": "Exact registry gitHead; supplemental upstream license text"
+  },
+  {
+    "file": "codex/UPSTREAM-SUPPLEMENTAL-NOTICES.txt",
+    "sha256": "4f03ddea3c9159c3838b64f1b90e7393ae898fb8938cc719086aa4908c3acbcb",
+    "source": "licenses/codex-upstream-notices.json",
+    "note": "Aggregate of fixed-revision upstream texts; includes candidate dependencies, not exact linked SBOM."
+  },
+  {
+    "file": "codex/DECLARED-APACHE-SUPPLEMENT.txt",
+    "sha256": "ab6114e396f15c193c801d913e55b9bb99b6edeab39ece350ab68ebb3357e76a",
+    "source": "licenses/codex-remaining-materials.json",
+    "note": "Apache option based on exact checksum-verified crate declarations and original source headers; upstream NOTICE scope still pending."
+  },
+  {
+    "file": "aios/GPL-3.0.txt",
+    "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "source": "https://www.gnu.org/licenses/gpl-3.0.txt",
+    "note": "Provenance inventory; supplemental standard texts are not represented as original missing publisher files."
+  },
+  {
+    "file": "aios/LICENSE-SCOPE.txt",
+    "sha256": "141258b2195d1c518664c498ccd0794636647224d9b58bd58d56294eb69a66ca",
+    "source": "NOTICE; docs/LICENSING.md",
+    "note": "Provenance inventory; supplemental standard texts are not represented as original missing publisher files."
+  },
+  {
+    "file": "codex/CANDIDATE-THIRD-PARTY-NOTICES.txt",
+    "sha256": "278227e69cd94c5fc7085453c6b35c5008a37580fde5b13aa2403f736683668c",
+    "source": "licenses/codex-notice-index.json",
+    "note": "Provenance inventory; supplemental standard texts are not represented as original missing publisher files."
+  },
+  {
+    "file": "codex/SELECTED-PACKAGE-SUPPLEMENT.txt",
+    "sha256": "e6d1e10f63cbc229a650530607e50754dc768ac238192abbb56ac47dda58aa54",
+    "source": "licenses/selected-package-materials.json; exact Cargo manifests and source headers; standard declared terms",
+    "note": "Provenance inventory; supplemental standard texts are not represented as original missing publisher files."
+  },
+  {
+    "file": "libadb-spake2-ATTRIBUTIONS.txt",
+    "sha256": "4d20911e2d1a1946a93c957309966300c35e4866913185faf3d2c56f5d1735d2",
+    "source": "android/host-apk/third_party/provenance.json",
+    "note": "Provenance inventory; supplemental standard texts are not represented as original missing publisher files."
+  },
+  {
+    "file": "npm/DECLARED-LICENSE-SUPPLEMENT.txt",
+    "sha256": "b8b1fc68c989479525f0bcf269af486d634baa66dfbe9a5e79c59e7388a8a804",
+    "source": "licenses/npm-selected-materials.json; exact README and metadata; SPDX standard declared terms",
+    "note": "Provenance inventory; supplemental standard texts are not represented as original missing publisher files."
+  },
+  {
+    "file": "npm-review.json",
+    "sha256": "98d5017a213e35d8bac85d2ea7cf4e876c3bd6665aeda2c7302e5eaa23dd469c",
+    "source": "Authored inventory of the npm bundle; retained publisher declarations and package paths within this file",
+    "note": "Provenance inventory; supplemental standard texts are not represented as original missing publisher files."
+  },
+  {
+    "file": "speech/ATTRIBUTION.txt",
+    "sha256": "7d0ff4254f3c4321d653ad26fd0f82503cd15442589e06a2535a063102c9ddad",
+    "source": "Authored attribution summary; exact component/source references retained within this file",
+    "note": "Provenance inventory; supplemental standard texts are not represented as original missing publisher files."
+  }
+]

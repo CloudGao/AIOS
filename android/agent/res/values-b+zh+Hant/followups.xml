@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="followup_count">待發訊息（%1$d）</string>
+    <string name="followup_queued">已排隊，目前執行結束後傳送</string>
+    <string name="followup_steer">立即引導</string>
+    <string name="followup_remove">移除</string>
+    <string name="followup_continue">繼續傳送排隊訊息</string>
+    <string name="followup_sending">正在傳送引導…</string>
+    <string name="followup_unknown">尚未確認送達，請核對對話後再決定是否重新傳送。</string>
+    <string name="followup_limit">最多可排隊 20 則訊息。</string>
+</resources>

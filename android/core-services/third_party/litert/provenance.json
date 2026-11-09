@@ -1,0 +1,38 @@
+[
+  {
+    "url": "https://dl.google.com/dl/android/maven2/com/google/ai/edge/litert/litert/2.3.0/litert-2.3.0.pom",
+    "file": "litert-2.3.0.pom",
+    "bytes": 1167,
+    "sha256": "912be63ad7aa3df18ed8c53deeb8c2e44ed407976d08253089e93c185963d774"
+  },
+  {
+    "url": "https://dl.google.com/dl/android/maven2/com/google/ai/edge/litert/litert/2.3.0/litert-2.3.0.aar",
+    "file": "litert-2.3.0.aar",
+    "bytes": 7640140,
+    "sha256": "9508c6e9142646f0f2bc1fe68b3925fb470ee7ddd29114540339a04a8ab189dc"
+  },
+  {
+    "url": "https://dl.google.com/dl/android/maven2/com/google/ai/edge/litert/litert-gpu/2.3.0/litert-gpu-2.3.0.pom",
+    "file": "litert-gpu-2.3.0.pom",
+    "bytes": 1174,
+    "sha256": "2996e64770ee2d43f8fd82f5ecda32eba8299d2507d19206c3136b0779512a54"
+  },
+  {
+    "url": "https://dl.google.com/dl/android/maven2/com/google/ai/edge/litert/litert-gpu/2.3.0/litert-gpu-2.3.0.aar",
+    "file": "litert-gpu-2.3.0.aar",
+    "bytes": 4695499,
+    "sha256": "173a4c3813601f7e9542f4e6a49e237775e2f9ce1e0948f35407098bffb1824f"
+  },
+  {
+    "url": "https://dl.google.com/dl/android/maven2/com/google/ai/edge/litert/litert-api/2.3.0/litert-api-2.3.0.pom",
+    "file": "litert-api-2.3.0.pom",
+    "bytes": 1660,
+    "sha256": "ace008f44c8ce4715c0e0b3f506dd0aee0bfada54c09c10c1e6bf714857b639a"
+  },
+  {
+    "url": "https://dl.google.com/dl/android/maven2/com/google/ai/edge/litert/litert-api/2.3.0/litert-api-2.3.0.aar",
+    "file": "litert-api-2.3.0.aar",
+    "bytes": 945619,
+    "sha256": "20f630e9ed0b4f0564da616fd3d6406f3013cacad7d492cbe2963330f519256b"
+  }
+]

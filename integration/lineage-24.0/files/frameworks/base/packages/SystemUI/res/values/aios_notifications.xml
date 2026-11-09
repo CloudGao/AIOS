@@ -1,0 +1,9 @@
+<resources>
+<string name="aios_notification_clear">Clear</string>
+<string name="aios_notification_block">Block</string>
+<string name="aios_notification_pin">Pin</string>
+<string name="aios_notification_unpin">Unpin</string>
+<string name="aios_notification_block_app">Block app</string>
+<string name="aios_summary_uncovered">%1$d new</string>
+<string name="aios_notification_action_failed">Could not update the notification. Try again.</string>
+</resources>

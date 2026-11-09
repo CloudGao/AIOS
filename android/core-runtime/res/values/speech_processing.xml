@@ -1,0 +1,5 @@
+<resources>
+ <string name="speech_processing_channel">Speech recognition</string>
+ <string name="speech_processing_title">Recognizing speech</string>
+ <string name="speech_processing_text">Processing audio on this device.</string>
+</resources>

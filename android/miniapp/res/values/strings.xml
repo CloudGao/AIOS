@@ -1,0 +1,24 @@
+<resources>
+ <string name="app_name">Mini apps</string>
+ <string name="mini_app">Mini app</string>
+ <string name="back">Back</string>
+ <string name="version">Version %1$d</string>
+ <string name="unavailable">This mini app is no longer available. Open its current entry from Apps.</string>
+ <string name="deleting">Uninstall is pending. Tap Uninstall to retry.</string>
+ <string name="open">Open</string>
+ <string name="permissions">Permissions</string>
+ <string name="no_permissions">No capabilities requested.</string>
+ <string name="clear_data">Clear data</string>
+ <string name="clear_message">Delete this mini app’s local data and permissions? Its installed code will remain.</string>
+ <string name="uninstall">Uninstall</string>
+ <string name="uninstall_title">Uninstall %1$s?</string>
+ <string name="uninstall_message">This deletes this mini app’s local data, versions, permissions and notifications. Other apps and exported files are kept.</string>
+ <string name="notifications">Post notifications</string>
+ <string name="cancel_notifications">Dismiss own notifications</string>
+ <string name="calendar">Open calendar editor</string>
+ <string name="sms">Open message editor</string>
+ <string name="read_file">Read a file you choose</string>
+ <string name="save_file">Export a text file</string>
+ <string name="cleanup_unavailable">Browser data cleanup is unavailable.</string>
+ <string name="data_cleared">Data cleared</string>
+</resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gpt_api_title">OpenAI API Key</string>
+    <string name="gpt_web_title">Sign in with ChatGPT</string>
+    <string name="gpt_auth_hint">Choose ChatGPT sign-in or an OpenAI API key. Both accounts are kept separately.</string>
+    <string name="gpt_api_hint">Use your OpenAI API key. The official API address is preset. Model access is checked when you send a request.</string>
+    <string name="gpt_legacy">Existing OpenAI configuration and history</string>
+    <string name="gpt_choose_model">Choose a GPT model</string>
+    <string name="gpt_effort_hint">After saving, choose reasoning effort in Settings. Model IDs can also be entered manually.</string>
+    <string name="account_effort_auto">Automatic (model default)</string>
+    <string name="account_model_auto">Automatic (service default)</string>
+    <string name="account_effort_none">None</string>
+    <string name="account_effort_minimal">Minimal</string>
+    <string name="account_effort_low">Low</string>
+    <string name="account_effort_medium">Medium</string>
+    <string name="account_effort_high">High</string>
+    <string name="account_effort_xhigh">Extra high</string>
+    <string name="account_effort_max">Maximum</string>
+    <string name="account_effort_ultra">Ultra</string>
+    <string name="account_effort_title">Reasoning effort</string>
+    <string name="account_effort_next">Reasoning effort · next message</string>
+    <string name="account_effort_empty">No adjustable levels are available for this model. The model default will be used.</string>
+    <string name="account_effort_saved">Reasoning effort saved. Applies to your next message.</string>
+    <string name="account_effort_read_failed">Cannot read reasoning levels. Try again later.</string>
+    <string name="account_retry_save">Could not save. Reopen Settings and try again.</string>
+    <string name="account_ok">OK</string>
+    <string name="account_cancel">Cancel</string>
+    <string name="account_read_unavailable">Unavailable</string>
+    <string name="account_manage">Sign in or manage model accounts</string>
+    <string name="account_card_title">Model account</string>
+    <string name="account_card_loading">Reading sign-in status…</string>
+    <string name="account_card_saved">Account saved · no account details returned</string>
+    <string name="account_card_verify"> · availability checked on request</string>
+    <string name="account_card_waiting">Waiting for authorization</string>
+    <string name="account_card_signed_out">Signed out</string>
+    <string name="account_card_api">API key configured · model %1$s</string>
+    <string name="account_card_unknown">Unknown</string>
+    <string name="account_card_failed">AIOS runtime failed to start. Tap to retry.</string>
+    <string name="account_model_label">Model</string>
+    <string name="account_reading">Loading…</string>
+</resources>

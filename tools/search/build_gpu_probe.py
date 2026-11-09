@@ -1,0 +1,12 @@
+from pathlib import Path
+import subprocess,os,zipfile
+r=Path(__file__).resolve().parents[2];l=Path(os.environ.get('AIOS_LINEAGE_ROOT',str(r.parent/'lineage')));w=r/'.local/search-probe';w.mkdir(parents=True,exist_ok=True)
+env=os.environ.copy();env['JAVA_HOME']=str(l/'prebuilts/jdk/jdk21/linux-x86');env['PATH']=env['JAVA_HOME']+'/bin:'+str(l/'out/host/linux-x86/bin')+':'+env['PATH']
+def run(args):subprocess.run(list(map(str,args)),check=True,env=env)
+sdk=l/'prebuilts/sdk/current/public/android.jar';kotlin=l/'prebuilts/cmdline-tools/tools/lib/external/org/jetbrains/kotlin/kotlin-stdlib/2.2.0/kotlin-stdlib-2.2.0.jar';api=r/'android/core-services/third_party/litert/litert-offline-api.jar';classes=w/'classes';dex=w/'dex';classes.mkdir(exist_ok=True);dex.mkdir(exist_ok=True)
+(w/'AndroidManifest.xml').write_text('<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="os.aios.search.probe"><uses-sdk android:minSdkVersion="35" android:targetSdkVersion="35"/><application android:debuggable="true" android:hasCode="true" android:extractNativeLibs="true"/><instrumentation android:name=".GpuProbe" android:targetPackage="os.aios.search.probe"/><instrumentation android:name=".SearchBenchmark" android:targetPackage="os.aios.search.probe"/></manifest>')
+run(['javac','-encoding','UTF-8','-source','17','-target','17','-cp',':'.join(map(str,[sdk,kotlin,api])),'-d',classes,r/'tests/search/GpuProbe.java',r/'tests/search/SearchBenchmark.java',r/'android/core-services/src/os/aios/core/indexing/ClipImageInput.java',r/'android/core-services/src/os/aios/core/indexing/FaceDecoder.java',r/'android/core-services/src/os/aios/core/embedding/LiteRtGpuBackend.java']);run(['jar','cf',w/'probe.jar','-C',classes,'.']);run(['d8','--min-api','35','--lib',sdk,'--output',dex,w/'probe.jar',api,kotlin]);run(['aapt2','link','-I',sdk,'--manifest',w/'AndroidManifest.xml','-o',w/'unsigned.apk'])
+with zipfile.ZipFile(w/'unsigned.apk','a') as z:
+ for f in dex.glob('*.dex'):z.write(f,f.name)
+ for f in (r/'android/core-services/third_party/litert').glob('*/jni/arm64-v8a/*.so'):z.write(f,'lib/arm64-v8a/'+f.name)
+run(['zipalign','-f','4',w/'unsigned.apk',w/'aligned.apk']);run(['apksigner','sign','--key',l/'build/make/target/product/security/platform.pk8','--cert',l/'build/make/target/product/security/platform.x509.pem','--out',w/'probe.apk',w/'aligned.apk']);run(['apksigner','verify',w/'probe.apk']);print(w/'probe.apk')

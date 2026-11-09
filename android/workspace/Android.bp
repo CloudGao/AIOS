@@ -1,0 +1,15 @@
+android_library {
+    name: "AIOSWorkspace",
+    srcs: [
+        "src/os/aios/workspace/WorkspaceStore.java",
+        "src/os/aios/workspace/ExecutionState.java",
+        "src/os/aios/workspace/WorkspaceActivity.java",
+        "src/os/aios/workspace/SearchPanel.java",
+        "src/os/aios/workspace/MarkdownView.java",
+        "src/os/aios/workspace/MediaReferences.java",
+    ],
+    manifest: "AndroidManifest.xml",
+    sdk_version: "current",
+    min_sdk_version: "30",
+    static_libs: ["AIOSCoreRuntime"],
+}

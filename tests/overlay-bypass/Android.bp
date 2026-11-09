@@ -1,0 +1,15 @@
+java_test {
+    name: "AiosOverlayPolicyTests",
+    srcs: ["*.java", ":aios-overlay-policy-source"],
+    platform_apis: true,
+    static_libs: ["junit", "mockito-target-minus-junit4"],
+    test_suites: ["device-tests"],
+}
+
+android_test_helper_app {
+    name: "AiosOverlayProbe",
+    srcs: ["probe/*.java"],
+    manifest: "probe/AndroidManifest.xml",
+    sdk_version: "current",
+    test_suites: ["device-tests"],
+}

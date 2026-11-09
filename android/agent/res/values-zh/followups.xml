@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="followup_count">待发消息（%1$d）</string>
+    <string name="followup_queued">已排队，当前执行结束后发送</string>
+    <string name="followup_steer">立即引导</string>
+    <string name="followup_remove">移除</string>
+    <string name="followup_continue">继续发送排队消息</string>
+    <string name="followup_sending">正在发送引导…</string>
+    <string name="followup_unknown">尚未确认送达，请核对会话后再决定是否重新发送。</string>
+    <string name="followup_limit">最多可排队 20 条消息。</string>
+</resources>

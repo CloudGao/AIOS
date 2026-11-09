@@ -1,0 +1,17 @@
+{
+  "repository": "https://github.com/ggml-org/whisper.cpp",
+  "tag": "v1.9.5",
+  "commit": "d1be6fde11ac6e0407606b4e42fe72d34add8037",
+  "archive_sha256": "ff1a9053feb509ff9d7729703355541ae9690073a6b1c40eb692c962e0dc1720",
+  "selection": [
+    "include",
+    "src",
+    "ggml",
+    "cmake",
+    "CMakeLists.txt",
+    "LICENSE",
+    "README.md",
+    "AUTHORS"
+  ],
+  "modifications": "None; AIOS JNI adapter is outside this directory"
+}

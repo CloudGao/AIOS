@@ -1,0 +1,16 @@
+<resources>
+    <string name="model_choice_speech">语音输入模型 / 服务</string>
+    <string name="model_choice_speech_description">选择 Whisper Small 或已安装的 Android 语音识别服务，对后续助手语音输入生效。</string>
+    <string name="model_choice_host_default">保持当前产品默认选择</string>
+    <string name="model_choice_system_default">Android 默认语音识别服务</string>
+    <string name="model_choice_sensevoice">Whisper Small · 内置离线引擎</string>
+    <string name="model_choice_speech_confirm">后续语音输入使用此服务？第三方或系统服务可能按其设置和条款联网处理音频。AIOS 不会静默切换到其他提供方。</string>
+    <string name="model_choice_missing">此前选择的服务已不可用，请选择已安装服务。</string>
+    <string name="model_choice_photo">照片语义模型</string>
+    <string name="model_choice_mobileclip">OpenCLIP ViT-B/16 DataComp · 当前配对模型</string>
+    <string name="model_choice_photo_description">可以保留当前 OpenCLIP 图像/文本配对模型，或暂停新的照片模型处理，包括共用的索引及人脸处理流程。已有文件与索引保留。其他模型完成适配及向量空间兼容验证后再加入列表。此设置不会改变许可，也不会移除内置权重。</string>
+    <string name="model_choice_disabled">停用照片模型处理</string>
+    <string name="model_choice_save">保存选择</string>
+    <string name="model_choice_failed">无法保存选择。</string>
+    <string name="aios_nav_back">返回</string>
+</resources>

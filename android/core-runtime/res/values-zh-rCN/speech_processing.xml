@@ -1,0 +1,5 @@
+<resources>
+ <string name="speech_processing_channel">语音识别</string>
+ <string name="speech_processing_title">正在识别语音</string>
+ <string name="speech_processing_text">正在此设备上处理音频。</string>
+</resources>

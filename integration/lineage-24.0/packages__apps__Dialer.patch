@@ -1,0 +1,522 @@
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 6c40f9e..a5592f9 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -760,6 +760,7 @@
+         <activity
+             android:name="com.android.voicemail.impl.configui.VoicemailSecretCodeActivity"
+             android:exported="false" />
++        <provider android:name="com.android.dialer.aios.CallCaptureProvider" android:authorities="com.android.dialer.aios.capture" android:exported="true" />
+     </application>
+ 
+ </manifest>
+diff --git a/java/com/android/dialer/app/calllog/CallLogAdapter.java b/java/com/android/dialer/app/calllog/CallLogAdapter.java
+index c7dd5e0..7c5d75b 100644
+--- a/java/com/android/dialer/app/calllog/CallLogAdapter.java
++++ b/java/com/android/dialer/app/calllog/CallLogAdapter.java
+@@ -821,6 +821,7 @@ public class CallLogAdapter extends GroupingListAdapter
+     views.rowId = cursor.getLong(CallLogQuery.ID);
+     // Stash away the Ids of the calls so that we can support deleting a row in the call log.
+     views.callIds = getCallIds(cursor, count);
++    com.android.dialer.aios.CallRecordingUi.bind(views.rootView, views.callIds);
+     details.previousGroup = getPreviousDayGroup(cursor);
+ 
+     // Store values used when the actions ViewStub is inflated on expansion.
+diff --git a/java/com/android/dialer/calldetails/CallDetailsEntryViewHolder.java b/java/com/android/dialer/calldetails/CallDetailsEntryViewHolder.java
+index 3d11178..7727bec 100644
+--- a/java/com/android/dialer/calldetails/CallDetailsEntryViewHolder.java
++++ b/java/com/android/dialer/calldetails/CallDetailsEntryViewHolder.java
+@@ -116,6 +116,7 @@ public class CallDetailsEntryViewHolder extends RecyclerView.ViewHolder {
+     callTypeText.setText(
+         callTypeHelper.getCallTypeText(callType, isVideoCall, isPulledCall));
+     callTime.setText(CallLogDates.formatDate(context, entry.getDate()));
++    com.android.dialer.aios.CallRecordingUi.bindText(callTime, entry.getCallId());
+ 
+     if (CallTypeHelper.isMissedCallType(callType)) {
+       callDuration.setVisibility(View.GONE);
+diff --git a/java/com/android/incallui/call/CallRecorder.java b/java/com/android/incallui/call/CallRecorder.java
+index 8388d75..e57d21c 100644
+--- a/java/com/android/incallui/call/CallRecorder.java
++++ b/java/com/android/incallui/call/CallRecorder.java
+@@ -130,6 +130,10 @@ public class CallRecorder implements CallList.Listener {
+   }
+ 
+   public boolean startRecording(final String phoneNumber, final long creationTime) {
++    if (context != null && com.android.dialer.aios.AiosCallUi.minutesActive(context)) {
++      Toast.makeText(context, "通话纪要正在录音，请先停止纪要", Toast.LENGTH_LONG).show();
++      return false;
++    }
+     if (service == null) {
+       return false;
+     }
+diff --git a/java/com/android/incallui/incall/impl/InCallButtonGridFragment.java b/java/com/android/incallui/incall/impl/InCallButtonGridFragment.java
+index 1d0ebc8..80255cc 100644
+--- a/java/com/android/incallui/incall/impl/InCallButtonGridFragment.java
++++ b/java/com/android/incallui/incall/impl/InCallButtonGridFragment.java
+@@ -1,142 +1,158 @@
+-/*
+- * Copyright (C) 2016 The Android Open Source Project
+- * Copyright (C) 2023 The LineageOS Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package com.android.incallui.incall.impl;
+-
+-import android.os.Bundle;
+-import android.util.ArraySet;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-
+-import androidx.annotation.Nullable;
+-import androidx.fragment.app.Fragment;
+-
+-import com.android.dialer.R;
+-import com.android.dialer.common.Assert;
+-import com.android.dialer.common.FragmentUtils;
+-import com.android.incallui.incall.protocol.InCallButtonIds;
+-
+-import java.util.List;
+-import java.util.Set;
+-
+-/** Fragment for the in call buttons (mute, speaker, ect.). */
+-public class InCallButtonGridFragment extends Fragment {
+-
+-  private static final int BUTTON_COUNT = 6;
+-  private static final int BUTTONS_PER_ROW = 3;
+-
+-  private final CheckableLabeledButton[] buttons = new CheckableLabeledButton[BUTTON_COUNT];
+-  private OnButtonGridCreatedListener buttonGridListener;
+-
+-  public static Fragment newInstance() {
+-    return new InCallButtonGridFragment();
+-  }
+-
+-  @Override
+-  public void onCreate(@Nullable Bundle bundle) {
+-    super.onCreate(bundle);
+-    buttonGridListener = FragmentUtils.getParent(this, OnButtonGridCreatedListener.class);
+-    Assert.isNotNull(buttonGridListener);
+-  }
+-
+-  @Nullable
+-  @Override
+-  public View onCreateView(
+-      LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle bundle) {
+-    View view = inflater.inflate(R.layout.incall_button_grid, parent, false);
+-
+-    buttons[0] = ((CheckableLabeledButton) view.findViewById(R.id.incall_first_button));
+-    buttons[1] = ((CheckableLabeledButton) view.findViewById(R.id.incall_second_button));
+-    buttons[2] = ((CheckableLabeledButton) view.findViewById(R.id.incall_third_button));
+-    buttons[3] = ((CheckableLabeledButton) view.findViewById(R.id.incall_fourth_button));
+-    buttons[4] = ((CheckableLabeledButton) view.findViewById(R.id.incall_fifth_button));
+-    buttons[5] = ((CheckableLabeledButton) view.findViewById(R.id.incall_sixth_button));
+-
+-    return view;
+-  }
+-
+-  @Override
+-  public void onViewCreated(View view, @Nullable Bundle bundle) {
+-    super.onViewCreated(view, bundle);
+-    buttonGridListener.onButtonGridCreated(this);
+-  }
+-
+-  @Override
+-  public void onDestroyView() {
+-    super.onDestroyView();
+-    buttonGridListener.onButtonGridDestroyed();
+-  }
+-
+-  public void onInCallScreenDialpadVisibilityChange(boolean isShowing) {
+-    for (CheckableLabeledButton button : buttons) {
+-      button.setImportantForAccessibility(
+-          isShowing
+-              ? View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+-              : View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
+-    }
+-  }
+-
+-  public int updateButtonStates(
+-      List<ButtonController> buttonControllers,
+-      @Nullable ButtonChooser buttonChooser,
+-      int voiceNetworkType,
+-      int phoneType) {
+-    Set<Integer> allowedButtons = new ArraySet<>();
+-    Set<Integer> disabledButtons = new ArraySet<>();
+-    for (ButtonController controller : buttonControllers) {
+-      if (controller.isAllowed()) {
+-        allowedButtons.add(controller.getInCallButtonId());
+-        if (!controller.isEnabled()) {
+-          disabledButtons.add(controller.getInCallButtonId());
+-        }
+-      }
+-    }
+-
+-    for (ButtonController controller : buttonControllers) {
+-      controller.setButton(null);
+-    }
+-
+-    if (buttonChooser == null) {
+-      buttonChooser =
+-          ButtonChooserFactory.newButtonChooser(voiceNetworkType, false /* isWiFi */, phoneType);
+-    }
+-
+-    int numVisibleButtons = getResources().getInteger(R.integer.incall_num_rows) * BUTTONS_PER_ROW;
+-    List<Integer> buttonsToPlace =
+-        buttonChooser.getButtonPlacement(numVisibleButtons, allowedButtons, disabledButtons);
+-
+-    for (int i = 0; i < BUTTON_COUNT; ++i) {
+-      if (i >= buttonsToPlace.size()) {
+-        buttons[i].setVisibility(View.INVISIBLE);
+-        continue;
+-      }
+-      @InCallButtonIds int button = buttonsToPlace.get(i);
+-      buttonGridListener.getButtonController(button).setButton(buttons[i]);
+-    }
+-
+-    return numVisibleButtons;
+-  }
+-
+-  /** Interface to let the listener know the status of the button grid. */
+-  public interface OnButtonGridCreatedListener {
+-    void onButtonGridCreated(InCallButtonGridFragment inCallButtonGridFragment);
+-    void onButtonGridDestroyed();
+-
+-    ButtonController getButtonController(@InCallButtonIds int id);
+-  }
+-}
++/*
++ * Copyright (C) 2016 The Android Open Source Project
++ * Copyright (C) 2023 The LineageOS Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.incallui.incall.impl;
++
++import android.os.Bundle;
++import android.util.ArraySet;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++
++import androidx.annotation.Nullable;
++import androidx.fragment.app.Fragment;
++
++import com.android.dialer.R;
++import com.android.dialer.common.Assert;
++import com.android.dialer.common.FragmentUtils;
++import com.android.incallui.incall.protocol.InCallButtonIds;
++
++import java.util.List;
++import java.util.Set;
++
++/** Fragment for the in call buttons (mute, speaker, ect.). */
++public class InCallButtonGridFragment extends Fragment {
++
++  private static final int BUTTON_COUNT = 6;
++  private static final int BUTTONS_PER_ROW = 3;
++
++  private final CheckableLabeledButton[] buttons = new CheckableLabeledButton[BUTTON_COUNT];
++  private OnButtonGridCreatedListener buttonGridListener;
++  private CheckableLabeledButton minutesButton;
++
++  public static Fragment newInstance() {
++    return new InCallButtonGridFragment();
++  }
++
++  @Override
++  public void onCreate(@Nullable Bundle bundle) {
++    super.onCreate(bundle);
++    buttonGridListener = FragmentUtils.getParent(this, OnButtonGridCreatedListener.class);
++    Assert.isNotNull(buttonGridListener);
++  }
++
++  @Nullable
++  @Override
++  public View onCreateView(
++      LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle bundle) {
++    View view = inflater.inflate(R.layout.incall_button_grid, parent, false);
++
++    buttons[0] = ((CheckableLabeledButton) view.findViewById(R.id.incall_first_button));
++    buttons[1] = ((CheckableLabeledButton) view.findViewById(R.id.incall_second_button));
++    buttons[2] = ((CheckableLabeledButton) view.findViewById(R.id.incall_third_button));
++    buttons[3] = ((CheckableLabeledButton) view.findViewById(R.id.incall_fourth_button));
++    buttons[4] = ((CheckableLabeledButton) view.findViewById(R.id.incall_fifth_button));
++    buttons[5] = ((CheckableLabeledButton) view.findViewById(R.id.incall_sixth_button));
++
++    minutesButton = view.findViewById(R.id.aios_minutes);
++    minutesButton.setIconDrawable(R.drawable.quantum_ic_mic_vd_theme_24);
++    minutesButton.setOnClickListener(v -> { com.android.dialer.aios.AiosCallUi.open(v.getContext()); minutesButton.setChecked(com.android.dialer.aios.AiosCallUi.minutesActive(v.getContext())); });
++    return view;
++  }
++
++  @Override
++  public void onViewCreated(View view, @Nullable Bundle bundle) {
++    super.onViewCreated(view, bundle);
++    buttonGridListener.onButtonGridCreated(this);
++  }
++
++  @Override
++  public void onDestroyView() {
++    super.onDestroyView();
++    minutesButton = null;
++    buttonGridListener.onButtonGridDestroyed();
++  }
++
++  public void onInCallScreenDialpadVisibilityChange(boolean isShowing) {
++    if (minutesButton != null) minutesButton.setImportantForAccessibility(isShowing ? View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS : View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
++    for (CheckableLabeledButton button : buttons) {
++      button.setImportantForAccessibility(
++          isShowing
++              ? View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
++              : View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
++    }
++  }
++
++  public int updateButtonStates(
++      List<ButtonController> buttonControllers,
++      @Nullable ButtonChooser buttonChooser,
++      int voiceNetworkType,
++      int phoneType) {
++    Set<Integer> allowedButtons = new ArraySet<>();
++    Set<Integer> disabledButtons = new ArraySet<>();
++    for (ButtonController controller : buttonControllers) {
++      if (controller.isAllowed()) {
++        allowedButtons.add(controller.getInCallButtonId());
++        if (!controller.isEnabled()) {
++          disabledButtons.add(controller.getInCallButtonId());
++        }
++      }
++    }
++
++    for (ButtonController controller : buttonControllers) {
++      controller.setButton(null);
++    }
++
++    if (buttonChooser == null) {
++      buttonChooser =
++          ButtonChooserFactory.newButtonChooser(voiceNetworkType, false /* isWiFi */, phoneType);
++    }
++
++    int numVisibleButtons = getResources().getInteger(R.integer.incall_num_rows) * BUTTONS_PER_ROW;
++    List<Integer> buttonsToPlace =
++        buttonChooser.getButtonPlacement(numVisibleButtons, allowedButtons, disabledButtons);
++
++    for (int i = 0; i < BUTTON_COUNT; ++i) {
++      if (i >= buttonsToPlace.size()) {
++        buttons[i].setVisibility(View.INVISIBLE);
++        continue;
++      }
++      @InCallButtonIds int button = buttonsToPlace.get(i);
++      buttonGridListener.getButtonController(button).setButton(buttons[i]);
++    }
++
++    if (minutesButton != null) {
++      android.widget.GridLayout.LayoutParams position = (android.widget.GridLayout.LayoutParams) minutesButton.getLayoutParams();
++      int slot = buttonsToPlace.size();
++      position.rowSpec = android.widget.GridLayout.spec(slot / BUTTONS_PER_ROW);
++      position.columnSpec = android.widget.GridLayout.spec(slot % BUTTONS_PER_ROW, 1f);
++      position.topMargin = slot >= BUTTONS_PER_ROW ? getResources().getDimensionPixelSize(R.dimen.incall_button_vertical_padding) : 0;
++      minutesButton.setLayoutParams(position);
++      minutesButton.setChecked(com.android.dialer.aios.AiosCallUi.minutesActive(getContext()));
++      minutesButton.setEnabled(com.android.incallui.call.CallList.getInstance().getActiveCall() != null);
++    }
++    return numVisibleButtons;
++  }
++
++  /** Interface to let the listener know the status of the button grid. */
++  public interface OnButtonGridCreatedListener {
++    void onButtonGridCreated(InCallButtonGridFragment inCallButtonGridFragment);
++    void onButtonGridDestroyed();
++
++    ButtonController getButtonController(@InCallButtonIds int id);
++  }
++}
+diff --git a/java/com/android/incallui/incall/impl/res/layout/incall_button_grid.xml b/java/com/android/incallui/incall/impl/res/layout/incall_button_grid.xml
+index 59e9944..7ef248f 100644
+--- a/java/com/android/incallui/incall/impl/res/layout/incall_button_grid.xml
++++ b/java/com/android/incallui/incall/impl/res/layout/incall_button_grid.xml
+@@ -1,77 +1,84 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-  xmlns:app="http://schemas.android.com/apk/res-auto"
+-  xmlns:tools="http://schemas.android.com/tools"
+-  android:layout_width="match_parent"
+-  android:layout_height="wrap_content"
+-  android:layout_marginStart="@dimen/incall_window_margin_horizontal"
+-  android:layout_marginEnd="@dimen/incall_window_margin_horizontal"
+-  tools:showIn="@layout/frag_incall_voice">
+-  <GridLayout
+-    android:layout_width="match_parent"
+-    android:layout_height="wrap_content"
+-    android:layout_gravity="center"
+-    android:columnCount="3"
+-    android:orientation="horizontal">
+-    <com.android.incallui.incall.impl.CheckableLabeledButton
+-      android:id="@+id/incall_first_button"
+-      android:layout_width="0dp"
+-      android:layout_columnWeight="1"
+-      android:enabled="false"
+-      android:gravity="center"
+-      app:incall_labelText="@string/incall_label_mute"
+-      tools:background="#FFFF0000"
+-      tools:layout_height="@dimen/tools_button_height"
+-      tools:layout_width="@dimen/incall_labeled_button_size"/>
+-    <com.android.incallui.incall.impl.CheckableLabeledButton
+-      android:id="@+id/incall_second_button"
+-      android:layout_width="0dp"
+-      android:layout_columnWeight="1"
+-      android:enabled="false"
+-      android:gravity="center"
+-      app:incall_labelText="@string/incall_label_dialpad"
+-      tools:background="#FFFF0000"
+-      tools:layout_height="@dimen/tools_button_height"
+-      tools:layout_width="@dimen/incall_labeled_button_size"/>
+-    <com.android.incallui.incall.impl.CheckableLabeledButton
+-      android:id="@+id/incall_third_button"
+-      android:layout_width="0dp"
+-      android:layout_columnWeight="1"
+-      android:enabled="false"
+-      android:gravity="center"
+-      app:incall_labelText="@string/incall_label_speaker"
+-      tools:background="#FFFF0000"
+-      tools:layout_height="@dimen/tools_button_height"
+-      tools:layout_width="@dimen/incall_labeled_button_size"/>
+-    <com.android.incallui.incall.impl.CheckableLabeledButton
+-      android:id="@+id/incall_fourth_button"
+-      android:layout_marginTop="@dimen/incall_button_vertical_padding"
+-      android:layout_width="0dp"
+-      android:layout_columnWeight="1"
+-      android:gravity="center"
+-      app:incall_labelText="@string/incall_label_add_call"
+-      tools:background="#FFFF0000"
+-      tools:layout_height="@dimen/tools_button_height"
+-      tools:layout_width="@dimen/incall_labeled_button_size"/>
+-    <com.android.incallui.incall.impl.CheckableLabeledButton
+-      android:id="@+id/incall_fifth_button"
+-      android:layout_width="0dp"
+-      android:layout_columnWeight="1"
+-      android:layout_marginTop="@dimen/incall_button_vertical_padding"
+-      android:gravity="center"
+-      app:incall_labelText="@string/incall_label_hold"
+-      tools:background="#FFFF0000"
+-      tools:layout_height="@dimen/tools_button_height"
+-      tools:layout_width="@dimen/incall_labeled_button_size"/>
+-    <com.android.incallui.incall.impl.CheckableLabeledButton
+-      android:id="@+id/incall_sixth_button"
+-      android:layout_width="0dp"
+-      android:layout_columnWeight="1"
+-      android:layout_marginTop="@dimen/incall_button_vertical_padding"
+-      android:gravity="center"
+-      app:incall_labelText="@string/incall_label_videocall"
+-      tools:background="#FFFF0000"
+-      tools:layout_height="@dimen/tools_button_height"
+-      tools:layout_width="@dimen/incall_labeled_button_size"/>
+-  </GridLayout>
+-</FrameLayout>
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
++  xmlns:app="http://schemas.android.com/apk/res-auto"
++  xmlns:tools="http://schemas.android.com/tools"
++  android:layout_width="match_parent"
++  android:layout_height="wrap_content"
++  android:layout_marginStart="@dimen/incall_window_margin_horizontal"
++  android:layout_marginEnd="@dimen/incall_window_margin_horizontal"
++  tools:showIn="@layout/frag_incall_voice">
++  <GridLayout
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:layout_gravity="center"
++    android:columnCount="3"
++    android:orientation="horizontal">
++    <com.android.incallui.incall.impl.CheckableLabeledButton
++      android:id="@+id/incall_first_button"
++      android:layout_width="0dp"
++      android:layout_columnWeight="1"
++      android:enabled="false"
++      android:gravity="center"
++      app:incall_labelText="@string/incall_label_mute"
++      tools:background="#FFFF0000"
++      tools:layout_height="@dimen/tools_button_height"
++      tools:layout_width="@dimen/incall_labeled_button_size"/>
++    <com.android.incallui.incall.impl.CheckableLabeledButton
++      android:id="@+id/incall_second_button"
++      android:layout_width="0dp"
++      android:layout_columnWeight="1"
++      android:enabled="false"
++      android:gravity="center"
++      app:incall_labelText="@string/incall_label_dialpad"
++      tools:background="#FFFF0000"
++      tools:layout_height="@dimen/tools_button_height"
++      tools:layout_width="@dimen/incall_labeled_button_size"/>
++    <com.android.incallui.incall.impl.CheckableLabeledButton
++      android:id="@+id/incall_third_button"
++      android:layout_width="0dp"
++      android:layout_columnWeight="1"
++      android:enabled="false"
++      android:gravity="center"
++      app:incall_labelText="@string/incall_label_speaker"
++      tools:background="#FFFF0000"
++      tools:layout_height="@dimen/tools_button_height"
++      tools:layout_width="@dimen/incall_labeled_button_size"/>
++    <com.android.incallui.incall.impl.CheckableLabeledButton
++      android:id="@+id/incall_fourth_button"
++      android:layout_marginTop="@dimen/incall_button_vertical_padding"
++      android:layout_width="0dp"
++      android:layout_columnWeight="1"
++      android:gravity="center"
++      app:incall_labelText="@string/incall_label_add_call"
++      tools:background="#FFFF0000"
++      tools:layout_height="@dimen/tools_button_height"
++      tools:layout_width="@dimen/incall_labeled_button_size"/>
++    <com.android.incallui.incall.impl.CheckableLabeledButton
++      android:id="@+id/incall_fifth_button"
++      android:layout_width="0dp"
++      android:layout_columnWeight="1"
++      android:layout_marginTop="@dimen/incall_button_vertical_padding"
++      android:gravity="center"
++      app:incall_labelText="@string/incall_label_hold"
++      tools:background="#FFFF0000"
++      tools:layout_height="@dimen/tools_button_height"
++      tools:layout_width="@dimen/incall_labeled_button_size"/>
++    <com.android.incallui.incall.impl.CheckableLabeledButton
++      android:id="@+id/incall_sixth_button"
++      android:layout_width="0dp"
++      android:layout_columnWeight="1"
++      android:layout_marginTop="@dimen/incall_button_vertical_padding"
++      android:gravity="center"
++      app:incall_labelText="@string/incall_label_videocall"
++      tools:background="#FFFF0000"
++      tools:layout_height="@dimen/tools_button_height"
++      tools:layout_width="@dimen/incall_labeled_button_size"/>
++    <com.android.incallui.incall.impl.CheckableLabeledButton
++      android:id="@+id/aios_minutes"
++      android:layout_width="0dp"
++      android:layout_height="wrap_content"
++      android:layout_columnWeight="1"
++      android:gravity="center"
++      app:incall_labelText="@string/aios_call_minutes" />
++  </GridLayout>
++</LinearLayout>

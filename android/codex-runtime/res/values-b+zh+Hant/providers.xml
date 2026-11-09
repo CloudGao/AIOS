@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="provider_http">"模型服務傳回 HTTP %1$d。請檢查金鑰、方案、模型和額度。"</string>
+    <string name="provider_authentication">"模型連線驗證失敗，請重新啟動助手。"</string>
+    <string name="provider_unsupported">"此模型連線暫不支援本次請求類型，請選擇相容的模型連線。"</string>
+    <string name="provider_limit">"模型請求或回覆超出連線處理上限。"</string>
+    <string name="provider_truncated">"模型回覆遭截斷，未執行不完整的工具呼叫。"</string>
+    <string name="provider_refused">"模型服務拒絕了本次請求。"</string>
+    <string name="provider_timeout">"模型連線逾時，請核對目前任務狀態後再重試。"</string>
+    <string name="provider_disconnected">"模型連線已中斷，未收到完整回覆。"</string>
+    <string name="provider_upstream">"模型服務回報錯誤，請檢查帳號後重試。"</string>
+    <string name="provider_protocol">"模型傳回的回覆格式無效，未執行不完整的工具呼叫。"</string>
+    <string name="provider_save">"無法儲存模型設定。"</string>
+    <string name="provider_remove">"無法移除此帳號。"</string>
+    <string name="provider_web_login">"ChatGPT 請使用網頁授權。"</string>
+    <string name="provider_url">"請輸入 HTTPS API 基礎位址，不包含憑證、查詢參數或片段。"</string>
+    <string name="provider_kimi_url">"請使用 https://api.kimi.com/coding/v1 或 https://api.kimi.ai/coding/v1，並填寫 Kimi Code 金鑰。"</string>
+    <string name="provider_model">"請輸入有效的模型 ID。"</string>
+    <string name="provider_key_required">"請輸入 API 金鑰。"</string>
+    <string name="provider_key_changed">"更換 API 位址時請重新輸入金鑰。"</string>
+    <string name="provider_key_invalid">"API 金鑰格式無效。"</string>
+    <string name="provider_unknown">"未知模型供應商。"</string>
+</resources>

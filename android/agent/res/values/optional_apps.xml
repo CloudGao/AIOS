@@ -1,0 +1,14 @@
+<resources>
+    <string name="optional_apps_title">Optional apps</string>
+    <string name="optional_apps_description">Open an official source to choose an app, then install it using Android. AIOS does not download or install these apps automatically. Browser and document opening use Android defaults or the system app chooser; speech output uses your selected system TTS engine. Each app and model has its own terms.</string>
+    <string name="optional_apps_browser_limit">Opening websites and browser automation are different capabilities. Automation still requires a compatible Chromium browser with its CDP endpoint available. Installing an arbitrary browser does not enable automation.</string>
+    <string name="optional_apps_chromium">Chromium — official downloads</string>
+    <string name="optional_apps_collabora">Collabora Office — official source</string>
+    <string name="optional_apps_pdf">MJ PDF — official source</string>
+    <string name="optional_apps_editor">Text Editor — official releases</string>
+    <string name="optional_apps_tts">Speech engines — official catalog</string>
+    <string name="optional_apps_installed">Manage installed apps</string>
+    <string name="optional_apps_defaults">Choose default apps</string>
+    <string name="optional_apps_tts_settings">Choose system speech engine</string>
+    <string name="optional_apps_unavailable">This page could not be opened. Check that a browser or the corresponding system settings app is installed.</string>
+</resources>

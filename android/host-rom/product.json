@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "product_id": "aios-rom-full",
+  "host_id": "lineage-rom",
+  "limits": {"virtual_sessions":4,"scheduler_reserved":1,"headless_sessions":5},
+  "modules": ["core","harness","device","files","notification-events","notification-governance","virtual-screen","foreground-control","photos","photo-index","documents","local-inference","speech","recording","minutes","browser","miniapps","cli","mcp","sharing","notes","streams","launcher"]
+}

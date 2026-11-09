@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dream_status_never">尚未运行回顾</string>
+    <string name="dream_status_schedule_error">回顾调度登记失败，将自动重试</string>
+    <string name="dream_status_authorization">等待开启 AIOS 授权</string>
+    <string name="dream_status_disabled">回顾已关闭</string>
+    <string name="dream_status_preempted">回顾已让出资源，来源证据保留</string>
+    <string name="dream_status_foreground">等待前台助手结束执行</string>
+    <string name="dream_status_power_save">等待退出节电模式</string>
+    <string name="dream_status_thermal">等待设备降温</string>
+    <string name="dream_status_screen">等待熄屏</string>
+    <string name="dream_status_audio">等待通话或音频会话结束</string>
+    <string name="dream_status_recording">等待录音结束</string>
+    <string name="dream_status_capacity">等待后台助手执行名额</string>
+    <string name="dream_status_no_material">没有新增来源，未调用模型</string>
+    <string name="dream_status_context_capacity">回顾上下文超出容量，来源保留</string>
+    <string name="dream_status_busy">其他回顾正在运行，稍后重试</string>
+    <string name="dream_status_window_used">本回顾窗口已使用</string>
+    <string name="dream_status_daily_budget">自动回顾已达到当日批次限额</string>
+    <string name="dream_status_preparing">正在准备回顾来源和模型</string>
+    <string name="dream_status_submitted">回顾已提交，等待模型结果</string>
+    <string name="dream_status_complete_empty">回顾完成，没有提出新变更</string>
+    <string name="dream_status_complete_changes">回顾完成；技能发布情况及待确认建议请查看记录</string>
+    <string name="dream_status_prepare_failed">回顾准备失败，将有限重试；来源保留</string>
+    <string name="dream_status_result_failed">回顾失败或结果未通过校验；来源保留，不重复提交</string>
+    <string name="dream_status_model_unavailable">请选择可用且支持低推理强度的回顾模型</string>
+    <string name="dream_policy_explanation">自动回顾等待充电、联网和熄屏。经验证的技能自动发布；记忆与事项仍需确认。</string>
+    <string name="dream_schedule_diagnostics">调度登记：%1$s\n最近派发：%2$s\n最近执行检查：%3$s</string>
+    <string name="dream_diagnostics_unavailable">暂时无法读取调度诊断</string>
+    <string name="dream_time_none">尚无记录</string>
+    <string name="dream_state_publish_pending">等待技能发布</string>
+    <string name="dream_state_publish_retry">技能发布待重试</string>
+    <string name="dream_state_unverified">技能证据待验证</string>
+    <string name="dream_status_validation_failed">模型已返回，但回顾结果未通过校验；来源保留</string>
+</resources>

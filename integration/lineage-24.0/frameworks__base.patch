@@ -1,0 +1,1722 @@
+diff --git a/core/java/android/companion/virtual/computercontrol/ComputerControlSession.java b/core/java/android/companion/virtual/computercontrol/ComputerControlSession.java
+index e1abf841b..802bd36c6 100644
+--- a/core/java/android/companion/virtual/computercontrol/ComputerControlSession.java
++++ b/core/java/android/companion/virtual/computercontrol/ComputerControlSession.java
+@@ -630,6 +630,8 @@ public final class ComputerControlSession implements AutoCloseable {
+         }
+         mAccessibilityProxy.resetStabilityState(UNSTABLE_REASON_CALLER_INTERACTION);
+     }
++    /** @hide Sends an atomic double tap within the platform timeout. */
++    public void doubleTap(@IntRange(from=0) int x,@IntRange(from=0) int y,int intervalMs){validateTouchCoordinates(x,y);try{mSession.doubleTap(x,y,intervalMs);}catch(RemoteException e){throw e.rethrowFromSystemServer();}mAccessibilityProxy.resetStabilityState(UNSTABLE_REASON_CALLER_INTERACTION);}
+ 
+     /**
+      * Sends a swipe event to the computer control session for the given coordinates.
+@@ -670,6 +672,15 @@ public final class ComputerControlSession implements AutoCloseable {
+         mAccessibilityProxy.resetStabilityState(UNSTABLE_REASON_CALLER_INTERACTION);
+     }
+ 
++    /** @hide Sends one validated continuous gesture to this session's virtual display. */
++    public void performGesture(@NonNull int[] pointerIds, @NonNull int[] pointCounts,
++            @NonNull int[] xs, @NonNull int[] ys, int holdMs, int durationMs) {
++        Objects.requireNonNull(pointerIds);Objects.requireNonNull(pointCounts);Objects.requireNonNull(xs);Objects.requireNonNull(ys);
++        try { mSession.performGesture(pointerIds,pointCounts,xs,ys,holdMs,durationMs); }
++        catch (RemoteException e) { throw e.rethrowFromSystemServer(); }
++        mAccessibilityProxy.resetStabilityState(UNSTABLE_REASON_CALLER_INTERACTION);
++    }
++
+     /**
+      * Inserts provided text into the currently active text field on the display associated with
+      * the {@link ComputerControlSession}.
+diff --git a/core/java/android/companion/virtual/computercontrol/IComputerControlSession.aidl b/core/java/android/companion/virtual/computercontrol/IComputerControlSession.aidl
+index baed11a11..d872b2745 100644
+--- a/core/java/android/companion/virtual/computercontrol/IComputerControlSession.aidl
++++ b/core/java/android/companion/virtual/computercontrol/IComputerControlSession.aidl
+@@ -44,6 +44,7 @@ interface IComputerControlSession {
+ 
+     /* Injects a tap event into the trusted virtual display. */
+     void tap(int x, int y);
++    void doubleTap(int x, int y, int intervalMs);
+ 
+     /* Injects a swipe event into the trusted virtual display. */
+     void swipe(int fromX, int fromY, int toX, int toY);
+@@ -51,6 +52,10 @@ interface IComputerControlSession {
+     /** Injects a long press event into the trusted virtual display. */
+     void longPress(int x, int y);
+ 
++    /** Injects one bounded continuous gesture, including hold-drag and up to three pointers. */
++    void performGesture(in int[] pointerIds, in int[] pointCounts, in int[] xs, in int[] ys,
++            int holdMs, int durationMs);
++
+     /** Creates an interactive mirror of the session's virtual display. */
+     IInteractiveMirror createInteractiveMirror(in IResultReceiver a11yEmbeddedConnectionReceiver,
+             out SurfaceControl mirrorSurface);
+diff --git a/core/java/android/content/ContentResolver.java b/core/java/android/content/ContentResolver.java
+index 93900e24a..c3db93217 100644
+--- a/core/java/android/content/ContentResolver.java
++++ b/core/java/android/content/ContentResolver.java
+@@ -2819,6 +2819,19 @@ public abstract class ContentResolver implements ContentInterface {
+                     observer.getContentObserver(), userHandle, mTargetSdkVersion);
+         } catch (RemoteException e) {
+             throw e.rethrowFromSystemServer();
++        } catch (SecurityException e) {
++            // Pixel eUICC support treats Gservices as optional configuration. Its client
++            // already uses defaults when querying an absent provider; observing that
++            // absent provider must not crash Application.onCreate. Preserve all access
++            // denials, other authorities and other callers. No provider/data is invented.
++            if ("com.google.euiccpixel".equals(mContext.getPackageName())
++                    && "com.google.android.gsf.gservices".equals(uri.getAuthority())
++                    && e.getMessage() != null
++                    && e.getMessage().startsWith(
++                            "Failed to find provider com.google.android.gsf.gservices for user ")) {
++                return;
++            }
++            throw e;
+         }
+     }
+ 
+diff --git a/core/java/android/speech/tts/TextToSpeech.java b/core/java/android/speech/tts/TextToSpeech.java
+index 428a07f1c..f30e2d1f6 100644
+--- a/core/java/android/speech/tts/TextToSpeech.java
++++ b/core/java/android/speech/tts/TextToSpeech.java
+@@ -1721,7 +1721,18 @@ public class TextToSpeech {
+     public Set<Voice> getVoices() {
+         return runAction((ITextToSpeechService service) -> {
+             List<Voice> voices = service.getVoices();
+-            return (voices != null)  ? new HashSet<Voice>(voices) : new HashSet<Voice>();
++            // Engines load voices by name. Malformed duplicate names must not escape
++            // as distinct IDs merely because their locale or quality differs.
++            Set<Voice> result = new java.util.LinkedHashSet<>();
++            Set<String> names = new HashSet<>();
++            if (voices != null) {
++                for (Voice voice : voices) {
++                    if (voice != null && names.add(voice.getName())) {
++                        result.add(voice);
++                    }
++                }
++            }
++            return result;
+         }, null, "getVoices");
+     }
+ 
+diff --git a/packages/Shell/AndroidManifest.xml b/packages/Shell/AndroidManifest.xml
+index 7f207f830..5477c9856 100644
+--- a/packages/Shell/AndroidManifest.xml
++++ b/packages/Shell/AndroidManifest.xml
+@@ -1160,6 +1160,8 @@
+     <uses-permission android:name="android.permission.ACCESS_ATTENTION_LISTENER"
+         android:featureFlag="com.android.input.flags.enable_attention_service_apis" />
+ 
++    <uses-permission android:name="os.aios.permission.BROWSER_BRIDGE" />
++
+     <application
+         android:label="@string/app_label"
+         android:theme="@android:style/Theme.DeviceDefault.DayNight"
+@@ -1243,6 +1245,10 @@
+             android:name=".BugreportProgressService"
+             android:foregroundServiceType="systemExempted"
+             android:exported="false" />
++        <service
++            android:name=".AiosBrowserBridgeService"
++            android:exported="true"
++            android:permission="os.aios.permission.BROWSER_BRIDGE" />
+     </application>
+ 
+     <uses-sdk android:targetSdkVersion="36" />
+diff --git a/services/accessibility/java/com/android/server/accessibility/AbstractAccessibilityServiceConnection.java b/services/accessibility/java/com/android/server/accessibility/AbstractAccessibilityServiceConnection.java
+index b488eecde..575eb2b5a 100644
+--- a/services/accessibility/java/com/android/server/accessibility/AbstractAccessibilityServiceConnection.java
++++ b/services/accessibility/java/com/android/server/accessibility/AbstractAccessibilityServiceConnection.java
+@@ -1581,12 +1581,17 @@ abstract class AbstractAccessibilityServiceConnection extends IAccessibilityServ
+             final int secureContentPolicy =
+                     canCaptureSecureLayers() ? ScreenCaptureParams.SECURE_CONTENT_POLICY_CAPTURE
+                             : ScreenCaptureParams.SECURE_CONTENT_POLICY_REDACT;
+-            mWindowManagerService.captureDisplay(
+-                    displayId,
+-                    new ScreenCaptureInternal.CaptureArgs.Builder<>()
+-                            .setSecureContentPolicy(secureContentPolicy)
+-                            .build(),
+-                    screenCaptureListener);
++            ScreenCaptureInternal.CaptureArgs args = new ScreenCaptureInternal.CaptureArgs.Builder<>()
++                    .setSecureContentPolicy(secureContentPolicy).build();
++            if (displayId == android.view.Display.DEFAULT_DISPLAY
++                    && com.android.server.AiosAssistantPolicy.mayBypassService(mContext, mComponentName,
++                            mAccessibilityServiceInfo.getResolveInfo() == null ? null
++                                                    : mAccessibilityServiceInfo.getResolveInfo().serviceInfo,
++                            mSystemSupport.getCurrentUserIdLocked())) {
++                mWindowManagerService.captureDisplayForAios(displayId, args, screenCaptureListener);
++            } else {
++                mWindowManagerService.captureDisplay(displayId, args, screenCaptureListener);
++            }
+         } catch (Exception e) {
+             sendScreenshotFailure(AccessibilityService.ERROR_TAKE_SCREENSHOT_INVALID_DISPLAY,
+                     callback);
+diff --git a/services/accessibility/java/com/android/server/accessibility/AccessibilityServiceConnection.java b/services/accessibility/java/com/android/server/accessibility/AccessibilityServiceConnection.java
+index dad897984..066e08f70 100644
+--- a/services/accessibility/java/com/android/server/accessibility/AccessibilityServiceConnection.java
++++ b/services/accessibility/java/com/android/server/accessibility/AccessibilityServiceConnection.java
+@@ -611,7 +611,13 @@ class AccessibilityServiceConnection extends AbstractAccessibilityServiceConnect
+                             && mWindowManagerService.isTouchOrFaketouchDevice()) {
+                         motionEventInjector.injectEvents(
+                                 gestureSteps.getList(), mClient, sequence, displayId,
+-                                mAccessibilityServiceInfo.isAccessibilityTool());
++                                mAccessibilityServiceInfo.isAccessibilityTool(),
++                                displayId == android.view.Display.DEFAULT_DISPLAY
++                                        && com.android.server.AiosAssistantPolicy.mayBypassService(
++                                                mContext, mComponentName,
++                                                mAccessibilityServiceInfo.getResolveInfo() == null ? null
++                                                    : mAccessibilityServiceInfo.getResolveInfo().serviceInfo,
++                                                mSystemSupport.getCurrentUserIdLocked()));
+                     } else {
+                         try {
+                             if (svcClientTracingEnabled()) {
+diff --git a/services/accessibility/java/com/android/server/accessibility/MotionEventInjector.java b/services/accessibility/java/com/android/server/accessibility/MotionEventInjector.java
+index 98819257b..052e05ba6 100644
+--- a/services/accessibility/java/com/android/server/accessibility/MotionEventInjector.java
++++ b/services/accessibility/java/com/android/server/accessibility/MotionEventInjector.java
+@@ -107,7 +107,14 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+     public void injectEvents(List<GestureStep> gestureSteps,
+             IAccessibilityServiceClient serviceInterface, int sequence, int displayId,
+             boolean fromAccessibilityTool) {
++        injectEvents(gestureSteps, serviceInterface, sequence, displayId, fromAccessibilityTool, false);
++    }
++
++    public void injectEvents(List<GestureStep> gestureSteps,
++            IAccessibilityServiceClient serviceInterface, int sequence, int displayId,
++            boolean fromAccessibilityTool, boolean aiosBypass) {
+         SomeArgs args = SomeArgs.obtain();
++        args.argi4 = aiosBypass ? 1 : 0;
+         args.arg1 = gestureSteps;
+         args.arg2 = serviceInterface;
+         args.argi1 = sequence;
+@@ -126,6 +133,14 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+                     AccessibilityTrace.FLAGS_INPUT_FILTER | AccessibilityTrace.FLAGS_GESTURE,
+                     "event=" + event + ";rawEvent=" + rawEvent + ";policyFlags=" + policyFlags);
+         }
++        // AIOS must yield even when multi-device streams are enabled. Cancel its scheduled
++        // stream before forwarding the real touch; other accessibility services are unchanged.
++        if (mCurrentGestureAios && event.getDeviceId() >= 0
++                && event.getDisplayId() == android.view.Display.DEFAULT_DISPLAY
++                && (event.getActionMasked() == MotionEvent.ACTION_DOWN
++                        || event.getActionMasked() == MotionEvent.ACTION_SCROLL)) {
++            cancelAnyPendingInjectedEvents();
++        }
+         // InputDispatcher cancels an injected touch gesture if another MotionEvent arrives on this
+         // display from another device or source, like a real touch or a real mouse pointer.
+         // For user using an external device to control the pointer movement, it becomes difficult
+@@ -170,7 +185,7 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+                     /*serviceInterface=*/(IAccessibilityServiceClient) args.arg2,
+                     /*sequence=*/args.argi1,
+                     /*displayId=*/args.argi2,
+-                    /*fromAccessibilityTool=*/args.argi3 == 1);
++                    /*fromAccessibilityTool=*/args.argi3 == 1, args.argi4 == 1);
+             args.recycle();
+             return true;
+         }
+@@ -181,7 +196,10 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+         MotionEvent motionEvent = (MotionEvent) message.obj;
+         int policyFlags = WindowManagerPolicyConstants.FLAG_PASS_TO_USER
+                 | WindowManagerPolicyConstants.FLAG_INJECTED_FROM_ACCESSIBILITY;
+-        boolean fromAccessibilityTool = message.arg2 == 1;
++        boolean fromAccessibilityTool = (message.arg2 & 1) != 0;
++        if ((message.arg2 & 2) != 0) {
++            policyFlags |= android.os.IInputConstants.POLICY_FLAG_AIOS_ASSISTANT_BYPASS;
++        }
+         if (fromAccessibilityTool) {
+             policyFlags |= WindowManagerPolicyConstants.FLAG_INJECTED_FROM_ACCESSIBILITY_TOOL;
+         }
+@@ -196,7 +214,7 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+ 
+     private void injectEventsMainThread(List<GestureStep> gestureSteps,
+             IAccessibilityServiceClient serviceInterface, int sequence, int displayId,
+-            boolean fromAccessibilityTool) {
++            boolean fromAccessibilityTool, boolean aiosBypass) {
+         if (mIsDestroyed) {
+             try {
+                 serviceInterface.onPerformGestureResult(sequence, false);
+@@ -226,6 +244,7 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+             cancelAnyPendingInjectedEvents();
+         }
+         mServiceInterfaceForCurrentGesture = serviceInterface;
++        mCurrentGestureAios = aiosBypass;
+ 
+         long currentTime = SystemClock.uptimeMillis();
+         List<MotionEvent> events = getMotionEventsFromGestureSteps(gestureSteps,
+@@ -242,7 +261,7 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+             int isEndOfSequence = (i == events.size() - 1) ? 1 : 0;
+             Message message = mHandler.obtainMessage(
+                     MESSAGE_SEND_MOTION_EVENT, isEndOfSequence,
+-                    fromAccessibilityTool ? 1 : 0, event);
++                    (fromAccessibilityTool ? 1 : 0) | (aiosBypass ? 2 : 0), event);
+             mLastScheduledEventTime = event.getEventTime();
+             mHandler.sendMessageDelayed(message, Math.max(0, event.getEventTime() - currentTime));
+         }
+@@ -317,6 +336,9 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+         return numContinuedStrokes == 0;
+     }
+ 
++    private int mOpenGestureAiosPolicy;
++    private boolean mCurrentGestureAios;
++
+     private void sendMotionEventToNext(MotionEvent event, MotionEvent rawEvent,
+             int policyFlags) {
+         if (getNext() != null) {
+@@ -324,6 +346,8 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+             if (event.getSource() == EVENT_SOURCE) {
+                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                     mOpenTouchGestureInProgress = true;
++                    mOpenGestureAiosPolicy = policyFlags
++                            & android.os.IInputConstants.POLICY_FLAG_AIOS_ASSISTANT_BYPASS;
+                 }
+                 if ((event.getActionMasked() == MotionEvent.ACTION_UP)
+                         || (event.getActionMasked() == MotionEvent.ACTION_CANCEL)) {
+@@ -343,7 +367,8 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+             // ACTION_CANCEL events are internal system details for event stream state
+             // management and not used for performing new actions, so always treat them as
+             // originating from an accessibility tool.
+-            policyFlags |= WindowManagerPolicyConstants.FLAG_INJECTED_FROM_ACCESSIBILITY_TOOL;
++            policyFlags |= WindowManagerPolicyConstants.FLAG_INJECTED_FROM_ACCESSIBILITY_TOOL
++                    | mOpenGestureAiosPolicy;
+             sendMotionEventToNext(cancelEvent, cancelEvent, policyFlags);
+             mOpenTouchGestureInProgress = false;
+         }
+@@ -363,6 +388,7 @@ public class MotionEventInjector extends BaseEventStreamTransformation implement
+             cancelInjectedGestureInProgress();
+         }
+         mNumLastTouchPoints = 0;
++        mCurrentGestureAios = false;
+         mStrokeIdToPointerId.clear();
+     }
+ 
+diff --git a/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlAllowlistController.java b/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlAllowlistController.java
+index 67dee3c46..669374fab 100644
+--- a/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlAllowlistController.java
++++ b/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlAllowlistController.java
+@@ -41,6 +41,7 @@ import android.os.Environment;
+ import android.os.Process;
+ import android.os.UserHandle;
+ import android.provider.DeviceConfig;
++import android.provider.Settings;
+ import android.text.TextUtils;
+ import android.util.ArrayMap;
+ import android.util.ArraySet;
+@@ -67,6 +68,7 @@ import java.util.Map;
+ import java.util.Objects;
+ import java.util.Set;
+ import java.util.concurrent.Executor;
++import java.util.function.IntPredicate;
+ 
+ /**
+  * Manages allowlists/denylists for computer control.
+@@ -82,6 +84,8 @@ final class ComputerControlAllowlistController implements DeviceConfig.OnPropert
+             "automatable_app_allowlist.txt";
+     private static final String AUTOMATABLE_APP_DENYLIST_FILE_NAME = "automatable_app_denylist.txt";
+     @VisibleForTesting
++    static final String AIOS_UI_CONTROL_SETTING = "aios_assistant_ui_control_enabled";
++    @VisibleForTesting
+     static final String COMPUTER_CONTROL_NAMESPACE = "computer_control";
+     @VisibleForTesting
+     static final String COMPUTER_CONTROL_SESSION_OWNER_ALLOWLIST_KEY = "allowed_session_owner_apps";
+@@ -98,6 +102,7 @@ final class ComputerControlAllowlistController implements DeviceConfig.OnPropert
+     private final boolean mBuildIsDebuggable;
+     private final PermissionManagerServiceInterface mPermissionManager;
+     private final ComputerControlDataStore mDataStore;
++    private final IntPredicate mGlobalUiConsentEnabled;
+     // In debuggable builds, we can have a list of "super agents" (defined by a config resource)
+     // which are allowed to automate any app.
+     private final SignedPackageList mSuperAgentPackages = new SignedPackageList();
+@@ -116,7 +121,9 @@ final class ComputerControlAllowlistController implements DeviceConfig.OnPropert
+                 new File(new File(Environment.getDataSystemDirectory(), COMPUTER_CONTROL_DIR),
+                         AUTOMATABLE_APP_DENYLIST_FILE_NAME),
+                 LocalServices.getService(PermissionManagerServiceInterface.class),
+-                new ComputerControlDataStore(), Build.isDebuggable());
++                new ComputerControlDataStore(), Build.isDebuggable(),
++                userId -> Settings.Secure.getIntForUser(context.getContentResolver(),
++                        AIOS_UI_CONTROL_SETTING, 0, userId) == 1);
+     }
+ 
+     @VisibleForTesting
+@@ -126,6 +133,18 @@ final class ComputerControlAllowlistController implements DeviceConfig.OnPropert
+             @NonNull PermissionManagerServiceInterface permissionManager,
+             @NonNull ComputerControlDataStore dataStore,
+             boolean buildIsDebuggable) {
++        this(context, executor, agentAllowlistFile, automatableAppsAllowlistFile,
++                automatableAppsDenylistFile, permissionManager, dataStore, buildIsDebuggable,
++                userId -> false);
++    }
++
++    @VisibleForTesting
++    ComputerControlAllowlistController(@NonNull Context context, @NonNull Executor executor,
++            @NonNull File agentAllowlistFile, @NonNull File automatableAppsAllowlistFile,
++            @NonNull File automatableAppsDenylistFile,
++            @NonNull PermissionManagerServiceInterface permissionManager,
++            @NonNull ComputerControlDataStore dataStore, boolean buildIsDebuggable,
++            @NonNull IntPredicate globalUiConsentEnabled) {
+         mContext = context;
+         mBackgroundExecutor = executor;
+         mSessionOwnerAllowlist = new DeviceConfigRemoteList(agentAllowlistFile,
+@@ -137,6 +156,7 @@ final class ComputerControlAllowlistController implements DeviceConfig.OnPropert
+         mPermissionManager = permissionManager;
+         mBuildIsDebuggable = buildIsDebuggable;
+         mDataStore = dataStore;
++        mGlobalUiConsentEnabled = globalUiConsentEnabled;
+         final Resources resources = context.getResources();
+         try {
+             final String[] superAgentConfigItems =
+@@ -432,6 +452,15 @@ final class ComputerControlAllowlistController implements DeviceConfig.OnPropert
+      * Returns whether the given {@param agentUid} and {@param agentPackageName} have consent to
+      * automate the {@param targetPackage}
+      */
++    boolean isAiosBackgroundExecutionAllowed(int uid, String packageName) {
++        if (!"os.aios.agent".equals(packageName)) return false;
++        final PackageManager pm = getPackageManagerForUser(UserHandle.getUserId(uid));
++        final ApplicationInfo info = getApplicationInfo(packageName, pm);
++        return info != null && info.uid == uid
++                && isConfiguredSignedAgent(packageName, getSigningDetails(packageName, pm))
++                && mGlobalUiConsentEnabled.test(UserHandle.getUserId(uid));
++    }
++
+     boolean doesAgentHaveConsentToAutomateTargetApp(int agentUid, @Nullable String agentPackageName,
+             @Nullable String targetPackage) {
+         if (!android.companion.virtualdevice.flags.Flags.computerControlPerAppConsent()) {
+@@ -444,6 +473,13 @@ final class ComputerControlAllowlistController implements DeviceConfig.OnPropert
+         //  appropriate tests and CTS
+         // Allow test agents to automate test targets regardless of formal consent records.
+         final PackageManager pm = getPackageManagerForUser(UserHandle.getUserId(agentUid));
++        final SigningDetails signingDetails = getSigningDetails(agentPackageName, pm);
++        if (isConfiguredSignedAgent(agentPackageName, signingDetails)
++                && mGlobalUiConsentEnabled.test(UserHandle.getUserId(agentUid))) {
++            Slog.i(TAG, "doesAgentHaveConsentToAutomateTargetApp: AIOS global UI consent enabled"
++                    + " for signed super agent " + agentPackageName);
++            return true;
++        }
+         if (isTestAgent(agentUid, agentPackageName, pm)) {
+             final ApplicationInfo targetAppInfo = getApplicationInfo(targetPackage, pm);
+             if (targetAppInfo != null && isPackageTestOnly(targetAppInfo)) {
+@@ -655,9 +691,11 @@ final class ComputerControlAllowlistController implements DeviceConfig.OnPropert
+      */
+     private boolean isSuperAgent(@NonNull String packageName,
+             @Nullable SigningDetails signingDetails) {
+-        if (!mBuildIsDebuggable) {
+-            return false;
+-        }
++        return mBuildIsDebuggable && isConfiguredSignedAgent(packageName, signingDetails);
++    }
++
++    private boolean isConfiguredSignedAgent(@NonNull String packageName,
++            @Nullable SigningDetails signingDetails) {
+         if (signingDetails == null) {
+             return false;
+         }
+diff --git a/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionImpl.java b/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionImpl.java
+index e73139358..54e187fdf 100644
+--- a/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionImpl.java
++++ b/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionImpl.java
+@@ -296,6 +296,8 @@ final class ComputerControlSessionImpl extends IComputerControlSession.Stub
+ 
+     @Nullable
+     private ScheduledFuture<?> mSwipeFuture;
++    private int mGestureGeneration;
++    private int[] mActiveGesturePointers = new int[0];
+     @Nullable
+     private ScheduledFuture<?> mInsertTextFuture;
+     @Nullable
+@@ -589,6 +591,8 @@ final class ComputerControlSessionImpl extends IComputerControlSession.Stub
+         return mRequest.ownerPackageName();
+     }
+ 
++    int getOwnerUserId() { return mRequest.ownerUserId(); }
++
+     boolean isAutomatingPackage(@NonNull String packageName) {
+         synchronized (mAllowlistedPackages) {
+             return mAllowlistedPackages.contains(packageName);
+@@ -702,6 +706,27 @@ final class ComputerControlSessionImpl extends IComputerControlSession.Stub
+         mVirtualTouchscreen.sendTouchEvent(createTouchEvent(x, y, VirtualTouchEvent.ACTION_UP));
+         mStatsController.onTap();
+     }
++    @Override
++    public synchronized void doubleTap(int x, int y, int intervalMs) throws RemoteException {
++        if (shouldDisallowInteractions("doubleTap")) return;
++        if (intervalMs < 40 || intervalMs > 300) {
++            throw new IllegalArgumentException("Double tap interval must be 40-300ms");
++        }
++        cancelOngoingInteractions();
++        final int generation = ++mGestureGeneration;
++        mVirtualTouchscreen.sendTouchEvent(createTouchEvent(x, y, VirtualTouchEvent.ACTION_DOWN));
++        mVirtualTouchscreen.sendTouchEvent(createTouchEvent(x, y, VirtualTouchEvent.ACTION_UP));
++        mSwipeFuture = mScheduler.schedule(
++                () -> performSecondTap(generation, x, y), intervalMs, TimeUnit.MILLISECONDS);
++        mStatsController.onTap();
++    }
++
++    private synchronized void performSecondTap(int generation, int x, int y) {
++        if (generation != mGestureGeneration) return;
++        mVirtualTouchscreen.sendTouchEvent(createTouchEvent(x, y, VirtualTouchEvent.ACTION_DOWN));
++        mVirtualTouchscreen.sendTouchEvent(createTouchEvent(x, y, VirtualTouchEvent.ACTION_UP));
++        mSwipeFuture = null;
++    }
+ 
+     @Override
+     public void swipe(
+@@ -711,9 +736,11 @@ final class ComputerControlSessionImpl extends IComputerControlSession.Stub
+             return;
+         }
+         cancelOngoingInteractions();
++        final int generation = ++mGestureGeneration;
++        mActiveGesturePointers = new int[]{4};
+         mVirtualTouchscreen.sendTouchEvent(
+                 createTouchEvent(fromX, fromY, VirtualTouchEvent.ACTION_DOWN));
+-        performSwipeStep(fromX, fromY, toX, toY, /* step= */ 0, SWIPE_STEPS);
++        performSwipeStep(generation, fromX, fromY, toX, toY, /* step= */ 0, SWIPE_STEPS);
+         mStatsController.onSwipe();
+     }
+ 
+@@ -724,16 +751,41 @@ final class ComputerControlSessionImpl extends IComputerControlSession.Stub
+             return;
+         }
+         cancelOngoingInteractions();
++        final int generation = ++mGestureGeneration;
++        mActiveGesturePointers = new int[]{4};
+         mVirtualTouchscreen.sendTouchEvent(
+                 createTouchEvent(x, y, VirtualTouchEvent.ACTION_DOWN));
+         int longPressStepCount =
+                 (int) Math.ceil(
+                         (double) mViewConfiguration.getLongPressTimeoutMillis() *
+                                 LONG_PRESS_TIMEOUT_MULTIPLIER / TOUCH_EVENT_DELAY_MS);
+-        performSwipeStep(x, y, x, y, /* step= */ 0, longPressStepCount);
++        performSwipeStep(generation, x, y, x, y, /* step= */ 0, longPressStepCount);
+         mStatsController.onLongPress();
+     }
+ 
++    @Override
++    public synchronized void performGesture(int[] pointerIds, int[] pointCounts, int[] xs, int[] ys,
++            int holdMs, int durationMs) throws RemoteException {
++        if (shouldDisallowInteractions("performGesture")) return;
++        validateGesture(pointerIds, pointCounts, xs, ys, holdMs, durationMs);
++        cancelOngoingInteractions();
++        final int generation = ++mGestureGeneration;
++        mActiveGesturePointers = Arrays.copyOf(pointerIds, pointerIds.length);
++        int offset = 0;
++        for (int i = 0; i < pointerIds.length; i++) {
++            mVirtualTouchscreen.sendTouchEvent(createTouchEvent(
++                    xs[offset], ys[offset], VirtualTouchEvent.ACTION_DOWN, pointerIds[i]));
++            offset += pointCounts[i];
++        }
++        final int steps = Math.max(1, (int) Math.ceil((double) durationMs / TOUCH_EVENT_DELAY_MS));
++        final long movementStart = android.os.SystemClock.elapsedRealtime() + holdMs;
++        mSwipeFuture = mScheduler.schedule(
++                () -> performGestureStep(generation, pointerIds, pointCounts, xs, ys, 1, steps,
++                        movementStart, durationMs),
++                holdMs + Math.max(1, durationMs / steps), TimeUnit.MILLISECONDS);
++        mStatsController.onSwipe();
++    }
++
+     @Override
+     public void performAction(@ComputerControlSession.Action int actionCode)
+             throws RemoteException {
+@@ -1187,7 +1239,9 @@ final class ComputerControlSessionImpl extends IComputerControlSession.Stub
+         }
+     }
+ 
+-    private void performSwipeStep(int fromX, int fromY, int toX, int toY, int step, int stepCount) {
++    private synchronized void performSwipeStep(int generation, int fromX, int fromY, int toX,
++            int toY, int step, int stepCount) {
++        if (generation != mGestureGeneration) return;
+         final double fraction = ((double) step) / stepCount;
+         // This makes the movement distance smaller towards the end.
+         final double easedFraction = Math.sin(fraction * Math.PI / 2);
+@@ -1201,15 +1255,43 @@ final class ComputerControlSessionImpl extends IComputerControlSession.Stub
+         if (nextStep > stepCount) {
+             mVirtualTouchscreen.sendTouchEvent(
+                     createTouchEvent(toX, toY, VirtualTouchEvent.ACTION_UP));
++            mActiveGesturePointers = new int[0];
+             mSwipeFuture = null;
+             return;
+         }
+ 
+         mSwipeFuture = mScheduler.schedule(
+-                () -> performSwipeStep(fromX, fromY, toX, toY, nextStep, stepCount),
++                () -> performSwipeStep(generation, fromX, fromY, toX, toY, nextStep, stepCount),
+                 TOUCH_EVENT_DELAY_MS, TimeUnit.MILLISECONDS);
+     }
+ 
++    private synchronized void performGestureStep(int generation, int[] ids, int[] counts,
++            int[] xs, int[] ys, int step, int steps, long movementStart, int durationMs) {
++        if (generation != mGestureGeneration) return;
++        double progress = Math.min(1.0, (double) step / steps);int offset = 0;
++        for (int i = 0; i < ids.length; i++) {
++            double position = progress * (counts[i] - 1);int segment = Math.min(counts[i] - 2, (int) Math.floor(position));double fraction = position - segment;
++            int x = (int) Math.round(xs[offset + segment] + (xs[offset + segment + 1] - xs[offset + segment]) * fraction);
++            int y = (int) Math.round(ys[offset + segment] + (ys[offset + segment + 1] - ys[offset + segment]) * fraction);
++            mVirtualTouchscreen.sendTouchEvent(createTouchEvent(x, y, VirtualTouchEvent.ACTION_MOVE, ids[i]));offset += counts[i];
++        }
++        if (step >= steps) {
++            offset = xs.length;for (int i = ids.length - 1; i >= 0; i--) {offset -= counts[i];int last=offset+counts[i]-1;mVirtualTouchscreen.sendTouchEvent(createTouchEvent(xs[last],ys[last],VirtualTouchEvent.ACTION_UP,ids[i]));}
++            mActiveGesturePointers=new int[0];mSwipeFuture=null;return;
++        }
++        long target = movementStart + Math.round((double) (step + 1) * durationMs / steps);
++        long delay = Math.max(1, target - android.os.SystemClock.elapsedRealtime());
++        mSwipeFuture = mScheduler.schedule(
++                () -> performGestureStep(generation, ids, counts, xs, ys, step + 1, steps,
++                        movementStart, durationMs), delay, TimeUnit.MILLISECONDS);
++    }
++
++    private void validateGesture(int[] ids,int[] counts,int[] xs,int[] ys,int holdMs,int durationMs) {
++        if(ids==null||counts==null||xs==null||ys==null||ids.length<1||ids.length>3||counts.length!=ids.length||xs.length!=ys.length||holdMs<0||holdMs>3000||durationMs<100||durationMs>5000)throw new IllegalArgumentException("Invalid gesture shape or timing");
++        int total=0;java.util.HashSet<Integer> unique=new java.util.HashSet<>();for(int i=0;i<ids.length;i++){if(ids[i]<0||ids[i]>31||!unique.add(ids[i])||counts[i]<2||counts[i]>32)throw new IllegalArgumentException("Invalid gesture pointer");total+=counts[i];}if(total!=xs.length)throw new IllegalArgumentException("Gesture point counts do not match");
++        DisplayInfo info=mDisplayManagerGlobal.getDisplayInfo(mVirtualDisplayId);for(int i=0;i<xs.length;i++)if(xs[i]<0||ys[i]<0||xs[i]>=info.logicalWidth||ys[i]>=info.logicalHeight)throw new IllegalArgumentException("Gesture point outside display");
++    }
++
+     private boolean performDefaultEditorAction(@Nullable EditorInfo editorInfo,
+             @NonNull IRemoteComputerControlInputConnection ic) throws RemoteException {
+         // Check if currently active input connection on CC display has a valid editor action
+@@ -1224,14 +1306,14 @@ final class ComputerControlSessionImpl extends IComputerControlSession.Stub
+         return false;
+     }
+ 
+-    private void cancelOngoingInteractions() {
++    private synchronized void cancelOngoingInteractions() {
+         if (mInsertTextFuture != null) {
+             mInsertTextFuture.cancel(false);
+             mInsertTextFuture = null;
+         }
+-        if (mSwipeFuture != null && mSwipeFuture.cancel(false)) {
+-            mVirtualTouchscreen.sendTouchEvent(
+-                    createTouchEvent(0, 0, VirtualTouchEvent.ACTION_CANCEL));
++        ++mGestureGeneration;
++        if (mSwipeFuture != null) {
++            mSwipeFuture.cancel(false);if(mActiveGesturePointers.length==0)mVirtualTouchscreen.sendTouchEvent(createTouchEvent(0,0,VirtualTouchEvent.ACTION_CANCEL));else for(int id:mActiveGesturePointers)mVirtualTouchscreen.sendTouchEvent(createTouchEvent(0,0,VirtualTouchEvent.ACTION_CANCEL,id));mActiveGesturePointers=new int[0];mSwipeFuture=null;
+         }
+     }
+ 
+@@ -1313,11 +1395,16 @@ final class ComputerControlSessionImpl extends IComputerControlSession.Stub
+ 
+     private static VirtualTouchEvent createTouchEvent(int x, int y,
+             @VirtualTouchEvent.Action int action) {
++        return createTouchEvent(x,y,action,4);
++    }
++
++    private static VirtualTouchEvent createTouchEvent(int x, int y,
++            @VirtualTouchEvent.Action int action, int pointerId) {
+         return new VirtualTouchEvent.Builder()
+                 .setX(x)
+                 .setY(y)
+                 .setAction(action)
+-                .setPointerId(4)
++                .setPointerId(pointerId)
+                 .setToolType(
+                         action == VirtualTouchEvent.ACTION_CANCEL
+                                 ? VirtualTouchEvent.TOOL_TYPE_PALM
+diff --git a/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionProcessor.java b/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionProcessor.java
+index 82fe6749b..6e6a48162 100644
+--- a/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionProcessor.java
++++ b/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionProcessor.java
+@@ -87,9 +87,10 @@ public final class ComputerControlSessionProcessor {
+ 
+     private static final String TAG = ComputerControlSessionProcessor.class.getSimpleName();
+ 
+-    // TODO(b/419548594): Make this configurable.
++    // AIOS supports up to four independently authorized application sessions.
++    // Keep a bounded global limit; all per-session authorization checks still apply.
+     @VisibleForTesting
+-    static final int MAXIMUM_CONCURRENT_SESSIONS = 1;
++    static final int MAXIMUM_CONCURRENT_SESSIONS = 4;
+ 
+     @Nullable
+     private final String mReferenceDisplayAddress;
+@@ -541,7 +542,8 @@ public final class ComputerControlSessionProcessor {
+         boolean isDeviceLocked =
+                 Binder.withCleanCallingIdentity(
+                         () -> mKeyguardManager.isDeviceLocked(request.ownerUserId(), deviceId));
+-        if (isDeviceLocked) {
++        if (isDeviceLocked && !mAllowlistController.isAiosBackgroundExecutionAllowed(
++                request.ownerUid(), request.ownerPackageName())) {
+             dispatchSessionCreationFailed(request, ComputerControlSession.ERROR_DEVICE_LOCKED);
+             return false;
+         }
+diff --git a/services/core/Android.bp b/services/core/Android.bp
+index 7ce5d205b..16b685af1 100644
+--- a/services/core/Android.bp
++++ b/services/core/Android.bp
+@@ -364,3 +364,9 @@ cc_library {
+     ],
+     min_sdk_version: "29",
+ }
++
++filegroup {
++    name: "aios-overlay-policy-source",
++    srcs: ["java/com/android/server/AiosAssistantPolicy.java"],
++    visibility: ["//vendor:__subpackages__"],
++}
+diff --git a/services/core/java/com/android/server/wm/InputMonitor.java b/services/core/java/com/android/server/wm/InputMonitor.java
+index 303e6e436..98b335dd3 100644
+--- a/services/core/java/com/android/server/wm/InputMonitor.java
++++ b/services/core/java/com/android/server/wm/InputMonitor.java
+@@ -271,6 +271,10 @@ final class InputMonitor {
+             flags = flags | FLAG_NOT_TOUCH_MODAL;
+         }
+         inputWindowHandle.setLayoutParamsFlags(flags);
++        inputWindowHandle.setInputConfigMasked(
++                com.android.server.AiosAssistantPolicy.isPanel(mService.mContext,
++                        w.mOwnerUid, w.mAttrs) ? android.os.InputConfig.AIOS_ASSISTANT_OVERLAY : 0,
++                android.os.InputConfig.AIOS_ASSISTANT_OVERLAY);
+         if (inputWindowHandle.setInputConfigMasked(
+                 InputConfigAdapter.getInputConfigFromWindowParams(
+                         w.mAttrs.type, flags, w.mAttrs.inputFeatures),
+diff --git a/services/core/java/com/android/server/wm/WindowManagerInternal.java b/services/core/java/com/android/server/wm/WindowManagerInternal.java
+index 4fdf64379..c3b52a9eb 100644
+--- a/services/core/java/com/android/server/wm/WindowManagerInternal.java
++++ b/services/core/java/com/android/server/wm/WindowManagerInternal.java
+@@ -1164,6 +1164,11 @@ public abstract class WindowManagerInternal {
+      */
+     public abstract boolean hasNavigationBar(int displayId);
+ 
++    /** Internal entry used only after the accessibility service identity has been verified. */
++    public abstract void captureDisplayForAios(int displayId,
++            ScreenCaptureInternal.CaptureArgs captureArgs,
++            ScreenCaptureInternal.ScreenCaptureListener listener);
++
+     /**
+      * Controls whether the app-requested screen orientation is always respected.
+      *
+diff --git a/services/core/java/com/android/server/wm/WindowManagerService.java b/services/core/java/com/android/server/wm/WindowManagerService.java
+index 700c1d1cc..e34d78ab0 100644
+--- a/services/core/java/com/android/server/wm/WindowManagerService.java
++++ b/services/core/java/com/android/server/wm/WindowManagerService.java
+@@ -9440,6 +9440,30 @@ public class WindowManagerService extends IWindowManager.Stub
+             WindowManagerService.this.captureDisplay(displayId, captureArgs, listener);
+         }
+ 
++        @Override
++        public void captureDisplayForAios(int displayId,
++                ScreenCaptureInternal.CaptureArgs captureArgs,
++                ScreenCaptureInternal.ScreenCaptureListener listener) {
++            synchronized (mGlobalLock) {
++                DisplayContent dc = mRoot.getDisplayContent(displayId);
++                if (dc == null) throw new IllegalArgumentException("Invalid display");
++                java.util.ArrayList<SurfaceControl> excluded = new java.util.ArrayList<>();
++                dc.forAllWindows(w -> {
++                    if (com.android.server.AiosAssistantPolicy.isPanel(mContext, w.mOwnerUid,
++                            w.mAttrs) && w.getSurfaceControl() != null) {
++                        excluded.add(w.getSurfaceControl());
++                    }
++                }, true);
++                ScreenCaptureInternal.LayerCaptureArgs args =
++                        new ScreenCaptureInternal.LayerCaptureArgs.Builder(
++                                dc.getSurfaceControl(), captureArgs)
++                                .setSourceCrop(new Rect(0, 0, dc.getBounds().width(),
++                                        dc.getBounds().height()))
++                                .setExcludeLayers(excluded.toArray(new SurfaceControl[0])).build();
++                ScreenCaptureInternal.captureLayers(args, listener);
++            }
++        }
++
+         @Override
+         public boolean hasNavigationBar(int displayId) {
+             return WindowManagerService.this.hasNavigationBar(displayId);
+diff --git a/tests/VirtualDeviceTests/services/src/com/android/server/companion/virtual/computercontrol/ComputerControlAllowlistControllerTest.java b/tests/VirtualDeviceTests/services/src/com/android/server/companion/virtual/computercontrol/ComputerControlAllowlistControllerTest.java
+index 99bb00516..4d1290f37 100644
+--- a/tests/VirtualDeviceTests/services/src/com/android/server/companion/virtual/computercontrol/ComputerControlAllowlistControllerTest.java
++++ b/tests/VirtualDeviceTests/services/src/com/android/server/companion/virtual/computercontrol/ComputerControlAllowlistControllerTest.java
+@@ -851,6 +851,33 @@ public class ComputerControlAllowlistControllerTest {
+                 agentUid, agentPkg, targetPkg));
+     }
+ 
++    @Test
++    @EnableFlags(Flags.FLAG_COMPUTER_CONTROL_PER_APP_CONSENT)
++    public void doesAgentHaveConsent_signedSuperAgentAndGlobalConsent_returnsTrue()
++            throws Exception {
++        final int agentUid = Process.myUid();
++        createAllowlistController(/* buildIsDebuggable= */ false, userId -> true);
++        assertTrue(mAllowlistController.doesAgentHaveConsentToAutomateTargetApp(
++                agentUid, SUPER_AGENT_PACKAGE, "com.target"));
++    }
++
++    @Test
++    @EnableFlags(Flags.FLAG_COMPUTER_CONTROL_PER_APP_CONSENT)
++    public void doesAgentHaveConsent_signedSuperAgentWithoutGlobalConsent_returnsFalse() {
++        assertFalse(mAllowlistController.doesAgentHaveConsentToAutomateTargetApp(
++                Process.myUid(), SUPER_AGENT_PACKAGE, "com.target"));
++    }
++
++    @Test
++    @EnableFlags(Flags.FLAG_COMPUTER_CONTROL_PER_APP_CONSENT)
++    public void doesAgentHaveConsent_normalAgentAndGlobalConsent_returnsFalse() throws Exception {
++        final int agentUid = Process.myUid();
++        preparePackage(AGENT_PACKAGE, generateSignature((byte) 33));
++        createAllowlistController(/* buildIsDebuggable= */ true, userId -> true);
++        assertFalse(mAllowlistController.doesAgentHaveConsentToAutomateTargetApp(
++                agentUid, AGENT_PACKAGE, "com.target"));
++    }
++
+     @Test
+     @EnableFlags(Flags.FLAG_COMPUTER_CONTROL_PER_APP_CONSENT)
+     public void getAutomatableAppListForAgent_returnsCorrectList() {
+@@ -1154,10 +1181,18 @@ public class ComputerControlAllowlistControllerTest {
+     }
+ 
+     private void createAllowlistController(boolean buildIsDebuggable) {
++        createAllowlistController(buildIsDebuggable, userId -> false);
++    }
++
++    private void createAllowlistController(boolean buildIsDebuggable,
++            java.util.function.IntPredicate globalUiConsentEnabled) {
++        if (mAllowlistController != null) {
++            DeviceConfig.removeOnPropertiesChangedListener(mAllowlistController);
++        }
+         mAllowlistController = new ComputerControlAllowlistController(mSpyContext,
+                 MoreExecutors.directExecutor(), mSessionOwnerAllowlistFile,
+                 mAutomatableAppAllowlistFile, mAutomatableAppDenylistFile, mPermissionManager,
+-                mDataStore, buildIsDebuggable);
++                mDataStore, buildIsDebuggable, globalUiConsentEnabled);
+         mAllowlistController.initialize();
+     }
+ 
+diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
+index a83e306e0..c7a9bd983 100644
+--- a/packages/SystemUI/AndroidManifest.xml
++++ b/packages/SystemUI/AndroidManifest.xml
+@@ -22,6 +22,7 @@
+     xmlns:tools="http://schemas.android.com/tools"
+     coreApp="true">
+ 
++    <uses-permission android:name="os.aios.permission.CONTROL_SESSION"/>
+     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+ 
+     <!-- Used to read wallpaper -->
+diff --git a/packages/SystemUI/compose/features/src/com/android/systemui/notifications/ui/composable/row/BundleHeader.kt b/packages/SystemUI/compose/features/src/com/android/systemui/notifications/ui/composable/row/BundleHeader.kt
+index 0f7ee38b3..9f098033f 100644
+--- a/packages/SystemUI/compose/features/src/com/android/systemui/notifications/ui/composable/row/BundleHeader.kt
++++ b/packages/SystemUI/compose/features/src/com/android/systemui/notifications/ui/composable/row/BundleHeader.kt
+@@ -205,6 +205,7 @@ private fun ContentScope.BundleHeaderContent(
+         // because titleMediumEmphasized is already bold
+         val config = LocalConfiguration.current
+         val isBoldTextEnabled = config.fontWeightAdjustment > 0
++        androidx.compose.foundation.layout.Column(modifier = Modifier.weight(1f)) {
+         Text(
+             text = viewModel.summaryText ?: stringResource(viewModel.titleText),
+             style =
+@@ -214,8 +215,14 @@ private fun ContentScope.BundleHeaderContent(
+             color = MaterialTheme.colorScheme.primary,
+             overflow = TextOverflow.Ellipsis,
+             maxLines = 1,
+-            modifier = Modifier.element(BundleHeader.Elements.TitleText).weight(1f),
++            modifier = Modifier.element(BundleHeader.Elements.TitleText),
+         )
++        if (collapsed && viewModel.aiosPreview.isNotBlank()) {
++            Text(text = viewModel.aiosPreview, style = MaterialTheme.typography.bodyMedium,
++                color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 3,
++                overflow = TextOverflow.Ellipsis)
++        }
++        }
+ 
+         if (collapsed) {
+             if (viewModel.previewIcons.isNotEmpty()) {
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/BundleEntry.kt b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/BundleEntry.kt
+index 6043e63bf..9d09cad80 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/BundleEntry.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/BundleEntry.kt
+@@ -32,10 +32,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
+  */
+ class BundleEntry(val spec: BundleSpec) : PipelineEntry(spec.key) {
+ 
+-    override val bucket: Int = if (NmContextualDisplay.isEnabled) BUCKET_SILENT else spec.bucket
++    override val bucket: Int
++        get() = if (key.startsWith("aios-app:")) section?.bucket ?: spec.bucket
++            else if (NmContextualDisplay.isEnabled) BUCKET_SILENT else spec.bucket
+ 
+     override val bucketForLogging: Int
+-        get() = if (spec.bucket > DynamicBundle.DYNAMIC_RANGE_START) BUCKET_DYNAMIC_BUNDLE else spec.bucket
++        get() = if (key.startsWith("aios-app:")) bucket else if (spec.bucket > DynamicBundle.DYNAMIC_RANGE_START) BUCKET_DYNAMIC_BUNDLE else spec.bucket
+ 
+     /** The model used by UI. */
+     val bundleRepository =
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/NotifCollection.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/NotifCollection.java
+index 1a440191e..e00371d80 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/NotifCollection.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/NotifCollection.java
+@@ -549,6 +549,7 @@ public class NotifCollection implements Dumpable, PipelineDumpable {
+     private void postNotification(
+             StatusBarNotification sbn,
+             Ranking ranking) {
++        if (ranking.getImportance() >= android.app.NotificationManager.IMPORTANCE_HIGH) AiosNotificationState.arriving(sbn);
+         NotificationEntry entry = mNotificationSet.get(sbn.getKey());
+ 
+         if (entry == null) {
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/ShadeListBuilder.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/ShadeListBuilder.java
+index fbc0bf811..bd3c8220f 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/ShadeListBuilder.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/ShadeListBuilder.java
+@@ -729,6 +729,16 @@ public class ShadeListBuilder implements Dumpable, PipelineDumpable {
+     @Nullable
+     BundleEntry getBundleEntry(String id) {
+         BundleEntry be = mIdToBundleEntry.get(id);
++        if (be == null && id.startsWith("aios-app:")) {
++            for (BundleSpec spec : mNotifBundler.getBundleSpecs()) {
++                if (id.equals(spec.getKey())) {
++                    be = new BundleEntry(spec);
++                    mIdToBundleEntry.put(id, be);
++                    break;
++                }
++            }
++        }
++
+         if (be == null) {
+             debugBundleLog(TAG, () -> "BundleEntry not found for bundleId: " + id);
+         }
+@@ -952,7 +962,28 @@ public class ShadeListBuilder implements Dumpable, PipelineDumpable {
+                     return shouldPromote;
+                 });
+             }
+-            // Notifications inside BundleEntry will never be considered for promotion.
++            else if (tle instanceof BundleEntry bundle
++                    && bundle.getKey().startsWith("aios-app:")) {
++                // App folding must not hide notifications selected by native promoters.
++                bundle.getRawChildren().removeIf(child -> {
++                    if (child instanceof NotificationEntry notification) {
++                        if (applyTopLevelPromoters(notification)) {
++                            notification.setParent(ROOT_ENTRY);
++                            list.add(notification);
++                            return true;
++                        }
++                    } else if (child instanceof GroupEntry group) {
++                        group.getRawChildren().removeIf(notification -> {
++                            if (!applyTopLevelPromoters(notification)) return false;
++                            notification.setParent(ROOT_ENTRY);
++                            list.add(notification);
++                            return true;
++                        });
++                    }
++                    return false;
++                });
++            }
++            // Other native classification bundles keep their existing promotion policy.
+         }
+         Trace.endSection();
+     }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/BundleCoordinator.kt b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/BundleCoordinator.kt
+index 6e3000e2e..8704f1e76 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/BundleCoordinator.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/BundleCoordinator.kt
+@@ -75,6 +75,7 @@ constructor(
+     private val userTracker: UserTracker,
+     private val broadcastDispatcher: BroadcastDispatcher,
+ ) : Coordinator {
++    private val context: Context get() = userTracker.userContext
+ 
+     val bundler =
+         object : NotifBundler("NotifBundler") {
+@@ -94,6 +95,36 @@ constructor(
+              * ListEntry should not be bundled
+              */
+             override fun getBundleIdOrNull(entry: ListEntry): String? {
++                val representative = entry.representativeEntry
++                val notifications = if (entry is GroupEntry) {
++                    entry.children + listOfNotNull(representative)
++                } else listOfNotNull(representative)
++                if (notifications.any {
++                    val n = it.sbn.notification
++                    n.isMediaNotification || n.category == android.app.Notification.CATEGORY_CALL ||
++                        n.category == android.app.Notification.CATEGORY_NAVIGATION ||
++                        n.category == android.app.Notification.CATEGORY_ALARM
++                }) return null
++                if (representative != null) {
++                    val n = representative.sbn.notification
++                    if (!n.isMediaNotification && n.category != android.app.Notification.CATEGORY_CALL &&
++                        n.category != android.app.Notification.CATEGORY_NAVIGATION &&
++                        n.category != android.app.Notification.CATEGORY_ALARM) {
++                        val pkg = representative.sbn.packageName
++                        val key = "aios-app:${representative.sbn.normalizedUserId}:$pkg"
++                        if (bundleSpecs.none { it.key == key }) {
++                            val name = try { context.packageManager.getApplicationLabel(context.packageManager.getApplicationInfo(pkg, 0)).toString() } catch (_: Exception) { pkg }
++                            bundleSpecs.add(BundleSpec(key = key,
++                                titleText = com.android.internal.R.string.promotional_notification_channel_label,
++                                summaryText = name,
++                                icon = com.android.settingslib.R.drawable.ic_dynamic_bundle,
++                                bucket = com.android.systemui.statusbar.notification.stack.BUCKET_ALERTING,
++                                bundleType = -1000))
++                        }
++                        return key
++                    }
++                }
++
+                 if (isFromDebugApp(entry)) {
+                     return BundleSpec.RECOMMENDED.key
+                 }
+@@ -311,12 +342,33 @@ constructor(
+     }
+ 
+     override fun attach(pipeline: NotifPipeline) {
++        val aiosInvalidator = object : Invalidator("notification presentation") {}
++        pipeline.addPreRenderInvalidator(aiosInvalidator)
++        com.android.systemui.statusbar.notification.collection.AiosNotificationState.initialize(context) {
++            aiosInvalidator.invalidateList("notification presentation changed")
++        }
+         pipeline.setNotifBundler(bundler)
+         pipeline.addOnBeforeFinalizeFilterListener(this::inflateAllBundleEntries)
+         pipeline.addOnBeforeFinalizeFilterListener(bundleCountUpdater)
+         pipeline.addFinalizeFilter(bundleFilter)
+         pipeline.addOnBeforeRenderListListener(bundleMembershipUpdater)
+         pipeline.addOnBeforeRenderListListener(bundleAppDataUpdater)
++        pipeline.addOnBeforeRenderListListener { entries ->
++            entries.filterIsInstance<BundleEntry>().filter { it.key.startsWith("aios-app:") }.forEach { bundle ->
++                // Rendering truncates large groups; summary coverage must use the full collection.
++                val notifications = pipeline.allNotifs.filter {
++                    val sbn = it.sbn
++                    bundle.key == "aios-app:${sbn.normalizedUserId}:${sbn.packageName}" &&
++                        !sbn.notification.isGroupSummary &&
++                        !com.android.systemui.statusbar.notification.collection.AiosNotificationState.hidden(sbn) &&
++                        !it.isCanceled
++                }
++                val latest = notifications.maxWithOrNull(compareBy<NotificationEntry> { it.sbn.notification.extras.getInt("android.aios.importance", 1) }.thenBy { it.sbn.notification.extras.getLong("android.aios.received", it.sbn.postTime) })
++                val summary = com.android.systemui.statusbar.notification.collection.AiosNotificationState.summary(bundle.key, notifications)
++                bundle.bundleRepository.aiosPreview = if (!com.android.systemui.statusbar.notification.collection.AiosNotificationState.canPreview() || notifications.any { it.isSensitive.value }) "" else summary.ifEmpty { latest?.sbn?.notification?.extras?.getCharSequence("android.text")?.toString().orEmpty() }
++            }
++        }
++
+         bindOnboardingAffordanceInvalidator(pipeline)
+     }
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/RankingCoordinator.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/RankingCoordinator.java
+index 9e41b5f36..2ac7cad49 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/RankingCoordinator.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/RankingCoordinator.java
+@@ -115,12 +115,22 @@ public class RankingCoordinator implements Coordinator {
+             NotificationPriorityBucketKt.BUCKET_ALERTING) {
+         @Override
+         public boolean isInSection(PipelineEntry entry) {
++            if (entry.getKey().startsWith("aios-app:")) return mHighPriorityProvider.isHighPriority(entry);
+             if (BundleUtil.Companion.isClassified(entry)) {
+                 return false;
+             }
+             return mHighPriorityProvider.isHighPriority(entry);
+         }
+ 
++        @Override
++        public NotifComparator getComparator() {
++            return new NotifComparator("AiosAlertingComparator") {
++                @Override public int compare(PipelineEntry left, PipelineEntry right) {
++                    return com.android.systemui.statusbar.notification.collection.AiosNotificationState.compare(left,right);
++                }
++            };
++        }
++
+         @Nullable
+         @Override
+         public NodeController getHeaderNodeController() {
+@@ -138,7 +148,7 @@ public class RankingCoordinator implements Coordinator {
+         public boolean isInSection(PipelineEntry entry) {
+             final ListEntry listEntry = entry.asListEntry();
+             if (listEntry == null) {
+-                return entry instanceof BundleEntry;
++                return entry instanceof BundleEntry && !mHighPriorityProvider.isHighPriority(entry);
+             }
+             if (BundleUtil.Companion.isClassified(listEntry)) {
+                 return NmContextualDisplay.isEnabled() ? true : false;
+@@ -186,6 +196,7 @@ public class RankingCoordinator implements Coordinator {
+                 "SilentSectionComparator") {
+             @Override
+             public int compare(@NonNull PipelineEntry o1, @NonNull PipelineEntry o2) {
++                if (o1.getKey().startsWith("aios-app:") && o2.getKey().startsWith("aios-app:")) return com.android.systemui.statusbar.notification.collection.AiosNotificationState.compare(o1,o2);
+                 boolean isBundle1 = o1 instanceof BundleEntry;
+                 boolean isBundle2 = o2 instanceof BundleEntry;
+                 if (isBundle1 && isBundle2) {
+@@ -271,7 +282,7 @@ public class RankingCoordinator implements Coordinator {
+     private final NotifFilter mSuspendedFilter = new NotifFilter("IsSuspendedFilter") {
+         @Override
+         public boolean shouldFilterOut(NotificationEntry entry, long now) {
+-            return entry.getRanking().isSuspended();
++            return entry.getRanking().isSuspended() || com.android.systemui.statusbar.notification.collection.AiosNotificationState.hidden(entry.getSbn());
+         }
+     };
+ 
+@@ -302,6 +313,9 @@ public class RankingCoordinator implements Coordinator {
+     private final StatusBarStateController.StateListener mStatusBarStateCallback =
+             new StatusBarStateController.StateListener() {
+                 private boolean mPrevDozeAmountIsOne = false;
++                @Override public void onStateChanged(int state) {
++                    mSuspendedFilter.invalidateList("lockscreen visibility changed");
++                }
+ 
+                 @Override
+                 public void onDozeAmountChanged(float linear, float eased) {
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/provider/HighPriorityProvider.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/provider/HighPriorityProvider.java
+index 6191cb345..fe903c350 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/provider/HighPriorityProvider.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/provider/HighPriorityProvider.java
+@@ -89,6 +89,11 @@ public class HighPriorityProvider {
+             return false;
+         }
+ 
++        if (entry instanceof com.android.systemui.statusbar.notification.collection.BundleEntry bundle
++                && entry.getKey().startsWith("aios-app:")) {
++            for (ListEntry child : bundle.getChildren()) if (isHighPriority(child, false)) return true;
++            return false;
++        }
+         final ListEntry listEntry = entry.asListEntry();
+         if (listEntry == null) {
+             // Bundles are never high priority.
+@@ -96,6 +101,7 @@ public class HighPriorityProvider {
+         }
+ 
+         final NotificationEntry notifEntry = listEntry.getRepresentativeEntry();
++        if (notifEntry != null && com.android.systemui.statusbar.notification.collection.AiosNotificationState.hidden(notifEntry.getSbn())) return false;
+         if (notifEntry == null) {
+             return false;
+         }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/headsup/AvalancheController.kt b/packages/SystemUI/src/com/android/systemui/statusbar/notification/headsup/AvalancheController.kt
+index b6ea4613a..75b6aa538 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/headsup/AvalancheController.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/headsup/AvalancheController.kt
+@@ -131,6 +131,10 @@ constructor(
+             )
+             return
+         }
++        if (entry?.mEntry?.sbn?.let { com.android.systemui.statusbar.notification.collection.AiosNotificationState.governed(it) } == true) {
++            runnable.run()
++            return
++        }
+         if (!isEnabled) {
+             headsUpManagerLogger.logAvalancheUpdate(
+                 caller,
+@@ -303,6 +307,10 @@ constructor(
+             )
+             return
+         }
++        if (entry?.mEntry?.sbn?.let { com.android.systemui.statusbar.notification.collection.AiosNotificationState.governed(it) } == true) {
++            runnable.run()
++            return
++        }
+         if (!isEnabled) {
+             runnable.run()
+             headsUpManagerLogger.logAvalancheDelete(
+@@ -357,6 +365,7 @@ constructor(
+      */
+     fun getDuration(entry: HeadsUpEntry?, autoDismissMsValue: Int): RemainingDuration {
+         val autoDismissMs = RemainingDuration.UpdatedDuration(autoDismissMsValue)
++        if (entry?.mEntry?.sbn?.let { com.android.systemui.statusbar.notification.collection.AiosNotificationState.governed(it) } == true) return autoDismissMs
+         if (!isEnabled()) {
+             // Use default duration, like we did before AvalancheController existed
+             return autoDismissMs
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/headsup/HeadsUpManagerImpl.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/headsup/HeadsUpManagerImpl.java
+index c9de3c3e8..6adc26c36 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/headsup/HeadsUpManagerImpl.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/headsup/HeadsUpManagerImpl.java
+@@ -317,6 +317,16 @@ public class HeadsUpManagerImpl
+         headsUpEntry.setRequestedPinnedStatus(requestedPinnedStatus);
+ 
+         Runnable runnable = () -> {
++            if (!isFromUserOpenAction && !com.android.systemui.statusbar.notification.collection.AiosNotificationState.claimHeadsUp(entry.getSbn())) return;
++            if (!isFromUserOpenAction && com.android.systemui.statusbar.notification.collection.AiosNotificationState.governed(entry.getSbn())) {
++                for (String previousKey : new java.util.ArrayList<>(mHeadsUpEntryMap.keySet())) {
++                    NotificationEntry previous = getEntry(previousKey);
++                    if (previous == null || previousKey.equals(entry.getKey()) || isPinnedByUser(previousKey)) continue;
++                    String category = previous.getSbn().getNotification().category;
++                    if (android.app.Notification.CATEGORY_CALL.equals(category) || android.app.Notification.CATEGORY_ALARM.equals(category)) continue;
++                    if (com.android.systemui.statusbar.notification.collection.AiosNotificationState.governed(previous.getSbn())) removeNotification(previousKey, true, "newer governed notification");
++                }
++            }
+             mLogger.logShowNotification(entry, isFromUserOpenAction);
+ 
+             // Add new entry and begin managing it
+@@ -326,7 +336,8 @@ public class HeadsUpManagerImpl
+             updateNotificationInternal(entry.getKey(), requestedPinnedStatus);
+             entry.setInterruption();
+         };
+-        mAvalancheController.update(headsUpEntry, runnable, "showNotification");
++        if (com.android.systemui.statusbar.notification.collection.AiosNotificationState.governed(entry.getSbn())) runnable.run();
++        else mAvalancheController.update(headsUpEntry, runnable, "showNotification");
+     }
+ 
+     @Override
+@@ -381,7 +392,10 @@ public class HeadsUpManagerImpl
+         mLogger.logUpdateNotificationRequest(key, requestedPinnedStatus, headsUpEntry != null);
+ 
+         Runnable runnable = () -> updateNotificationInternal(key, requestedPinnedStatus);
+-        mAvalancheController.update(headsUpEntry, runnable, "updateNotification");
++        NotificationEntry notification = getEntry(key);
++        if (notification != null && com.android.systemui.statusbar.notification.collection.AiosNotificationState.governed(notification.getSbn())) {
++            if (requestedPinnedStatus == PinnedStatus.PinnedByUser || com.android.systemui.statusbar.notification.collection.AiosNotificationState.claimHeadsUp(notification.getSbn())) runnable.run();
++        } else mAvalancheController.update(headsUpEntry, runnable, "updateNotification");
+     }
+ 
+     private void updateNotificationInternal(
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/icon/IconManager.kt b/packages/SystemUI/src/com/android/systemui/statusbar/notification/icon/IconManager.kt
+index f99624c8b..6142fd6f2 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/icon/IconManager.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/icon/IconManager.kt
+@@ -455,7 +455,7 @@ constructor(
+             /* icon = */ this,
+             0,
+             0,
+-            context.getString(entry.bundleRepository.titleText),
++            entry.bundleRepository.summaryText ?: context.getString(entry.bundleRepository.titleText),
+             type,
+         )
+     }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/FullScreenIntentDecisionProvider.kt b/packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/FullScreenIntentDecisionProvider.kt
+index 576c7ad2c..6ec0f56c6 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/FullScreenIntentDecisionProvider.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/FullScreenIntentDecisionProvider.kt
+@@ -117,6 +117,7 @@ class FullScreenIntentDecisionProvider(
+     }
+ 
+     fun makeFullScreenIntentDecision(entry: NotificationEntry, couldHeadsUp: Boolean): Decision {
++        if (entry.sbn.notification.extras.getBoolean("android.aios.filtered", false)) return DecisionImpl.NO_FSI_NO_FULL_SCREEN_INTENT
+         val reasonWithoutDnd = makeDecisionWithoutDnd(entry, couldHeadsUp)
+ 
+         val suppressedWithoutDnd = !reasonWithoutDnd.shouldFsi
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/VisualInterruptionDecisionProviderImpl.kt b/packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/VisualInterruptionDecisionProviderImpl.kt
+index aeb144a83..81af8f335 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/VisualInterruptionDecisionProviderImpl.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/VisualInterruptionDecisionProviderImpl.kt
+@@ -95,6 +95,7 @@ constructor(
+         val isSpammy: Boolean = false,
+     ) : Loggable {
+         companion object {
++            val aiosSuppressed = LoggableDecision(DecisionImpl(false, "aios_policy"))
+             val unsuppressed =
+                 LoggableDecision(DecisionImpl(shouldInterrupt = true, logReason = "not suppressed"))
+ 
+@@ -249,8 +250,14 @@ constructor(
+                 .decision
+         }
+ 
++    private fun aiosSuppression(entry: NotificationEntry): LoggableDecision? =
++        if (entry.sbn.notification.extras.getBoolean("android.aios.filtered", false) ||
++            entry.sbn.notification.extras.getBoolean("android.aios.old", false))
++            LoggableDecision.aiosSuppressed else null
++
+     private fun makeLoggablePeekDecision(entry: NotificationEntry): LoggableDecision =
+-        checkConditions(PEEK)
++        aiosSuppression(entry)
++            ?: checkConditions(PEEK)
+             ?: checkFilters(PEEK, entry)
+             ?: checkSuppressInterruptions(entry)
+             ?: checkSuppressAwakeInterruptions(entry)
+@@ -258,7 +265,8 @@ constructor(
+             ?: LoggableDecision.unsuppressed
+ 
+     private fun makeLoggablePulseDecision(entry: NotificationEntry): LoggableDecision =
+-        checkConditions(PULSE)
++        aiosSuppression(entry)
++            ?: checkConditions(PULSE)
+             ?: checkFilters(PULSE, entry)
+             ?: checkSuppressInterruptions(entry)
+             ?: LoggableDecision.unsuppressed
+@@ -273,7 +281,8 @@ constructor(
+         }
+ 
+     private fun makeLoggableBubbleDecision(entry: NotificationEntry): LoggableDecision =
+-        checkConditions(BUBBLE)
++        aiosSuppression(entry)
++            ?: checkConditions(BUBBLE)
+             ?: checkFilters(BUBBLE, entry)
+             ?: checkSuppressInterruptions(entry)
+             ?: checkSuppressAwakeInterruptions(entry)
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java
+index 05c6bffd2..d04bc86d4 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java
+@@ -2618,6 +2618,11 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
+      * @return
+      */
+     private boolean allowDismissUsingRowTranslationX() {
++        if (mEntryAdapter != null && (mEntryAdapter.getKey().startsWith("aios-app:")
++                || (mEntryAdapter.getSbn() != null
++                && com.android.systemui.statusbar.notification.collection.AiosNotificationState.governed(mEntryAdapter.getSbn())))) {
++            return false;
++        }
+         if (Flags.permissionHelperInlineUiRichOngoing()) {
+             return !isPromotedOngoing();
+         } else {
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationMenuRow.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationMenuRow.java
+index 1dee2cdbb..cc085eb24 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationMenuRow.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationMenuRow.java
+@@ -255,7 +255,8 @@ public class NotificationMenuRow implements NotificationMenuRowPlugin, View.OnCl
+ 
+     private void createMenuViews(boolean resetState) {
+         final Resources res = mContext.getResources();
+-        mHorizSpaceForIcon = res.getDimensionPixelSize(R.dimen.notification_menu_icon_size);
++        mHorizSpaceForIcon = res.getDimensionPixelSize(aiosManaged()
++                ? R.dimen.aios_notification_menu_slot : R.dimen.notification_menu_icon_size);
+         mVertSpaceForIcons = res.getDimensionPixelSize(R.dimen.notification_min_height);
+         mLeftMenuItems.clear();
+         mRightMenuItems.clear();
+@@ -296,6 +297,15 @@ public class NotificationMenuRow implements NotificationMenuRowPlugin, View.OnCl
+         }
+ 
+ 
++        if (aiosManaged()) {
++            mParent.setDismissUsingRowTranslationX(false, true);
++            mRightMenuItems.clear();
++            mRightMenuItems.add(aiosItem("clear", R.string.aios_notification_clear));
++            mRightMenuItems.add(aiosItem(mParent.isBundle() ? "block_app" : "block",
++                    mParent.isBundle() ? R.string.aios_notification_block_app : R.string.aios_notification_block));
++            mRightMenuItems.add(aiosItem("pin", com.android.systemui.statusbar.notification.collection.AiosNotificationState.pinned(aiosBundleKey())
++                    ? R.string.aios_notification_unpin : R.string.aios_notification_pin));
++        }
+         mLeftMenuItems.addAll(mRightMenuItems);
+ 
+         populateMenuViews();
+@@ -320,7 +330,7 @@ public class NotificationMenuRow implements NotificationMenuRowPlugin, View.OnCl
+ 
+         // Populate menu items if we are using the new permission helper (U+) or if we are using
+         // the very old dismiss setting (SC-).
+-        if (Flags.permissionHelperInlineUiRichOngoing()) {
++        if (aiosManaged() || Flags.permissionHelperInlineUiRichOngoing()) {
+             List<MenuItem> menuItems = mOnLeft ? mLeftMenuItems : mRightMenuItems;
+             for (int i = 0; i < menuItems.size(); i++) {
+                 addMenuView(menuItems.get(i), mMenuContainer);
+@@ -346,6 +356,13 @@ public class NotificationMenuRow implements NotificationMenuRowPlugin, View.OnCl
+     public void onTouchMove(float delta) {
+         mSnapping = false;
+ 
++        if (aiosManaged() && mTranslation < 0) {
++            // Three actions must not depend on the legacy single-icon reveal window.
++            setMenuLocation();
++            setMenuAlpha(1f);
++            mMenuFadedIn = true;
++            return;
++        }
+         if (!isTowardsMenu(delta) && isMenuLocationChange()) {
+             // Don't consider it "snapped" if location has changed.
+             mMenuSnapped = false;
+@@ -469,9 +486,22 @@ public class NotificationMenuRow implements NotificationMenuRowPlugin, View.OnCl
+ 
+     @Override
+     public void onParentHeightUpdate() {
++        if (aiosManaged() && mMenuContainer != null) {
++            for (int i = 0; i < mMenuContainer.getChildCount(); i++) {
++                View item = mMenuContainer.getChildAt(i);
++                ViewGroup.LayoutParams params = item.getLayoutParams();
++                int height = Math.max(1, mParent.getActualHeight());
++                if (params.width != mHorizSpaceForIcon || params.height != height) {
++                    params.width = mHorizSpaceForIcon;
++                    params.height = height;
++                    item.setLayoutParams(params);
++                }
++            }
++            return;
++        }
+         // If we are using only icon-based buttons, adjust layout for height changes.
+         // For permission helper full-layout buttons, do not adjust.
+-        if (!Flags.permissionHelperInlineUiRichOngoing()) {
++        if (!Flags.permissionHelperInlineUiRichOngoing() && !aiosManaged()) {
+             if (mParent == null
+                     || (mLeftMenuItems.isEmpty() && mRightMenuItems.isEmpty())
+                     || mMenuContainer == null) {
+@@ -491,6 +521,11 @@ public class NotificationMenuRow implements NotificationMenuRowPlugin, View.OnCl
+     @Override
+     public void onParentTranslationUpdate(float translation) {
+         mTranslation = translation;
++        if (aiosManaged() && translation < 0) {
++            setMenuAlpha(1f);
++            mMenuFadedIn = true;
++            return;
++        }
+         if (mAnimating || !mMenuFadedIn) {
+             // Don't adjust when animating, or if the menu hasn't been shown yet.
+             return;
+@@ -510,6 +545,11 @@ public class NotificationMenuRow implements NotificationMenuRowPlugin, View.OnCl
+ 
+     @Override
+     public void onClick(View v) {
++        if (v.getTag() instanceof String action && action.startsWith("aios:")) {
++            aiosAction(action.substring(5));
++            resetState(true);
++            return;
++        }
+         if (mMenuListener == null) {
+             // Nothing to do
+             return;
+@@ -525,6 +565,80 @@ public class NotificationMenuRow implements NotificationMenuRowPlugin, View.OnCl
+         }
+     }
+ 
++    public boolean aiosManaged() {
++        if (mParent == null || mParent.getEntryAdapter() == null) return false;
++        StatusBarNotification sbn = mParent.getEntryAdapter().getSbn();
++        return mParent.getEntryAdapter().getKey().startsWith("aios-app:")
++                || (sbn != null && !sbn.getNotification().extras.getString("android.aios.identity", "").isEmpty());
++    }
++
++    private String aiosBundleKey() {
++        StatusBarNotification sbn = mParent.getEntryAdapter().getSbn();
++        return sbn == null ? mParent.getEntryAdapter().getKey()
++                : "aios-app:" + sbn.getNormalizedUserId() + ":" + sbn.getPackageName();
++    }
++
++    /** Same tonal pill as the 2025 promoted-notification swipe button: icon + label on primary container. */
++    private NotificationMenuItem aiosItem(String action, int label) {
++        Resources res = mContext.getResources();
++        int iconRes = action.equals("clear") ? R.drawable.ic_close
++                : action.equals("pin") ? (label == R.string.aios_notification_unpin ? R.drawable.unpin_icon : R.drawable.aios_ic_pin)
++                : R.drawable.ic_block;
++        android.widget.LinearLayout pill = new android.widget.LinearLayout(mContext);
++        pill.setOrientation(android.widget.LinearLayout.VERTICAL);
++        pill.setGravity(android.view.Gravity.CENTER);
++        int padding = res.getDimensionPixelSize(R.dimen.notification_menu_button_padding);
++        pill.setPadding(padding, padding, padding, padding);
++        Drawable background = mContext.getDrawable(R.drawable.notification_menu_button_background).mutate();
++        background.setTint(mContext.getColor(com.android.internal.R.color.materialColorPrimaryContainer));
++        pill.setBackground(background);
++        ImageView icon = new ImageView(mContext);
++        icon.setImageResource(iconRes);
++        icon.setImageTintList(android.content.res.ColorStateList.valueOf(mContext.getColor(com.android.internal.R.color.materialColorPrimary)));
++        int iconSize = Math.round(24 * res.getDisplayMetrics().density);
++        pill.addView(icon, new android.widget.LinearLayout.LayoutParams(iconSize, iconSize));
++        android.widget.TextView text = new android.widget.TextView(mContext);
++        text.setText(label);
++        text.setTextAppearance(R.style.TextAppearance_NotificationMenuButtonText);
++        text.setMaxLines(2);
++        text.setEllipsize(android.text.TextUtils.TruncateAt.END);
++        android.widget.LinearLayout.LayoutParams textParams = new android.widget.LinearLayout.LayoutParams(
++                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
++        textParams.topMargin = padding / 2;
++        pill.addView(text, textParams);
++        FrameLayout view = new FrameLayout(mContext);
++        view.setLayoutParams(new FrameLayout.LayoutParams(mHorizSpaceForIcon,
++                Math.max(1, mParent.getActualHeight())));
++        view.addView(pill, new LayoutParams(res.getDimensionPixelSize(R.dimen.aios_notification_menu_item_width),
++                ViewGroup.LayoutParams.MATCH_PARENT));
++        view.setContentDescription(mContext.getString(label));
++        view.setTag("aios:" + action);
++        return new NotificationMenuItem(mContext, mContext.getString(label), null, view);
++    }
++
++    private void aiosClear(ExpandableNotificationRow row) {
++        StatusBarNotification sbn = row.getEntryAdapter().getSbn();
++        if (sbn != null) {
++            String identity = sbn.getNotification().extras.getString("android.aios.identity", "");
++            if (!identity.isEmpty()) com.android.systemui.statusbar.notification.collection.AiosNotificationState.action(
++                    mContext, sbn.getNormalizedUserId(), "clear", identity, sbn.getPackageName(), false);
++        }
++        List<ExpandableNotificationRow> children = row.getAttachedChildren();
++        if (children != null) for (ExpandableNotificationRow child : children) aiosClear(child);
++    }
++
++    private void aiosAction(String action) {
++        if (action.equals("clear")) { aiosClear(mParent); return; }
++        String[] key = aiosBundleKey().split(":", 3);
++        if (key.length != 3) return;
++        StatusBarNotification sbn = mParent.getEntryAdapter().getSbn();
++        String identity = sbn == null ? "" : sbn.getNotification().extras.getString("android.aios.identity", "");
++        com.android.systemui.statusbar.notification.collection.AiosNotificationState.action(
++                mContext, Integer.parseInt(key[1]), action, identity, key[2],
++                !com.android.systemui.statusbar.notification.collection.AiosNotificationState.pinned(aiosBundleKey()));
++        mParent.getEntryAdapter().markForUserTriggeredMovement(true);
++    }
++
+     private boolean isMenuLocationChange() {
+         boolean onLeft = mTranslation > mIconPadding;
+         boolean onRight = mTranslation < -mIconPadding;
+@@ -777,6 +891,10 @@ public class NotificationMenuRow implements NotificationMenuRowPlugin, View.OnCl
+         };
+ 
+         Function2<Integer, Boolean, Unit> enableBundle = (type, enable) -> {
++            if (mParent.getEntryAdapter().getKey().startsWith("aios-app:")) {
++                if (!enable) aiosAction("block_app");
++                return Unit.INSTANCE;
++            }
+             try {
+                 mContext.getSystemService(NotificationManager.class)
+                         .setAssistantClassificationTypeState(type, enable);
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationRowContentBinderImpl.kt b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationRowContentBinderImpl.kt
+index 3e6e38ac6..6f362abc7 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationRowContentBinderImpl.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationRowContentBinderImpl.kt
+@@ -854,12 +854,24 @@ constructor(
+                 val headsUp =
+                     if (reInflateFlags and FLAG_CONTENT_VIEW_HEADS_UP != 0) {
+                         logger.logAsyncTaskProgress(row.loggingKey, "creating heads up remote view")
++                        // Trim only the heads-up copy; expanded content and listener events
++                        // retain the complete original conversation and all reply actions.
++                        val headsUpBuilder = if (builder.style is Notification.MessagingStyle) {
++                            val copy = entry.sbn.notification.clone()
++                            val messages = copy.extras.getParcelableArray(Notification.EXTRA_MESSAGES)
++                            if (!messages.isNullOrEmpty()) {
++                                copy.extras.putParcelableArray(Notification.EXTRA_MESSAGES,
++                                    arrayOf(messages.last()))
++                            }
++                            copy.extras.remove(Notification.EXTRA_HISTORIC_MESSAGES)
++                            Notification.Builder.recoverBuilder(packageContext, copy)
++                        } else builder
+                         val isHeadsUpCompact =
+                             headsUpStyleProvider.shouldApplyCompactStyle(systemUiContext.displayId)
+                         if (isHeadsUpCompact) {
+-                            builder.createCompactHeadsUpContentView()
++                            headsUpBuilder.createCompactHeadsUpContentView()
+                         } else {
+-                            @Suppress("DEPRECATION") builder.createHeadsUpContentView()
++                            @Suppress("DEPRECATION") headsUpBuilder.createHeadsUpContentView()
+                         }
+                     } else null
+                 val public =
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/data/repository/BundleRepository.kt b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/data/repository/BundleRepository.kt
+index 54a15e871..28cf78ce2 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/data/repository/BundleRepository.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/data/repository/BundleRepository.kt
+@@ -34,6 +34,8 @@ class BundleRepository(
+     val bundleType: Int,
+ ) {
+ 
++    var aiosPreview by mutableStateOf("")
++
+     var numberOfChildren by mutableStateOf<Int?>(0)
+ 
+     /**
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/domain/interactor/BundleInteractor.kt b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/domain/interactor/BundleInteractor.kt
+index 77c85b6d3..96559ade4 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/domain/interactor/BundleInteractor.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/domain/interactor/BundleInteractor.kt
+@@ -59,6 +59,9 @@ constructor(
+ 
+     val summaryText: String? = repository.summaryText
+ 
++    val aiosPreview: String
++        get() = repository.aiosPreview
++
+     val numberOfChildren: Int?
+         get() = repository.numberOfChildren
+ 
+@@ -78,7 +81,7 @@ constructor(
+         get() =
+             context.resources.getString(
+                 R.string.notification_bundle_header_joined_description,
+-                context.resources.getString(titleText),
++                summaryText ?: context.resources.getString(titleText),
+                 numberOfChildrenContentDescription,
+             )
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ui/viewmodel/BundleHeaderViewModel.kt b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ui/viewmodel/BundleHeaderViewModel.kt
+index 097afcd21..11988925a 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ui/viewmodel/BundleHeaderViewModel.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ui/viewmodel/BundleHeaderViewModel.kt
+@@ -38,6 +38,9 @@ class BundleHeaderViewModel @AssistedInject constructor(private val interactor:
+ 
+     val summaryText: String? = interactor.summaryText
+ 
++    val aiosPreview: String
++        get() = interactor.aiosPreview
++
+     val numberOfChildren: Int?
+         get() = interactor.numberOfChildren
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/stack/NotificationSwipeHelper.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/stack/NotificationSwipeHelper.java
+index 14d611181..ee1eff783 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/stack/NotificationSwipeHelper.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/stack/NotificationSwipeHelper.java
+@@ -209,6 +209,19 @@ class NotificationSwipeHelper extends SwipeHelper implements NotificationSwipeAc
+     @VisibleForTesting
+     protected void handleMenuRowSwipe(MotionEvent ev, View animView, float velocity,
+             NotificationMenuRowPlugin menuRow) {
++        if (menuRow instanceof com.android.systemui.statusbar.notification.row.NotificationMenuRow aios
++                && aios.aiosManaged() && getTranslation(animView) < 0) {
++            // Left swipe reveals explicit actions before magnetic dismissal can consume it.
++            if (ev.getActionMasked() == MotionEvent.ACTION_UP
++                    && aios.isSwipedEnoughToShowMenu() && !isFalseGesture()) {
++                snapOpen(animView, menuRow.getMenuSnapTarget(), velocity);
++                menuRow.onSnapOpen();
++            } else {
++                snapClosed(animView, velocity);
++                menuRow.onSnapClosed();
++            }
++            return;
++        }
+         if (!menuRow.shouldShowMenu()) {
+             // If the menu should not be shown, then there is no need to check if the a swipe
+             // should result in a snapping to the menu. As a result, just check if the swipe
+diff --git a/services/core/java/com/android/server/notification/NotificationAttentionHelper.java b/services/core/java/com/android/server/notification/NotificationAttentionHelper.java
+index f5756a2d8..d08691b69 100644
+--- a/services/core/java/com/android/server/notification/NotificationAttentionHelper.java
++++ b/services/core/java/com/android/server/notification/NotificationAttentionHelper.java
+@@ -285,6 +285,7 @@ public final class NotificationAttentionHelper {
+                 updateLightsLocked();
+             }
+         });
++        updateLightsLocked();
+ 
+         mZenModeHelper.addCallback(new ZenModeHelper.Callback() {
+             @Override
+@@ -501,6 +502,8 @@ public final class NotificationAttentionHelper {
+      *  (polite_attenuated ? 8 : 0) | (polite_muted ? 16 : 0)
+      */
+     int buzzBeepBlinkLocked(NotificationRecord record, Signals signals) {
++        if (record.getNotification().extras.getBoolean("android.aios.filtered", false)
++                || record.getNotification().extras.getBoolean("android.aios.old", false)) return 0;
+         if (mIsAutomotive && !mNotificationEffectsEnabledForAutomotive) {
+             return 0;
+         }
+@@ -1075,6 +1078,12 @@ public final class NotificationAttentionHelper {
+     }
+ 
+     void updateLightsLocked() {
++        // LineageNotificationLights synchronously invokes its updater from its
++        // constructor, before our field assignment has completed.
++        if (mLineageNotificationLights == null) {
++            return;
++        }
++
+         // handle notification lights
+         NotificationRecord ledNotification = null;
+         while (ledNotification == null && !mLights.isEmpty()) {
+diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
+index c7997ff26..6f6507aa8 100644
+--- a/services/core/java/com/android/server/notification/NotificationManagerService.java
++++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
+@@ -9523,6 +9523,7 @@ public class NotificationManagerService extends SystemService {
+             return false;
+         }
+ 
++        AiosNotificationGate.clearUntrusted(notification);
+         mUsageStats.registerEnqueuedByAppAndAccepted(pkg);
+ 
+         if (info != null) {
+@@ -10855,12 +10856,12 @@ public class NotificationManagerService extends SystemService {
+                     mAssistants.onNotificationEnqueuedLocked(r);
+                     mHandler.postDelayed(
+                             new PostNotificationRunnable(r.getKey(), r.getSbn().getPackageName(),
+-                                    r.getUid(), mTracker),
++                                    r.getUid(), mTracker, r),
+                             DELAY_FOR_ASSISTANT_TIME);
+                 } else {
+                     mHandler.post(
+                             new PostNotificationRunnable(r.getKey(), r.getSbn().getPackageName(),
+-                                    r.getUid(), mTracker));
++                                    r.getUid(), mTracker, r));
+                 }
+                 return true;
+             }
+@@ -10882,11 +10883,21 @@ public class NotificationManagerService extends SystemService {
+         return isPaused;
+     }
+ 
++    private AiosNotificationGate mAiosNotificationGate;
++
+     protected class PostNotificationRunnable implements Runnable {
+         private final String key;
+         private final String pkg;
+         private final int uid;
+         private final PostNotificationTracker mTracker;
++        private NotificationRecord mAiosRecord;
++        private boolean mAiosGoverned;
++
++        PostNotificationRunnable(String key, String pkg, int uid, PostNotificationTracker tracker,
++                NotificationRecord record) {
++            this(key, pkg, uid, tracker);
++            mAiosRecord = record;
++        }
+ 
+         PostNotificationRunnable(String key, String pkg, int uid, PostNotificationTracker tracker) {
+             this.key = key;
+@@ -10897,6 +10908,46 @@ public class NotificationManagerService extends SystemService {
+ 
+         @Override
+         public void run() {
++            if (!mAiosGoverned) {
++                synchronized (mNotificationLock) {
++                    if (mAiosRecord == null) mAiosRecord = findNotificationByListLocked(mEnqueuedNotifications, key);
++                    if (mAiosRecord == null || !mEnqueuedNotifications.contains(mAiosRecord)) {
++                        mTracker.cancel();
++                        return;
++                    }
++                }
++                if (mAiosNotificationGate == null) mAiosNotificationGate = new AiosNotificationGate(getContext(), mHandler);
++                mAiosNotificationGate.evaluate(mAiosRecord.getSbn(), decision -> {
++                    synchronized (mNotificationLock) {
++                        if (!mEnqueuedNotifications.contains(mAiosRecord)) { mTracker.cancel(); return; }
++                        int position = mEnqueuedNotifications.indexOf(mAiosRecord);
++                        for (int index = position + 1; index < mEnqueuedNotifications.size(); index++) {
++                            if (key.equals(mEnqueuedNotifications.get(index).getKey())) {
++                                mEnqueuedNotifications.remove(mAiosRecord);
++                                markOffloadedBitmapsForDeletion(mAiosRecord);
++                                mTracker.cancel();
++                                return;
++                            }
++                        }
++                        Bundle extras = mAiosRecord.getNotification().extras;
++                        extras.putBoolean("android.aios.filtered", decision.getBoolean("filtered", false));
++                        extras.putInt("android.aios.importance", decision.getInt("importance", 1));
++                        extras.putBoolean("android.aios.pinned", decision.getBoolean("pinned", false));
++                        extras.putString("android.aios.identity", decision.getString("identity", ""));
++                        extras.putBoolean("android.aios.old", decision.getBoolean("old", false));
++                        if (!decision.getString("identity", "").isEmpty()
++                                && decision.getBoolean("ranked", false)
++                                && !decision.getBoolean("filtered", false)
++                                && !mAiosRecord.getNotification().isGroupSummary()) {
++                            mAiosRecord.applyAiosImportance(decision.getInt("importance", 1));
++                        }
++                        extras.putLong("android.aios.received", decision.getLong("received", mAiosRecord.getSbn().getPostTime()));
++                    }
++                    mAiosGoverned = true;
++                    run();
++                });
++                return;
++            }
+             boolean posted = false;
+             try {
+                 posted = postNotification();
+@@ -10919,8 +10970,7 @@ public class NotificationManagerService extends SystemService {
+             boolean posted = false;
+             synchronized (NotificationManagerService.this.mNotificationLock) {
+                 try {
+-                    NotificationRecord r = findNotificationByListLocked(mEnqueuedNotifications,
+-                            key);
++                    NotificationRecord r = mEnqueuedNotifications.contains(mAiosRecord) ? mAiosRecord : null;
+                     if (r == null) {
+                         Slog.i(TAG, "Cannot find enqueued record for key: " + key);
+                         return false;
+@@ -11076,8 +11126,11 @@ public class NotificationManagerService extends SystemService {
+                     mRankingHelper.sort(mNotificationList);
+                     final int position = mRankingHelper.indexOf(mNotificationList, r);
+ 
++                    if (notification.extras.getBoolean("android.aios.filtered", false)) {
++                        mAttentionHelper.clearEffectsLocked(r.getKey());
++                    }
+                     int buzzBeepBlinkLoggingCode = 0;
+-                    if (!r.isHidden()) {
++                    if (!r.isHidden() && !notification.extras.getBoolean("android.aios.filtered", false)) {
+                         if (mGroupHelper.isSummaryWithAllChildrenBundled(r, mNotificationList,
+                                 mEnqueuedNotifications)) {
+                             notification.flags |= Notification.FLAG_SILENT;
+@@ -11131,7 +11184,7 @@ public class NotificationManagerService extends SystemService {
+                     int N = mEnqueuedNotifications.size();
+                     for (int i = 0; i < N; i++) {
+                         final NotificationRecord enqueued = mEnqueuedNotifications.get(i);
+-                        if (Objects.equals(key, enqueued.getKey())) {
++                        if (enqueued == mAiosRecord) {
+                             mEnqueuedNotifications.remove(i);
+                             break;
+                         }
+diff --git a/services/core/java/com/android/server/notification/NotificationRecord.java b/services/core/java/com/android/server/notification/NotificationRecord.java
+index 44300dd13..17f691d31 100644
+--- a/services/core/java/com/android/server/notification/NotificationRecord.java
++++ b/services/core/java/com/android/server/notification/NotificationRecord.java
+@@ -1145,6 +1145,26 @@ public final class NotificationRecord {
+      * Sets the importance value the system thinks the record should have.
+      * e.g. bumping up foreground service notifications or people to people notifications.
+      */
++    /** Per-notification policy; never mutates the application's saved channel. */
++    void applyAiosImportance(int tier) {
++        int locks = getChannel().getUserLockedFields();
++        if ((locks & NotificationChannel.USER_LOCKED_IMPORTANCE) != 0
++                || getImportance() <= android.app.NotificationManager.IMPORTANCE_NONE) return;
++        if (tier == 0) {
++            if (!getSbn().isOngoing()) setSystemImportance(IMPORTANCE_LOW);
++            return;
++        }
++        setSystemImportance(tier == 2 ? IMPORTANCE_HIGH : IMPORTANCE_DEFAULT);
++        if (tier == 2) {
++            if (mSound == null && (locks & NotificationChannel.USER_LOCKED_SOUND) == 0) {
++                mSound = Settings.System.DEFAULT_NOTIFICATION_URI;
++            }
++            if (mVibration == null && (locks & NotificationChannel.USER_LOCKED_VIBRATION) == 0) {
++                mVibration = new VibratorHelper(mContext).createDefaultVibration(false);
++            }
++        }
++    }
++
+     public void setSystemImportance(int importance) {
+         mSystemImportance = importance;
+         // System importance is only changed in enqueue, so it's ok for us to calculate the

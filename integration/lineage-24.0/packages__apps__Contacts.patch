@@ -1,0 +1,19 @@
+--- a/src/com/android/contacts/list/ProviderStatusWatcher.java
++++ b/src/com/android/contacts/list/ProviderStatusWatcher.java
+@@ -96,3 +96,4 @@
+         super(null);
+-        mContext = context;
++        // The watcher outlives Activities and their virtual devices.
++        mContext = context.getApplicationContext();
+     }
+--- a/src/com/android/contacts/activities/PeopleActivity.java
++++ b/src/com/android/contacts/activities/PeopleActivity.java
+@@ -332,3 +332,2 @@
+         mIntentResolver = new ContactsIntentResolver(this);
+-        mProviderStatusWatcher = ProviderStatusWatcher.getInstance(this);
+     }
+@@ -347,2 +346,4 @@
+     protected void onCreate(Bundle savedState) {
++        // Activity Context is attached here, unlike in the constructor.
++        mProviderStatusWatcher = ProviderStatusWatcher.getInstance(getApplicationContext());
+         if (Log.isLoggable(Constants.PERFORMANCE_TAG, Log.DEBUG)) {

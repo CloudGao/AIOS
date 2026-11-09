@@ -1,0 +1,10 @@
+<resources>
+    <string name="config_defaultAssistant" translatable="false">os.aios.agent</string>
+    <integer name="config_longPressOnPowerBehavior">5</integer>
+    <integer name="config_longPressOnPowerDurationMs">500</integer>
+    <integer name="config_keyChordPowerVolumeUp">2</integer>
+    <string-array name="config_computerControlKnownSuperAgents" translatable="false">
+        <item>os.aios.agent:C8A2E9BCCF597C2FB6DC66BEE293FC13F2FC47EC77BC6B2B0D52C11F51192AB8</item>
+    </string-array>
+    <string name="config_systemSpeechRecognizer" translatable="false">os.aios.speech</string>
+</resources>

@@ -1,0 +1,16 @@
+<resources>
+    <string name="background_tasks">Background tasks</string>
+    <string name="background_all">All  ›</string>
+    <string name="background_empty">No background tasks</string>
+    <string name="background_close">Close %1$s</string>
+    <string name="background_open">Open %1$s</string>
+    <string name="background_preview">Preview: %1$s</string>
+    <string name="background_paused">Paused</string>
+    <string name="background_running">Running</string>
+    <string name="background_resuming">Checking whether control can resume</string>
+    <string name="background_idle_released">Background task released after five minutes stopped</string>
+    <string name="background_block_secure">Protected content in %1$s. Take over to continue, then resume.</string>
+    <string name="background_block_auth">Authentication required by %1$s. Take over to authenticate, then resume.</string>
+    <string name="background_block_launch">A page from %1$s cannot open in this background session. Take over to continue.</string>
+    <string name="background_block_other">System paused control for %1$s. Take over or resume after checking the app.</string>
+</resources>

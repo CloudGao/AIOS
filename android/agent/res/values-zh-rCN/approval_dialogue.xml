@@ -1,0 +1,9 @@
+<resources>
+    <string name="approval_allow_once">允许一次</string>
+    <string name="approval_decline">不允许</string>
+    <string name="approval_command">允许执行此命令？</string>
+    <string name="approval_files">允许这些文件修改？</string>
+    <string name="approval_system_title">允许控制此应用？</string>
+    <string name="approval_system_reason">继续到 Android 系统确认界面。系统返回实际结果后，原任务才会继续。</string>
+    <string name="approval_system_open">打开系统确认</string>
+</resources>

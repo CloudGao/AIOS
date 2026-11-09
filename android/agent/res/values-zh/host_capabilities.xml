@@ -1,0 +1,5 @@
+<resources>
+    <string name="screen_release_pending">已请求关闭屏幕，尚未确认释放；原槽位保持占用。</string>
+    <string name="capability_snapshot_tool">读取当前宿主能力快照，包括不可用功能、原因和后端实例标识。此操作只读，不能启用模块。</string>
+    <string name="capability_dispatch_tool">使用准确的能力名称和规定参数调用已注册的设备能力。通过 capabilities.snapshot 查询当前可用性；此工具不能启用不可用能力。修改前读取现状，执行后核对返回结果。</string>
+</resources>

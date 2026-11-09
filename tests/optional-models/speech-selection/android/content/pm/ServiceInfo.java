@@ -1,0 +1,1 @@
+package android.content.pm;public final class ServiceInfo{public boolean enabled=true,exported=true;public ApplicationInfo applicationInfo=new ApplicationInfo();public String permission="android.permission.BIND_SPEECH_RECOGNITION_SERVICE";public CharSequence loadLabel(PackageManager manager){return "provider";}}

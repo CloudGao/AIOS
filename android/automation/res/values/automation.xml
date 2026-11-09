@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="automation_category_scheduled">Scheduled programs</string>
+    <string name="automation_category_assistant">Automation</string>
+    <string name="automation_category_empty">No automation rules yet</string>
+    <string name="automation_category_hint">Use the existing entry above, or ask the assistant to create a rule.</string>
+    <string name="automation_category_enabled">Enabled</string>
+    <string name="automation_category_paused">Paused</string>
+</resources>

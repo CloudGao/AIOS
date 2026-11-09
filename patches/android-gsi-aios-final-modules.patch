@@ -1,0 +1,10 @@
+diff --git a/build/make/target/product/gsi/Android.bp b/build/make/target/product/gsi/Android.bp
+--- a/build/make/target/product/gsi/Android.bp
++++ b/build/make/target/product/gsi/Android.bp
+@@
+         "AIOSPermissionAnchor",
+         "AIOSSpeech",
++        "AIOSKokoroTts",
++        "AIOSCarrierConfigOverlay",
++        "AIOSFcitx5",
+         "AIOSGservicesCompat",

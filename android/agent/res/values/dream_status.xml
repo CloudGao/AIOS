@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dream_status_never">No review has run yet</string>
+    <string name="dream_status_schedule_error">Review scheduling failed; registration will retry</string>
+    <string name="dream_status_authorization">Waiting for AIOS authorization</string>
+    <string name="dream_status_disabled">Review is turned off</string>
+    <string name="dream_status_preempted">Review yielded; source evidence is retained</string>
+    <string name="dream_status_foreground">Waiting for the foreground assistant to finish</string>
+    <string name="dream_status_power_save">Waiting for battery saver to turn off</string>
+    <string name="dream_status_thermal">Waiting for the device to cool down</string>
+    <string name="dream_status_screen">Waiting for the screen to turn off</string>
+    <string name="dream_status_audio">Waiting for the call or audio session to end</string>
+    <string name="dream_status_recording">Waiting for recording to end</string>
+    <string name="dream_status_capacity">Waiting for a background assistant slot</string>
+    <string name="dream_status_no_material">No new source evidence; no model request sent</string>
+    <string name="dream_status_context_capacity">Review context exceeds capacity; sources retained</string>
+    <string name="dream_status_busy">Another review is in progress; retry scheduled</string>
+    <string name="dream_status_window_used">This review window has already been used</string>
+    <string name="dream_status_daily_budget">Automatic review reached its daily batch limit</string>
+    <string name="dream_status_preparing">Preparing review sources and model</string>
+    <string name="dream_status_submitted">Review submitted; waiting for the model result</string>
+    <string name="dream_status_complete_empty">Review complete; no new changes proposed</string>
+    <string name="dream_status_complete_changes">Review complete. See records for skill publication and proposals awaiting confirmation.</string>
+    <string name="dream_status_prepare_failed">Review preparation failed; limited retries apply. Sources retained.</string>
+    <string name="dream_status_result_failed">Review result failed or could not be validated; sources retained, request not repeated</string>
+    <string name="dream_status_model_unavailable">Choose an available review model supporting low reasoning</string>
+    <string name="dream_policy_explanation">Automatic reviews wait for charging, network and screen off. Verified skills publish automatically; memories and tasks require confirmation.</string>
+    <string name="dream_schedule_diagnostics">Schedule registered: %1$s\nLast dispatch: %2$s\nLast execution check: %3$s</string>
+    <string name="dream_diagnostics_unavailable">Schedule diagnostics are unavailable</string>
+    <string name="dream_time_none">None recorded</string>
+    <string name="dream_state_publish_pending">Awaiting skill publication</string>
+    <string name="dream_state_publish_retry">Skill publication needs retry</string>
+    <string name="dream_state_unverified">Skill evidence needs verification</string>
+    <string name="dream_status_validation_failed">The model replied, but the review result failed validation; sources retained</string>
+</resources>

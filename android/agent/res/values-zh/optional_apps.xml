@@ -1,0 +1,14 @@
+<resources>
+    <string name="optional_apps_title">可选应用</string>
+    <string name="optional_apps_description">可以打开官方来源选择应用，然后使用 Android 安装。AIOS 不会自动下载安装这些应用。网页与文档使用 Android 默认应用或系统选择器打开，语音输出使用系统选定的 TTS 引擎。各应用和模型适用各自条款。</string>
+    <string name="optional_apps_browser_limit">打开网页和浏览器自动化是不同能力。自动化仍需要兼容的 Chromium 浏览器及可用的 CDP 通道，安装任意浏览器并不代表自动化可用。</string>
+    <string name="optional_apps_chromium">Chromium · 官方下载</string>
+    <string name="optional_apps_collabora">Collabora Office · 官方来源</string>
+    <string name="optional_apps_pdf">MJ PDF · 官方来源</string>
+    <string name="optional_apps_editor">Text Editor · 官方发行页</string>
+    <string name="optional_apps_tts">语音合成引擎 · 官方目录</string>
+    <string name="optional_apps_installed">管理已安装应用</string>
+    <string name="optional_apps_defaults">选择默认应用</string>
+    <string name="optional_apps_tts_settings">选择系统语音合成引擎</string>
+    <string name="optional_apps_unavailable">无法打开此页面，请检查是否安装了浏览器或对应系统设置应用。</string>
+</resources>

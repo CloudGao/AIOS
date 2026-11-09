@@ -1,0 +1,7 @@
+<resources>
+ <string name="mini_desktop_add">Add to Home screen</string>
+ <string name="mini_desktop_requested">Desktop addition requested. Your launcher may require confirmation.</string>
+ <string name="mini_desktop_pinned">Already added to the desktop.</string>
+ <string name="mini_desktop_unsupported">This launcher does not support adding shortcuts.</string>
+ <string name="mini_desktop_failed">Could not add to the desktop. Try again from the mini app list.</string>
+</resources>

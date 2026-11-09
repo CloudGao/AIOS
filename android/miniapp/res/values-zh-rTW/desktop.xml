@@ -1,0 +1,7 @@
+<resources>
+ <string name="mini_desktop_add">加入桌面</string>
+ <string name="mini_desktop_requested">已申請加入桌面；系統桌面可能需要你確認。</string>
+ <string name="mini_desktop_pinned">已加入桌面。</string>
+ <string name="mini_desktop_unsupported">目前桌面不支援加入捷徑。</string>
+ <string name="mini_desktop_failed">無法加入桌面，請在小程式清單重試。</string>
+</resources>

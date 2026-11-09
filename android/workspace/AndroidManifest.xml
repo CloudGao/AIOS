@@ -1,0 +1,3 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="os.aios.workspace">
+ <uses-permission android:name="os.aios.permission.CORE_RUNTIME"/>
+</manifest>

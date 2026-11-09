@@ -1,0 +1,5 @@
+<resources>
+<string name="schedule_results_channel">自動化執行結果</string>
+<string name="schedule_result_success">已完成，點選查看結果</string>
+<string name="schedule_result_other">執行已結束，點選查看結果</string>
+</resources>

@@ -1,0 +1,1 @@
+package os.aios.workspace;import android.content.Context;import org.json.*;public class WorkspaceStore implements AutoCloseable {public WorkspaceStore(Context c){}public JSONObject call(String a,JSONObject p){throw new UnsupportedOperationException();}public void close(){}}
